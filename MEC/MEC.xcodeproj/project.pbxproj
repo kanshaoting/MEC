@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11C69E0B485F3BEF954C9D7E /* Pods_MEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E5648184B16A5A9F5A4322 /* Pods_MEC.framework */; };
 		521EF1A724CE780800455497 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1A624CE780800455497 /* AppDelegate.m */; };
 		521EF1AD24CE780800455497 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1AC24CE780800455497 /* ViewController.m */; };
 		521EF1B024CE780800455497 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1AE24CE780800455497 /* Main.storyboard */; };
@@ -16,6 +17,8 @@
 		52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9224CEC12800745720 /* MECBaseViewController.m */; };
 		52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9524CEC12800745720 /* MECNavigationController.m */; };
 		52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9724CEC12800745720 /* MECTabBarController.m */; };
+		52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BA924CEC32800745720 /* MECLoginViewController.m */; };
+		52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BAE24CECDA000745720 /* MECDefaultButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,14 @@
 		52D57B9524CEC12800745720 /* MECNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECNavigationController.m; sourceTree = "<group>"; };
 		52D57B9624CEC12800745720 /* MECBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECBaseViewController.h; sourceTree = "<group>"; };
 		52D57B9724CEC12800745720 /* MECTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECTabBarController.m; sourceTree = "<group>"; };
+		52D57BA824CEC32800745720 /* MECLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECLoginViewController.h; sourceTree = "<group>"; };
+		52D57BA924CEC32800745720 /* MECLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECLoginViewController.m; sourceTree = "<group>"; };
+		52D57BAB24CEC74200745720 /* MECGolablHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECGolablHeader.h; sourceTree = "<group>"; };
+		52D57BAD24CECDA000745720 /* MECDefaultButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDefaultButton.h; sourceTree = "<group>"; };
+		52D57BAE24CECDA000745720 /* MECDefaultButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDefaultButton.m; sourceTree = "<group>"; };
+		8BCEA4B1ED64B115BA9D1451 /* Pods-MEC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.release.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.release.xcconfig"; sourceTree = "<group>"; };
+		BCDE00B2B163A0F4068DE7D1 /* Pods-MEC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.debug.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.debug.xcconfig"; sourceTree = "<group>"; };
+		F1E5648184B16A5A9F5A4322 /* Pods_MEC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MEC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,17 +55,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11C69E0B485F3BEF954C9D7E /* Pods_MEC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		225A675D0D47272147D180D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F1E5648184B16A5A9F5A4322 /* Pods_MEC.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		521EF19924CE780800455497 = {
 			isa = PBXGroup;
 			children = (
 				521EF1A424CE780800455497 /* MEC */,
 				521EF1A324CE780800455497 /* Products */,
+				6DFC9341C81B99154F7E2FAE /* Pods */,
+				225A675D0D47272147D180D1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,6 +109,7 @@
 		52D57B8F24CEC12800745720 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				52D57BAC24CECD8400745720 /* BaseUI */,
 				52D57B9624CEC12800745720 /* MECBaseViewController.h */,
 				52D57B9224CEC12800745720 /* MECBaseViewController.m */,
 				52D57B9324CEC12800745720 /* MECTabBarController.h */,
@@ -95,6 +118,7 @@
 				52D57B9524CEC12800745720 /* MECNavigationController.m */,
 				52D57B9424CEC12800745720 /* MECPrefix.pch */,
 				52D57B9124CEC12800745720 /* MECGolablMacro.h */,
+				52D57BAB24CEC74200745720 /* MECGolablHeader.h */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -191,6 +215,8 @@
 		52D57BA324CEC12800745720 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				52D57BA824CEC32800745720 /* MECLoginViewController.h */,
+				52D57BA924CEC32800745720 /* MECLoginViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -202,6 +228,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		52D57BAC24CECD8400745720 /* BaseUI */ = {
+			isa = PBXGroup;
+			children = (
+				52D57BAD24CECDA000745720 /* MECDefaultButton.h */,
+				52D57BAE24CECDA000745720 /* MECDefaultButton.m */,
+			);
+			path = BaseUI;
+			sourceTree = "<group>";
+		};
+		6DFC9341C81B99154F7E2FAE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BCDE00B2B163A0F4068DE7D1 /* Pods-MEC.debug.xcconfig */,
+				8BCEA4B1ED64B115BA9D1451 /* Pods-MEC.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -209,9 +253,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 521EF1BB24CE780A00455497 /* Build configuration list for PBXNativeTarget "MEC" */;
 			buildPhases = (
+				0510C1F91BBFB282C53473A4 /* [CP] Check Pods Manifest.lock */,
 				521EF19E24CE780800455497 /* Sources */,
 				521EF19F24CE780800455497 /* Frameworks */,
 				521EF1A024CE780800455497 /* Resources */,
+				D816676D89A922D7A15D2019 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -268,13 +314,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0510C1F91BBFB282C53473A4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MEC-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D816676D89A922D7A15D2019 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MEC/Pods-MEC-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MEC/Pods-MEC-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MEC/Pods-MEC-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		521EF19E24CE780800455497 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */,
 				521EF1AD24CE780800455497 /* ViewController.m in Sources */,
 				52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */,
+				52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */,
 				52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */,
 				52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */,
 				521EF1A724CE780800455497 /* AppDelegate.m in Sources */,
@@ -416,6 +506,7 @@
 		};
 		521EF1BC24CE780A00455497 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCDE00B2B163A0F4068DE7D1 /* Pods-MEC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -436,6 +527,7 @@
 		};
 		521EF1BD24CE780A00455497 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BCEA4B1ED64B115BA9D1451 /* Pods-MEC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

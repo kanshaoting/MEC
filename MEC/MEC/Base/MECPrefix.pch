@@ -9,7 +9,7 @@
 #ifndef MECPrefix_pch
 #define MECPrefix_pch
 
-
+#import "MECGolablHeader.h"
 #import "MECGolablMacro.h"
 
 // Include any system framework and library headers here that should be included in all compilation units.

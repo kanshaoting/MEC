@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import "MECLoginViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -21,7 +23,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self setupAppearance];
     
-    self.window.rootViewController = [[UIViewController alloc] init];
+    self.window.rootViewController = [[MECLoginViewController alloc] init];
     if (@available(iOS 13.0, *)) {
         self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
     }

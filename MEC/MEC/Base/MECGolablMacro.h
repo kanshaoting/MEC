@@ -86,11 +86,37 @@ _Pragma("clang diagnostic pop") \
 #define kErrorCode -1
 #define kErrorPropmt @"未知错误"
 
+// iPhone XR / XS Max 屏幕尺寸
+#define kXM_WidthXM 414.0
+#define kXM_HeightXM 896.0
+
+// X
+#define kXM_WidthX 375.0
+#define kXM_HeightX 812.0
+
+// 6p
+#define kXM_Width6P 414.0
+#define kXM_Height6P 736.0
+
+// 6
+#define kXM_Width6 375.0
+#define kXM_Height6 667.0
+
+// 5 | 5c | 5s
+#define kXM_Width5 320.0
+#define kXM_Height5 568.0
+
+// 4 | 4s
+#define kXM_Width4 320.0
+#define kXM_Height4 480.0
+
+#define kWidth6(value)     (1.0 * (value) * (MIN(kScreenWidth,kScreenHeight)) / kXM_Width6)
+
 //字体
 #pragma mark - font
-#define PingFangLight_Font     @"PingFangSC-Light"
-#define PingFangMedium_Font    @"PingFangSC-Medium"
-#define PingFangBold_Font      @"PingFangSC-Semibold"
-#define PingFangRegular_Font   @"PingFangSC-Regular"
+
+#define MEC_Helvetica_Bold_Font(value) [UIFont fontWithName:@"Helvetica Bold" size:value]
+#define MEC_Helvetica_Regular_Font(value) [UIFont fontWithName:@"Helvetica Regular" size:value]
+
 
 #endif /* MECGolablMacro_h */

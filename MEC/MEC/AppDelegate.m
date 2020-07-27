@@ -28,8 +28,8 @@
     [self.window makeKeyAndVisible];
     return YES;
 }
-
-
+#pragma mark -
+#pragma mark -- setupAppearance
 - (void)setupAppearance {
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];

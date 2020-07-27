@@ -13,9 +13,9 @@
 		521EF1B224CE780A00455497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1B124CE780A00455497 /* Assets.xcassets */; };
 		521EF1B524CE780A00455497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1B324CE780A00455497 /* LaunchScreen.storyboard */; };
 		521EF1B824CE780A00455497 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1B724CE780A00455497 /* main.m */; };
-		521EF1C024CE7BF000455497 /* MECBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1BF24CE7BF000455497 /* MECBaseViewController.m */; };
-		521EF1C324CE7C2C00455497 /* MECTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1C224CE7C2C00455497 /* MECTabBarController.m */; };
-		521EF1C624CE7C6E00455497 /* MECNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1C524CE7C6E00455497 /* MECNavigationController.m */; };
+		52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9224CEC12800745720 /* MECBaseViewController.m */; };
+		52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9524CEC12800745720 /* MECNavigationController.m */; };
+		52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9724CEC12800745720 /* MECTabBarController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,14 +29,14 @@
 		521EF1B424CE780A00455497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		521EF1B624CE780A00455497 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		521EF1B724CE780A00455497 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		521EF1BE24CE7BF000455497 /* MECBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECBaseViewController.h; sourceTree = "<group>"; };
-		521EF1BF24CE7BF000455497 /* MECBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECBaseViewController.m; sourceTree = "<group>"; };
-		521EF1C124CE7C2C00455497 /* MECTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECTabBarController.h; sourceTree = "<group>"; };
-		521EF1C224CE7C2C00455497 /* MECTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECTabBarController.m; sourceTree = "<group>"; };
-		521EF1C424CE7C6E00455497 /* MECNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECNavigationController.h; sourceTree = "<group>"; };
-		521EF1C524CE7C6E00455497 /* MECNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECNavigationController.m; sourceTree = "<group>"; };
-		521EF1C724CE7E6F00455497 /* MECPrefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECPrefix.pch; sourceTree = "<group>"; };
-		521EF1C824CE82AA00455497 /* MECGolablMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECGolablMacro.h; sourceTree = "<group>"; };
+		52D57B9024CEC12800745720 /* MECNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECNavigationController.h; sourceTree = "<group>"; };
+		52D57B9124CEC12800745720 /* MECGolablMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECGolablMacro.h; sourceTree = "<group>"; };
+		52D57B9224CEC12800745720 /* MECBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECBaseViewController.m; sourceTree = "<group>"; };
+		52D57B9324CEC12800745720 /* MECTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECTabBarController.h; sourceTree = "<group>"; };
+		52D57B9424CEC12800745720 /* MECPrefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECPrefix.pch; sourceTree = "<group>"; };
+		52D57B9524CEC12800745720 /* MECNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECNavigationController.m; sourceTree = "<group>"; };
+		52D57B9624CEC12800745720 /* MECBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECBaseViewController.h; sourceTree = "<group>"; };
+		52D57B9724CEC12800745720 /* MECTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECTabBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,21 +73,133 @@
 				521EF1A624CE780800455497 /* AppDelegate.m */,
 				521EF1AB24CE780800455497 /* ViewController.h */,
 				521EF1AC24CE780800455497 /* ViewController.m */,
+				52D57B8F24CEC12800745720 /* Base */,
+				52D57B9824CEC12800745720 /* Business */,
 				521EF1AE24CE780800455497 /* Main.storyboard */,
 				521EF1B124CE780A00455497 /* Assets.xcassets */,
 				521EF1B324CE780A00455497 /* LaunchScreen.storyboard */,
 				521EF1B624CE780A00455497 /* Info.plist */,
 				521EF1B724CE780A00455497 /* main.m */,
-				521EF1BE24CE7BF000455497 /* MECBaseViewController.h */,
-				521EF1BF24CE7BF000455497 /* MECBaseViewController.m */,
-				521EF1C124CE7C2C00455497 /* MECTabBarController.h */,
-				521EF1C224CE7C2C00455497 /* MECTabBarController.m */,
-				521EF1C424CE7C6E00455497 /* MECNavigationController.h */,
-				521EF1C524CE7C6E00455497 /* MECNavigationController.m */,
-				521EF1C724CE7E6F00455497 /* MECPrefix.pch */,
-				521EF1C824CE82AA00455497 /* MECGolablMacro.h */,
 			);
 			path = MEC;
+			sourceTree = "<group>";
+		};
+		52D57B8F24CEC12800745720 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				52D57B9624CEC12800745720 /* MECBaseViewController.h */,
+				52D57B9224CEC12800745720 /* MECBaseViewController.m */,
+				52D57B9324CEC12800745720 /* MECTabBarController.h */,
+				52D57B9724CEC12800745720 /* MECTabBarController.m */,
+				52D57B9024CEC12800745720 /* MECNavigationController.h */,
+				52D57B9524CEC12800745720 /* MECNavigationController.m */,
+				52D57B9424CEC12800745720 /* MECPrefix.pch */,
+				52D57B9124CEC12800745720 /* MECGolablMacro.h */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		52D57B9824CEC12800745720 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				52D57B9924CEC12800745720 /* DeviceList */,
+				52D57B9D24CEC12800745720 /* Mine */,
+				52D57BA124CEC12800745720 /* Login */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
+		52D57B9924CEC12800745720 /* DeviceList */ = {
+			isa = PBXGroup;
+			children = (
+				52D57B9A24CEC12800745720 /* Models */,
+				52D57B9B24CEC12800745720 /* Controllers */,
+				52D57B9C24CEC12800745720 /* Views */,
+			);
+			path = DeviceList;
+			sourceTree = "<group>";
+		};
+		52D57B9A24CEC12800745720 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		52D57B9B24CEC12800745720 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		52D57B9C24CEC12800745720 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		52D57B9D24CEC12800745720 /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+				52D57B9E24CEC12800745720 /* Models */,
+				52D57B9F24CEC12800745720 /* Controllers */,
+				52D57BA024CEC12800745720 /* Views */,
+			);
+			path = Mine;
+			sourceTree = "<group>";
+		};
+		52D57B9E24CEC12800745720 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		52D57B9F24CEC12800745720 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		52D57BA024CEC12800745720 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		52D57BA124CEC12800745720 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				52D57BA224CEC12800745720 /* Models */,
+				52D57BA324CEC12800745720 /* Controllers */,
+				52D57BA424CEC12800745720 /* Views */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		52D57BA224CEC12800745720 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		52D57BA324CEC12800745720 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		52D57BA424CEC12800745720 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,9 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				521EF1AD24CE780800455497 /* ViewController.m in Sources */,
-				521EF1C624CE7C6E00455497 /* MECNavigationController.m in Sources */,
-				521EF1C024CE7BF000455497 /* MECBaseViewController.m in Sources */,
-				521EF1C324CE7C2C00455497 /* MECTabBarController.m in Sources */,
+				52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */,
+				52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */,
+				52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */,
 				521EF1A724CE780800455497 /* AppDelegate.m in Sources */,
 				521EF1B824CE780A00455497 /* main.m in Sources */,
 			);
@@ -309,7 +421,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z83G9T93VL;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/MEC/MECPrefix.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MEC/Base/MECPrefix.pch";
 				INFOPLIST_FILE = MEC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -329,7 +441,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z83G9T93VL;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/MEC/MECPrefix.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MEC/Base/MECPrefix.pch";
 				INFOPLIST_FILE = MEC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (

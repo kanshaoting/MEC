@@ -9,25 +9,21 @@
 #import "MECLoginViewController.h"
 
 #import "MECDefaultButton.h"
+#import "MECRegistrationViewController.h"
 
-@interface MECLoginViewController ()
+@interface MECLoginViewController ()<UITextFieldDelegate>
 
 
 /// 账号登录提示
 @property (nonatomic,strong) UILabel *tipsLabel;
-
 /// 账号登录提示
 @property (nonatomic,strong) UIImageView *loginIconImageView;
-
 /// 账号登录提示
 @property (nonatomic,strong) UITextField *userNameTf;
-
 /// 账号登录提示
 @property (nonatomic,strong) MECDefaultButton *signInBtn;
-
 /// 账号登录提示
 @property (nonatomic,strong) MECDefaultButton *registrationBtn;
-
 /// 账号登录提示
 @property (nonatomic,strong) UIImageView *bottomImageView;
 
@@ -71,11 +67,14 @@
     
     [self.signInBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.userNameTf.mas_bottom).offset(kWidth6(26));
-        make.centerX.height.width.equalTo(self.userNameTf);
+        make.centerX.equalTo(self.userNameTf);
+        make.height.mas_equalTo(kWidth6(40));
+        make.width.mas_equalTo(kWidth6(178));
     }];
     [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.signInBtn.mas_bottom).offset(kWidth6(10));
-        make.centerX.height.width.equalTo(self.userNameTf);
+        make.centerX.height.equalTo(self.signInBtn);
+        make.width.mas_equalTo(kWidth6(178));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.bottom.equalTo(self.view).offset(0);
@@ -84,11 +83,22 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
 
 #pragma mark -
 #pragma mark -- signInBtnAction
 - (void)signInBtnAction:(UIButton *)button{
-    
+    MECRegistrationViewController *vc = [[MECRegistrationViewController alloc] init];
+    [self.navigationController pushViewController:vc  animated:YES];
 }
 #pragma mark -
 #pragma mark -- registrationBtnAction
@@ -118,9 +128,10 @@
 - (UITextField *)userNameTf{
     if(!_userNameTf){
         _userNameTf = [[UITextField alloc] init];
+        _userNameTf.delegate = self;
         _userNameTf.placeholder = @"User name / Email";
         _userNameTf.textColor = kColorHex(0xC9CACA);
-        _userNameTf.font = MEC_Helvetica_Regular_Font(12);
+        _userNameTf.font = MEC_Helvetica_Regular_Font(14);
         _userNameTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _userNameTf;

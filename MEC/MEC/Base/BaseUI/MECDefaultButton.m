@@ -35,9 +35,13 @@
     [self setBackgroundImage:[self imageWithColor:kColorHex(0x90C320)] forState:UIControlStateNormal];
     [self setBackgroundImage:[self imageWithColor:kColorHex(0x90C320)] forState:UIControlStateHighlighted];
     [self setBackgroundImage:[self imageWithColor:kColorHex(0x999999)] forState:UIControlStateDisabled];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateNormal];
+    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateHighlighted];
+    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateDisabled];
+    [self setTitleColor:kColorHex(0x111111) forState:UIControlStateSelected];
+    [self setTitleColor:kColorHex(0x999999) forState:UIControlStateDisabled];
+    [self setTitleColor:kColorHex(0x111111) forState:UIControlStateNormal];
     self.layer.cornerRadius = 8;
     self.layer.masksToBounds = YES;
     self.titleLabel.font = [UIFont boldSystemFontOfSize:self.titleLabel.font.pointSize];

@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 
 #import "MECLoginViewController.h"
-
+#import "MECNavigationController.h"
 @interface AppDelegate ()
 
 @end
@@ -22,8 +22,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self setupAppearance];
-    
-    self.window.rootViewController = [[MECLoginViewController alloc] init];
+    MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
+    self.window.rootViewController = nav;
     if (@available(iOS 13.0, *)) {
         self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
     }

@@ -65,6 +65,8 @@
 #define kLightThemeColor kColorHex(0x90C340)
 #define kBackgroundColor kColorHex(0xF5F5F5)
 
+#define kLineColor kColorHex(0x8C8C8C)
+
 #define kFont(size) [UIFont systemFontOfSize:size]
 #define kBoldFont(size) [UIFont boldSystemFontOfSize:size]
 //引用

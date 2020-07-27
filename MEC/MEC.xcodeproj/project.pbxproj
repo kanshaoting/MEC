@@ -20,6 +20,7 @@
 		52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BA924CEC32800745720 /* MECLoginViewController.m */; };
 		52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BAE24CECDA000745720 /* MECDefaultButton.m */; };
 		52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BB124CEDA3900745720 /* MECRegistrationViewController.m */; };
+		52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BB424CEF8EC00745720 /* MECMineViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,8 @@
 		52D57BAE24CECDA000745720 /* MECDefaultButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDefaultButton.m; sourceTree = "<group>"; };
 		52D57BB024CEDA3900745720 /* MECRegistrationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECRegistrationViewController.h; sourceTree = "<group>"; };
 		52D57BB124CEDA3900745720 /* MECRegistrationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECRegistrationViewController.m; sourceTree = "<group>"; };
+		52D57BB324CEF8EC00745720 /* MECMineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineViewController.h; sourceTree = "<group>"; };
+		52D57BB424CEF8EC00745720 /* MECMineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECMineViewController.m; sourceTree = "<group>"; };
 		8BCEA4B1ED64B115BA9D1451 /* Pods-MEC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.release.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.release.xcconfig"; sourceTree = "<group>"; };
 		BCDE00B2B163A0F4068DE7D1 /* Pods-MEC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.debug.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.debug.xcconfig"; sourceTree = "<group>"; };
 		F1E5648184B16A5A9F5A4322 /* Pods_MEC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MEC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,6 +190,8 @@
 		52D57B9F24CEC12800745720 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				52D57BB324CEF8EC00745720 /* MECMineViewController.h */,
+				52D57BB424CEF8EC00745720 /* MECMineViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 				52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */,
 				52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */,
 				52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */,
+				52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */,
 				52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */,
 				52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */,
 				521EF1A724CE780800455497 /* AppDelegate.m in Sources */,

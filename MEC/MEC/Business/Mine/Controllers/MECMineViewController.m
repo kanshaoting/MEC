@@ -1,17 +1,15 @@
 //
-//  MECRegistrationViewController.m
+//  MECMineViewController.m
 //  MEC
 //
 //  Created by John on 2020/7/27.
 //  Copyright © 2020 John. All rights reserved.
 //
 
-#import "MECRegistrationViewController.h"
+#import "MECMineViewController.h"
 #import "MECDefaultButton.h"
 
-#import "MECMineViewController.h"
-
-@interface MECRegistrationViewController ()<UITextFieldDelegate>
+@interface MECMineViewController ()<UITextFieldDelegate>
 
 /// 账号登录提示
 @property (nonatomic,strong) UILabel *tipsLabel;
@@ -52,7 +50,7 @@
 
 @end
 
-@implementation MECRegistrationViewController
+@implementation MECMineViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -77,7 +75,7 @@
     [self.view addSubview:self.postalCodeLabel];
     [self.view addSubview:self.postalCodeLine];
     
-    [self.view addSubview:self.noteLabel];
+//    [self.view addSubview:self.noteLabel];
     
 
     [self.view addSubview:self.userNameTf];
@@ -96,8 +94,8 @@
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(40));
         make.height.mas_equalTo(kWidth6(30));
-        make.leading.mas_equalTo(kWidth6(13));
-        make.width.mas_equalTo(kWidth6(102));
+        make.leading.mas_equalTo(kWidth6(22));
+        make.width.mas_equalTo(kWidth6(90));
     }];
     [self.userNameTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.userNameLabel);
@@ -164,14 +162,14 @@
         make.leading.trailing.equalTo(self.view);
     }];
     
-    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(10));
-        make.height.mas_equalTo(kWidth6(15));
-        make.leading.equalTo(self.postalCodeLabel);
-    }];
+//    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(10));
+//        make.height.mas_equalTo(kWidth6(15));
+//        make.leading.equalTo(self.postalCodeLabel);
+//    }];
     
     [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.noteLabel.mas_bottom).offset(kWidth6(10));
+        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(38));
         make.centerX.equalTo(self.view);
         make.height.mas_equalTo(kWidth6(40));
         make.width.mas_equalTo(kWidth6(178));
@@ -186,8 +184,7 @@
 #pragma mark -
 #pragma mark -- registrationBtnAction
 - (void)registrationBtnAction:(UIButton *)button{
-    MECMineViewController *vc = [[MECMineViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 #pragma mark -
@@ -196,7 +193,7 @@
     if (!_tipsLabel) {
         _tipsLabel = [[UILabel alloc] init];
         _tipsLabel.font = MEC_Helvetica_Bold_Font(17);
-        _tipsLabel.text = @"Registration";
+        _tipsLabel.text = @"Account information";
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
         _tipsLabel.textColor = [UIColor blackColor];
     }
@@ -206,7 +203,7 @@
     if (!_userNameLabel) {
         _userNameLabel = [[UILabel alloc] init];
         _userNameLabel.font = MEC_Helvetica_Regular_Font(14);
-        _userNameLabel.text = @"* User name:";
+        _userNameLabel.text = @"User name:";
         _userNameLabel.textColor = kColorHex(0x221815);
     }
     return _userNameLabel;
@@ -234,7 +231,7 @@
     if (!_emailLabel) {
         _emailLabel = [[UILabel alloc] init];
         _emailLabel.font = MEC_Helvetica_Regular_Font(14);
-        _emailLabel.text = @"* E-mail:";
+        _emailLabel.text = @"E-mail:";
         _emailLabel.textColor = kColorHex(0x221815);
     }
     return _emailLabel;
@@ -325,7 +322,7 @@
 
 - (MECDefaultButton *)registrationBtn{
     if (!_registrationBtn) {
-        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Registration" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
+        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
     }
     return _registrationBtn;
 }

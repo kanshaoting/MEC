@@ -21,6 +21,14 @@
 		52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BAE24CECDA000745720 /* MECDefaultButton.m */; };
 		52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BB124CEDA3900745720 /* MECRegistrationViewController.m */; };
 		52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BB424CEF8EC00745720 /* MECMineViewController.m */; };
+		52F0F40724CFFBB8005085C0 /* MECDeviceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */; };
+		52F0F40A24D00367005085C0 /* MECMineModifyInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40924D00367005085C0 /* MECMineModifyInfoView.m */; };
+		52F0F40D24D00384005085C0 /* MECDeviceListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40C24D00384005085C0 /* MECDeviceListView.m */; };
+		52F0F41024D006F4005085C0 /* MECMineBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40F24D006F4005085C0 /* MECMineBottomView.m */; };
+		52F0F41324D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F41224D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.m */; };
+		52F0F41624D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F41524D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m */; };
+		52F0F41924D025EE005085C0 /* MECDevicesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F41824D025EE005085C0 /* MECDevicesDetailViewController.m */; };
+		52F0F41C24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F41B24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +59,22 @@
 		52D57BB124CEDA3900745720 /* MECRegistrationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECRegistrationViewController.m; sourceTree = "<group>"; };
 		52D57BB324CEF8EC00745720 /* MECMineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineViewController.h; sourceTree = "<group>"; };
 		52D57BB424CEF8EC00745720 /* MECMineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECMineViewController.m; sourceTree = "<group>"; };
+		52F0F40524CFFBB8005085C0 /* MECDeviceListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListViewController.h; sourceTree = "<group>"; };
+		52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListViewController.m; sourceTree = "<group>"; };
+		52F0F40824D00367005085C0 /* MECMineModifyInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineModifyInfoView.h; sourceTree = "<group>"; };
+		52F0F40924D00367005085C0 /* MECMineModifyInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECMineModifyInfoView.m; sourceTree = "<group>"; };
+		52F0F40B24D00384005085C0 /* MECDeviceListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListView.h; sourceTree = "<group>"; };
+		52F0F40C24D00384005085C0 /* MECDeviceListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListView.m; sourceTree = "<group>"; };
+		52F0F40E24D006F4005085C0 /* MECMineBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineBottomView.h; sourceTree = "<group>"; };
+		52F0F40F24D006F4005085C0 /* MECMineBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECMineBottomView.m; sourceTree = "<group>"; };
+		52F0F41124D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListSingleInfoTableViewCell.h; sourceTree = "<group>"; };
+		52F0F41224D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListSingleInfoTableViewCell.m; sourceTree = "<group>"; };
+		52F0F41424D02056005085C0 /* MECDeviceListFootInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListFootInfoTableViewCell.h; sourceTree = "<group>"; };
+		52F0F41524D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListFootInfoTableViewCell.m; sourceTree = "<group>"; };
+		52F0F41724D025EE005085C0 /* MECDevicesDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDevicesDetailViewController.h; sourceTree = "<group>"; };
+		52F0F41824D025EE005085C0 /* MECDevicesDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDevicesDetailViewController.m; sourceTree = "<group>"; };
+		52F0F41A24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDevicesBluetoothTableViewCell.h; sourceTree = "<group>"; };
+		52F0F41B24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDevicesBluetoothTableViewCell.m; sourceTree = "<group>"; };
 		8BCEA4B1ED64B115BA9D1451 /* Pods-MEC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.release.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.release.xcconfig"; sourceTree = "<group>"; };
 		BCDE00B2B163A0F4068DE7D1 /* Pods-MEC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.debug.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.debug.xcconfig"; sourceTree = "<group>"; };
 		F1E5648184B16A5A9F5A4322 /* Pods_MEC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MEC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +183,10 @@
 		52D57B9B24CEC12800745720 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				52F0F40524CFFBB8005085C0 /* MECDeviceListViewController.h */,
+				52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */,
+				52F0F41724D025EE005085C0 /* MECDevicesDetailViewController.h */,
+				52F0F41824D025EE005085C0 /* MECDevicesDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -166,6 +194,8 @@
 		52D57B9C24CEC12800745720 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52F0F41A24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.h */,
+				52F0F41B24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -199,6 +229,16 @@
 		52D57BA024CEC12800745720 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52F0F40824D00367005085C0 /* MECMineModifyInfoView.h */,
+				52F0F40924D00367005085C0 /* MECMineModifyInfoView.m */,
+				52F0F40B24D00384005085C0 /* MECDeviceListView.h */,
+				52F0F40C24D00384005085C0 /* MECDeviceListView.m */,
+				52F0F40E24D006F4005085C0 /* MECMineBottomView.h */,
+				52F0F40F24D006F4005085C0 /* MECMineBottomView.m */,
+				52F0F41124D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.h */,
+				52F0F41224D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.m */,
+				52F0F41424D02056005085C0 /* MECDeviceListFootInfoTableViewCell.h */,
+				52F0F41524D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -371,16 +411,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52F0F40D24D00384005085C0 /* MECDeviceListView.m in Sources */,
 				52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */,
+				52F0F41324D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.m in Sources */,
 				521EF1AD24CE780800455497 /* ViewController.m in Sources */,
 				52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */,
 				52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */,
 				52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */,
+				52F0F41624D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m in Sources */,
+				52F0F40724CFFBB8005085C0 /* MECDeviceListViewController.m in Sources */,
 				52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */,
+				52F0F40A24D00367005085C0 /* MECMineModifyInfoView.m in Sources */,
 				52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */,
+				52F0F41C24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m in Sources */,
 				52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */,
 				521EF1A724CE780800455497 /* AppDelegate.m in Sources */,
+				52F0F41024D006F4005085C0 /* MECMineBottomView.m in Sources */,
 				521EF1B824CE780A00455497 /* main.m in Sources */,
+				52F0F41924D025EE005085C0 /* MECDevicesDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,8 +7,12 @@
 //
 
 #import "MECTabBarController.h"
+#import "MECNavigationController.h"
+#import "MECBaseViewController.h"
+#import "MECMineViewController.h"
+#import "MECDeviceListViewController.h"
 
-@interface MECTabBarController ()
+@interface MECTabBarController ()<UITabBarControllerDelegate>
 
 @end
 
@@ -16,17 +20,37 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self setupTabBar];
+    self.delegate = self;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)setupTabBar{
+    [self addControllerWithClass:[MECMineViewController class] title:@"Me" nomalImage:@"mine_icon_normal" selectImage:@"mine_icon_select" index:0];
+    [self addControllerWithClass:[MECDeviceListViewController class] title:@"Device list" nomalImage:@"device_list_icon_normal" selectImage:@"device_list_icon_select" index:1];
+//    [self updateTabbarControllers];
 }
-*/
+
+- (void)addControllerWithClass:(Class)class title:(NSString *)title nomalImage:(NSString *)nomalImage selectImage:(NSString *)selectImage index:(NSInteger)index{
+    MECNavigationController *nav = [self baseVCWithClass:class title:title nomalImage:nomalImage selectImage:selectImage index:index];
+    [self addChildViewController:nav];
+}
+
+- (MECNavigationController *)baseVCWithClass:(Class)class title:(NSString *)title nomalImage:(NSString *)nomalImage selectImage:(NSString *)selectImage index:(NSInteger)index {
+    MECBaseViewController *controller = [[class alloc] init];
+    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:title image:[UIImage imageNamed:nomalImage] tag:index];
+    [item setSelectedImage:[UIImage imageNamed:selectImage]];
+    controller.tabBarItem = item;
+    controller.title = title;
+    MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:controller];
+    return nav;
+}
+
+
+#pragma mark - UITabBarDelegate
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    
+}
+
+
 
 @end

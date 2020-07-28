@@ -74,7 +74,7 @@
 #define kStrongSelf __strong typeof(self) strongSelf = weakSelf;
 
 // 边距
-#define kMargin  10
+#define kMargin  20
 
 #define SuppressPerformSelectorLeakWarning(Stuff) \
 do { \

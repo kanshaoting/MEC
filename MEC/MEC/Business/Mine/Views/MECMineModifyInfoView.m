@@ -1,24 +1,18 @@
 //
-//  MECRegistrationViewController.m
+//  MECMineModifyInfoView.m
 //  MEC
 //
-//  Created by John on 2020/7/27.
+//  Created by John on 2020/7/28.
 //  Copyright © 2020 John. All rights reserved.
 //
 
-#import "MECRegistrationViewController.h"
+#import "MECMineModifyInfoView.h"
 #import "MECDefaultButton.h"
 
-#import "MECMineViewController.h"
-
-//#import "MECTabBarController.h"
-//#import "AppDelegate.h"
-
-@interface MECRegistrationViewController ()<UITextFieldDelegate>
+@interface MECMineModifyInfoView ()<UITextFieldDelegate>
 
 /// 账号登录提示
 @property (nonatomic,strong) UILabel *tipsLabel;
-
 /// 账号登录提示
 @property (nonatomic,strong) UILabel *userNameLabel;
 /// 账号登录提示
@@ -53,65 +47,67 @@
 @property (nonatomic,strong) UIImageView *bottomImageView;
 
 
+
 @end
+@implementation MECMineModifyInfoView
 
-@implementation MECRegistrationViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self configUI];
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        [self configUI];
+    }
+    return self;
 }
 
 
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
-    [self.view addSubview:self.tipsLabel];
+    [self addSubview:self.tipsLabel];
     
-    [self.view addSubview:self.userNameLabel];
-    [self.view addSubview:self.userNameLine];
+    [self addSubview:self.userNameLabel];
+    [self addSubview:self.userNameLine];
     
-    [self.view addSubview:self.emailLabel];
-    [self.view addSubview:self.emailLine];
+    [self addSubview:self.emailLabel];
+    [self addSubview:self.emailLine];
     
-    [self.view addSubview:self.countryLabel];
-    [self.view addSubview:self.countryLine];
+    [self addSubview:self.countryLabel];
+    [self addSubview:self.countryLine];
     
-    [self.view addSubview:self.postalCodeLabel];
-    [self.view addSubview:self.postalCodeLine];
-    
-    [self.view addSubview:self.noteLabel];
+    [self addSubview:self.postalCodeLabel];
+    [self addSubview:self.postalCodeLine];
     
 
-    [self.view addSubview:self.userNameTf];
-    [self.view addSubview:self.emailTf];
-    [self.view addSubview:self.countryTf];
-    [self.view addSubview:self.postalCodeTf];
+
+    [self addSubview:self.userNameTf];
+    [self addSubview:self.emailTf];
+    [self addSubview:self.countryTf];
+    [self addSubview:self.postalCodeTf];
     
-    [self.view addSubview:self.registrationBtn];
-    [self.view addSubview:self.bottomImageView];
+    [self addSubview:self.registrationBtn];
+    [self addSubview:self.bottomImageView];
     
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(kWidth6(30));
-        make.centerX.equalTo(self.view);
+        make.top.equalTo(self).offset(kWidth6(30));
+        make.centerX.equalTo(self);
     }];
     
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(40));
         make.height.mas_equalTo(kWidth6(30));
-        make.leading.mas_equalTo(kWidth6(13));
-        make.width.mas_equalTo(kWidth6(102));
+        make.leading.mas_equalTo(kWidth6(22));
+        make.width.mas_equalTo(kWidth6(90));
     }];
     [self.userNameTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.userNameLabel);
         make.height.mas_equalTo(kWidth6(30));
         make.leading.equalTo(self.userNameLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+        make.trailing.equalTo(self).offset(-kWidth6(22));
     }];
     [self.userNameLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.userNameLabel.mas_bottom).offset(kWidth6(1));
         make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self.view);
+        make.leading.trailing.equalTo(self);
     }];
     
 
@@ -124,12 +120,12 @@
         make.centerY.equalTo(self.emailLabel);
         make.height.mas_equalTo(kWidth6(30));
         make.leading.equalTo(self.emailLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+        make.trailing.equalTo(self).offset(-kWidth6(22));
     }];
     [self.emailLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.emailLabel.mas_bottom).offset(kWidth6(1));
         make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self.view);
+        make.leading.trailing.equalTo(self);
     }];
     
     [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -142,12 +138,12 @@
         make.centerY.equalTo(self.countryLabel);
         make.height.mas_equalTo(kWidth6(30));
         make.leading.equalTo(self.countryLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+        make.trailing.equalTo(self).offset(-kWidth6(22));
     }];
     [self.countryLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.countryLabel.mas_bottom).offset(kWidth6(1));
         make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self.view);
+        make.leading.trailing.equalTo(self);
     }];
     
     [self.postalCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -159,28 +155,28 @@
         make.centerY.equalTo(self.postalCodeLabel);
         make.height.mas_equalTo(kWidth6(30));
         make.leading.equalTo(self.postalCodeLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+        make.trailing.equalTo(self).offset(-kWidth6(22));
     }];
     [self.postalCodeLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.postalCodeLabel.mas_bottom).offset(kWidth6(1));
         make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self.view);
+        make.leading.trailing.equalTo(self);
     }];
     
-    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(10));
-        make.height.mas_equalTo(kWidth6(15));
-        make.leading.equalTo(self.postalCodeLabel);
-    }];
+//    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(10));
+//        make.height.mas_equalTo(kWidth6(15));
+//        make.leading.equalTo(self.postalCodeLabel);
+//    }];
     
     [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.noteLabel.mas_bottom).offset(kWidth6(10));
-        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(38));
+        make.centerX.equalTo(self);
         make.height.mas_equalTo(kWidth6(40));
         make.width.mas_equalTo(kWidth6(178));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.bottom.equalTo(self.view).offset(0);
+        make.leading.trailing.bottom.equalTo(self).offset(0);
         make.height.mas_equalTo(kWidth6(249));
     }];
     
@@ -189,11 +185,7 @@
 #pragma mark -
 #pragma mark -- registrationBtnAction
 - (void)registrationBtnAction:(UIButton *)button{
-    MECMineViewController *vc = [[MECMineViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
     
-//    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//    delegate.window.rootViewController = [[MECTabBarController alloc] init];
 }
 
 #pragma mark -
@@ -202,7 +194,7 @@
     if (!_tipsLabel) {
         _tipsLabel = [[UILabel alloc] init];
         _tipsLabel.font = MEC_Helvetica_Bold_Font(17);
-        _tipsLabel.text = @"Registration";
+        _tipsLabel.text = @"Account information";
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
         _tipsLabel.textColor = [UIColor blackColor];
     }
@@ -212,7 +204,7 @@
     if (!_userNameLabel) {
         _userNameLabel = [[UILabel alloc] init];
         _userNameLabel.font = MEC_Helvetica_Regular_Font(14);
-        _userNameLabel.text = @"* User name:";
+        _userNameLabel.text = @"User name:";
         _userNameLabel.textColor = kColorHex(0x221815);
     }
     return _userNameLabel;
@@ -240,7 +232,7 @@
     if (!_emailLabel) {
         _emailLabel = [[UILabel alloc] init];
         _emailLabel.font = MEC_Helvetica_Regular_Font(14);
-        _emailLabel.text = @"* E-mail:";
+        _emailLabel.text = @"E-mail:";
         _emailLabel.textColor = kColorHex(0x221815);
     }
     return _emailLabel;
@@ -331,7 +323,7 @@
 
 - (MECDefaultButton *)registrationBtn{
     if (!_registrationBtn) {
-        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Registration" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
+        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
     }
     return _registrationBtn;
 }

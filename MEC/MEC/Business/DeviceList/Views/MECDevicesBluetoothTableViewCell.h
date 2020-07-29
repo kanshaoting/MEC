@@ -14,6 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
+
+@property (nonatomic, assign) BOOL isStop;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

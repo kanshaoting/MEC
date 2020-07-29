@@ -216,7 +216,7 @@
         _userNameTf.placeholder = @"";
         _userNameTf.textColor = kColorHex(0xC9CACA);
         _userNameTf.font = MEC_Helvetica_Regular_Font(14);
-        _userNameTf.borderStyle = UITextBorderStyleRoundedRect;
+//        _userNameTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _userNameTf;
 }
@@ -244,7 +244,7 @@
         _emailTf.placeholder = @"";
         _emailTf.textColor = kColorHex(0xC9CACA);
         _emailTf.font = MEC_Helvetica_Regular_Font(14);
-        _emailTf.borderStyle = UITextBorderStyleRoundedRect;
+//        _emailTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _emailTf;
 }
@@ -271,7 +271,7 @@
         _countryTf.placeholder = @"";
         _countryTf.textColor = kColorHex(0xC9CACA);
         _countryTf.font = MEC_Helvetica_Regular_Font(14);
-        _countryTf.borderStyle = UITextBorderStyleRoundedRect;
+//        _countryTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _countryTf;
 }
@@ -298,7 +298,7 @@
         _postalCodeTf.placeholder = @"";
         _postalCodeTf.textColor = kColorHex(0xC9CACA);
         _postalCodeTf.font = MEC_Helvetica_Regular_Font(14);
-        _postalCodeTf.borderStyle = UITextBorderStyleRoundedRect;
+//        _postalCodeTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _postalCodeTf;
 }

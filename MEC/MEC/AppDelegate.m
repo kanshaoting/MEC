@@ -22,6 +22,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self setupAppearance];
+    [NSThread sleepForTimeInterval:1.0];
     MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
     self.window.rootViewController = nav;
     if (@available(iOS 13.0, *)) {

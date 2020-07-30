@@ -13,6 +13,7 @@
 #import "MECMineBottomView.h"
 #import "MECDeviceListView.h"
 
+
 @interface MECMineViewController ()
 
 /// 账号登录提示
@@ -51,7 +52,7 @@
        
     
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(kWidth6(49));
+        make.height.mas_equalTo(kTabBarHeight);
         make.leading.trailing.bottom.equalTo(self.view);
     }];
     

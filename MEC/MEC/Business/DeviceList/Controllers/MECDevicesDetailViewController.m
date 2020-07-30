@@ -10,6 +10,9 @@
 #import "MECDevicesBluetoothTableViewCell.h"
 
 #import "MECDefaultButton.h"
+#import "MECNoDeviceFoundViewController.h"
+
+
 #define kHeadViewHeight kWidth6(40)
 #define kBottomViewHeight kWidth6(76)
 
@@ -131,7 +134,8 @@
 #pragma mark -
 #pragma mark -- tryBtnAction
 - (void)tryBtnAction:(UIButton *)button{
-    
+    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark -

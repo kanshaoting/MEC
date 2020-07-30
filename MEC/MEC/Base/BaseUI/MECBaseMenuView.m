@@ -47,8 +47,8 @@
     [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self).offset(-kWidth6(10));
         make.top.equalTo(self);
-        make.width.mas_equalTo(kWidth6(200));
-        make.height.mas_equalTo(kWidth6(270));
+        make.width.mas_equalTo(kWidth6(210));
+        make.height.mas_equalTo(kWidth6(290));
     }];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self).offset(-kWidth6(10));
@@ -80,10 +80,9 @@
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth - kWidth6(200) - kWidth6(10), 0, kWidth6(200), kHeadViewHeight)];
-    headerView.backgroundColor = kColorHex(0x333333);
+    headerView.backgroundColor = [UIColor clearColor];
     UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((kWidth6(200) - kWidth6(84))/2, (kHeadViewHeight - kWidth6(20))/2, kWidth6(84), kWidth6(20))];
-    logoImageView.image = [UIImage imageNamed:@"ventureheat_logo"];
-    logoImageView.backgroundColor = kColorHex(0xffffff);
+    logoImageView.image = [UIImage imageNamed:@"mine_base_menu_ventureheat_logo"];
     [headerView addSubview:logoImageView];
     return headerView;
 }
@@ -96,6 +95,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (self.cellTapBlock) {
+        self.cellTapBlock(indexPath.row);
+    }
 }
 
 
@@ -126,9 +128,10 @@
 - (UITableView *)tableView{
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _tableView.backgroundColor = kColorHex(0x333333);
+        _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.scrollEnabled = NO;
         _tableView.rowHeight = kWidth6(40);
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         if (@available(iOS 11.0, *)) {

@@ -47,6 +47,18 @@
     if (!_baseMenuView) {
         _baseMenuView = [[MECBaseMenuView alloc] init];
         _baseMenuView.hidden = YES;
+        kWeakSelf
+        _baseMenuView.cellTapBlock = ^(NSInteger index) {
+            if (0 == index) {
+                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+            }else if (1 == index){
+                
+            }else if (2 == index){
+                
+            }else{
+    
+            }
+        };
     }
     return _baseMenuView;
 }

@@ -10,11 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+typedef void(^MECBaseMenuViewCellTapBlock)(NSInteger index);
+
 @interface MECBaseMenuView : UIView
 
 - (instancetype)init;
 
-- (void)show;
+@property (nonatomic, copy) MECBaseMenuViewCellTapBlock cellTapBlock;
+
 
 @end
 

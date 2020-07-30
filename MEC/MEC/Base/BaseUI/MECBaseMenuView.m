@@ -10,7 +10,7 @@
 #import "MECBaseMenuViewTableViewCell.h"
 
 
-#define kHeadViewHeight kWidth6(60)
+#define kHeadViewHeight kWidth6(50)
 
 @interface MECBaseMenuView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -37,7 +37,7 @@
 }
 
 - (void)configUI{
-//    self.backgroundColor =
+
     [self addSubview:self.bgView];
     [self addSubview:self.bgImageView];
     [self addSubview:self.tableView];
@@ -69,7 +69,7 @@
     return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return kWidth6(40);
+    return kWidth6(46);
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return kHeadViewHeight;
@@ -90,6 +90,40 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MECBaseMenuViewTableViewCell *cell = [MECBaseMenuViewTableViewCell cellWithTableView:tableView];
     cell.backgroundColor = [UIColor clearColor];
+    NSString *iconStr;
+    NSString *textStr;
+    switch (indexPath.row) {
+        case 0:
+        {
+            iconStr = @"menu_mine_icon";
+            textStr = @"ME";
+        }
+            break;
+            
+        case 1:
+        {
+            iconStr = @"menu_pairing_icon";
+            textStr = @"BLUETOOTH";
+        }
+            break;
+        case 2:
+        {
+            iconStr = @"menu_list_icon";
+            textStr = @"DEVICE LIST";
+        }
+            break;
+        case 3:
+        {
+            iconStr = @"menu_instructions_icon";
+            textStr = @"INSTRUCTIONS";
+        }
+            break;
+            
+        default:
+            break;
+    }
+    cell.iconStr = iconStr;
+    cell.textStr = textStr;
     return cell;
 }
 

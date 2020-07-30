@@ -67,6 +67,15 @@
   
 }
 
+- (void)setIconStr:(NSString *)iconStr{
+    _iconStr = iconStr;
+    self.iconImgView.image = [UIImage imageNamed:iconStr];
+}
+
+- (void)setTextStr:(NSString *)textStr{
+    _textStr = textStr;
+    self.nameLabel.text = _textStr;
+}
 #pragma mark -
 #pragma mark -- lazy
 

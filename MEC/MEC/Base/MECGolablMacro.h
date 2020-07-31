@@ -121,4 +121,10 @@ _Pragma("clang diagnostic pop") \
 #define MEC_Helvetica_Regular_Font(value) [UIFont fontWithName:@"Helvetica Regular" size:value]
 
 
+
+//data
+#define QCErrorCode -1
+#define QCErrorPropmt @"未知错误"
+
+
 #endif /* MECGolablMacro_h */

@@ -26,6 +26,19 @@
 		52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BB424CEF8EC00745720 /* MECMineViewController.m */; };
 		52DD0F1824D3B1FE00426629 /* MBProgressHUD+PH.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F1524D3B1FE00426629 /* MBProgressHUD+PH.m */; };
 		52DD0F1924D3B1FE00426629 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 52DD0F1724D3B1FE00426629 /* MBProgressHUD.bundle */; };
+		52DD0F2324D3B37000426629 /* QCNetWorkManager+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F1D24D3B37000426629 /* QCNetWorkManager+QCExtension.m */; };
+		52DD0F2424D3B37000426629 /* QCNetWorkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F1F24D3B37000426629 /* QCNetWorkClient.m */; };
+		52DD0F2524D3B37000426629 /* QCNetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F2024D3B37000426629 /* QCNetWorkManager.m */; };
+		52DD0F2624D3B37000426629 /* QCNetWorkResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F2224D3B37000426629 /* QCNetWorkResult.m */; };
+		52DD0F3C24D3B3E200426629 /* UIView+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F2824D3B3E200426629 /* UIView+QCExtension.m */; };
+		52DD0F3E24D3B3E200426629 /* UIFont+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F2A24D3B3E200426629 /* UIFont+QCExtension.m */; };
+		52DD0F3F24D3B3E200426629 /* NSObject+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F2B24D3B3E200426629 /* NSObject+QCExtension.m */; };
+		52DD0F4024D3B3E200426629 /* NSDictionary+QCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F2D24D3B3E200426629 /* NSDictionary+QCCategory.m */; };
+		52DD0F4224D3B3E200426629 /* NSString+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F3124D3B3E200426629 /* NSString+QCExtension.m */; };
+		52DD0F4324D3B3E200426629 /* NSData+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F3624D3B3E200426629 /* NSData+QCExtension.m */; };
+		52DD0F4424D3B3E200426629 /* UIImage+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F3924D3B3E200426629 /* UIImage+QCExtension.m */; };
+		52DD0F4524D3B3E200426629 /* UIResponder+Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F3B24D3B3E200426629 /* UIResponder+Router.m */; };
+		52DD0F4924D3B4E000426629 /* QCUrlConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F4724D3B4E000426629 /* QCUrlConst.m */; };
 		52F0F40724CFFBB8005085C0 /* MECDeviceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */; };
 		52F0F40A24D00367005085C0 /* MECMineModifyInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40924D00367005085C0 /* MECMineModifyInfoView.m */; };
 		52F0F40D24D00384005085C0 /* MECDeviceListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40C24D00384005085C0 /* MECDeviceListView.m */; };
@@ -73,6 +86,32 @@
 		52DD0F1524D3B1FE00426629 /* MBProgressHUD+PH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+PH.m"; sourceTree = "<group>"; };
 		52DD0F1624D3B1FE00426629 /* MBProgressHUD+PH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PH.h"; sourceTree = "<group>"; };
 		52DD0F1724D3B1FE00426629 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		52DD0F1B24D3B37000426629 /* QCNetWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCNetWorkManager.h; sourceTree = "<group>"; };
+		52DD0F1C24D3B37000426629 /* QCNetWorkClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCNetWorkClient.h; sourceTree = "<group>"; };
+		52DD0F1D24D3B37000426629 /* QCNetWorkManager+QCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QCNetWorkManager+QCExtension.m"; sourceTree = "<group>"; };
+		52DD0F1E24D3B37000426629 /* QCNetWorkResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCNetWorkResult.h; sourceTree = "<group>"; };
+		52DD0F1F24D3B37000426629 /* QCNetWorkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCNetWorkClient.m; sourceTree = "<group>"; };
+		52DD0F2024D3B37000426629 /* QCNetWorkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCNetWorkManager.m; sourceTree = "<group>"; };
+		52DD0F2124D3B37000426629 /* QCNetWorkManager+QCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QCNetWorkManager+QCExtension.h"; sourceTree = "<group>"; };
+		52DD0F2224D3B37000426629 /* QCNetWorkResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCNetWorkResult.m; sourceTree = "<group>"; };
+		52DD0F2824D3B3E200426629 /* UIView+QCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+QCExtension.m"; sourceTree = "<group>"; };
+		52DD0F2A24D3B3E200426629 /* UIFont+QCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+QCExtension.m"; sourceTree = "<group>"; };
+		52DD0F2B24D3B3E200426629 /* NSObject+QCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+QCExtension.m"; sourceTree = "<group>"; };
+		52DD0F2C24D3B3E200426629 /* UIImage+QCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+QCExtension.h"; sourceTree = "<group>"; };
+		52DD0F2D24D3B3E200426629 /* NSDictionary+QCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QCCategory.m"; sourceTree = "<group>"; };
+		52DD0F2F24D3B3E200426629 /* NSData+QCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+QCExtension.h"; sourceTree = "<group>"; };
+		52DD0F3024D3B3E200426629 /* UIResponder+Router.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+Router.h"; sourceTree = "<group>"; };
+		52DD0F3124D3B3E200426629 /* NSString+QCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+QCExtension.m"; sourceTree = "<group>"; };
+		52DD0F3224D3B3E200426629 /* UIFont+QCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+QCExtension.h"; sourceTree = "<group>"; };
+		52DD0F3324D3B3E200426629 /* NSObject+QCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+QCExtension.h"; sourceTree = "<group>"; };
+		52DD0F3524D3B3E200426629 /* UIView+QCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+QCExtension.h"; sourceTree = "<group>"; };
+		52DD0F3624D3B3E200426629 /* NSData+QCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+QCExtension.m"; sourceTree = "<group>"; };
+		52DD0F3824D3B3E200426629 /* NSDictionary+QCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QCCategory.h"; sourceTree = "<group>"; };
+		52DD0F3924D3B3E200426629 /* UIImage+QCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+QCExtension.m"; sourceTree = "<group>"; };
+		52DD0F3A24D3B3E200426629 /* NSString+QCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+QCExtension.h"; sourceTree = "<group>"; };
+		52DD0F3B24D3B3E200426629 /* UIResponder+Router.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+Router.m"; sourceTree = "<group>"; };
+		52DD0F4724D3B4E000426629 /* QCUrlConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCUrlConst.m; sourceTree = "<group>"; };
+		52DD0F4824D3B4E000426629 /* QCUrlConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCUrlConst.h; sourceTree = "<group>"; };
 		52F0F40524CFFBB8005085C0 /* MECDeviceListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListViewController.h; sourceTree = "<group>"; };
 		52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListViewController.m; sourceTree = "<group>"; };
 		52F0F40824D00367005085C0 /* MECMineModifyInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineModifyInfoView.h; sourceTree = "<group>"; };
@@ -311,6 +350,9 @@
 		52DD0F1324D3B1FE00426629 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				52DD0F4624D3B4E000426629 /* Const */,
+				52DD0F2724D3B3E200426629 /* Category */,
+				52DD0F1A24D3B37000426629 /* NetWork */,
 				52DD0F1424D3B1FE00426629 /* MBProgessHUD+Extension */,
 			);
 			path = Other;
@@ -324,6 +366,53 @@
 				52DD0F1724D3B1FE00426629 /* MBProgressHUD.bundle */,
 			);
 			path = "MBProgessHUD+Extension";
+			sourceTree = "<group>";
+		};
+		52DD0F1A24D3B37000426629 /* NetWork */ = {
+			isa = PBXGroup;
+			children = (
+				52DD0F1B24D3B37000426629 /* QCNetWorkManager.h */,
+				52DD0F2024D3B37000426629 /* QCNetWorkManager.m */,
+				52DD0F1C24D3B37000426629 /* QCNetWorkClient.h */,
+				52DD0F1F24D3B37000426629 /* QCNetWorkClient.m */,
+				52DD0F1E24D3B37000426629 /* QCNetWorkResult.h */,
+				52DD0F2224D3B37000426629 /* QCNetWorkResult.m */,
+				52DD0F2124D3B37000426629 /* QCNetWorkManager+QCExtension.h */,
+				52DD0F1D24D3B37000426629 /* QCNetWorkManager+QCExtension.m */,
+			);
+			path = NetWork;
+			sourceTree = "<group>";
+		};
+		52DD0F2724D3B3E200426629 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				52DD0F3524D3B3E200426629 /* UIView+QCExtension.h */,
+				52DD0F2824D3B3E200426629 /* UIView+QCExtension.m */,
+				52DD0F3224D3B3E200426629 /* UIFont+QCExtension.h */,
+				52DD0F2A24D3B3E200426629 /* UIFont+QCExtension.m */,
+				52DD0F3324D3B3E200426629 /* NSObject+QCExtension.h */,
+				52DD0F2B24D3B3E200426629 /* NSObject+QCExtension.m */,
+				52DD0F2C24D3B3E200426629 /* UIImage+QCExtension.h */,
+				52DD0F3924D3B3E200426629 /* UIImage+QCExtension.m */,
+				52DD0F3824D3B3E200426629 /* NSDictionary+QCCategory.h */,
+				52DD0F2D24D3B3E200426629 /* NSDictionary+QCCategory.m */,
+				52DD0F2F24D3B3E200426629 /* NSData+QCExtension.h */,
+				52DD0F3624D3B3E200426629 /* NSData+QCExtension.m */,
+				52DD0F3024D3B3E200426629 /* UIResponder+Router.h */,
+				52DD0F3B24D3B3E200426629 /* UIResponder+Router.m */,
+				52DD0F3A24D3B3E200426629 /* NSString+QCExtension.h */,
+				52DD0F3124D3B3E200426629 /* NSString+QCExtension.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		52DD0F4624D3B4E000426629 /* Const */ = {
+			isa = PBXGroup;
+			children = (
+				52DD0F4824D3B4E000426629 /* QCUrlConst.h */,
+				52DD0F4724D3B4E000426629 /* QCUrlConst.m */,
+			);
+			path = Const;
 			sourceTree = "<group>";
 		};
 		6DFC9341C81B99154F7E2FAE /* Pods */ = {
@@ -452,6 +541,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				52F0F40D24D00384005085C0 /* MECDeviceListView.m in Sources */,
+				52DD0F3C24D3B3E200426629 /* UIView+QCExtension.m in Sources */,
+				52DD0F4224D3B3E200426629 /* NSString+QCExtension.m in Sources */,
+				52DD0F2624D3B37000426629 /* QCNetWorkResult.m in Sources */,
+				52DD0F3F24D3B3E200426629 /* NSObject+QCExtension.m in Sources */,
+				52DD0F4024D3B3E200426629 /* NSDictionary+QCCategory.m in Sources */,
+				52DD0F2424D3B37000426629 /* QCNetWorkClient.m in Sources */,
 				52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */,
 				5268FE1A24D269DB00CBB01A /* MECNoDeviceFoundViewController.m in Sources */,
 				52F0F41324D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.m in Sources */,
@@ -460,16 +555,23 @@
 				52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */,
 				52DD0F1824D3B1FE00426629 /* MBProgressHUD+PH.m in Sources */,
 				52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */,
+				52DD0F4324D3B3E200426629 /* NSData+QCExtension.m in Sources */,
 				52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */,
 				52F0F41624D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m in Sources */,
 				52F0F40724CFFBB8005085C0 /* MECDeviceListViewController.m in Sources */,
+				52DD0F4424D3B3E200426629 /* UIImage+QCExtension.m in Sources */,
+				52DD0F4924D3B4E000426629 /* QCUrlConst.m in Sources */,
 				52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */,
+				52DD0F4524D3B3E200426629 /* UIResponder+Router.m in Sources */,
 				5268FE2024D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m in Sources */,
+				52DD0F3E24D3B3E200426629 /* UIFont+QCExtension.m in Sources */,
 				52F0F40A24D00367005085C0 /* MECMineModifyInfoView.m in Sources */,
+				52DD0F2524D3B37000426629 /* QCNetWorkManager.m in Sources */,
 				52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */,
 				52F0F41C24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m in Sources */,
 				52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */,
 				521EF1A724CE780800455497 /* AppDelegate.m in Sources */,
+				52DD0F2324D3B37000426629 /* QCNetWorkManager+QCExtension.m in Sources */,
 				52F0F41024D006F4005085C0 /* MECMineBottomView.m in Sources */,
 				521EF1B824CE780A00455497 /* main.m in Sources */,
 				52F0F41924D025EE005085C0 /* MECDevicesDetailViewController.m in Sources */,

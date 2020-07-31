@@ -20,13 +20,13 @@
 #if DEBUG
 #define SA_SERVER_URL ([[NSUserDefaults standardUserDefaults] integerForKey:QCBaseUrlKey] == 3 ? @"https://sdata.qiancangkeji.cn:8106/sa?project=production" : @"https://sdata.qiancangkeji.cn:8106/sa?project=default")
 #define AppSecret ([[NSUserDefaults standardUserDefaults] integerForKey:QCBaseUrlKey] == 3 ? @"ha0UTUGqo4XDqBihQyWMDMvxPYOvdPW3" : @"TWSzt5hEE3ZYN8XQC1VKic79LFSAeMXC")
-#define MECBuglyAppID @"5ba339fdee"
+#define MECBuglyAppID @"be5f5f282b"
 
 #else
 //正式环境
 #define SA_SERVER_URL @"https://sdata.qiancangkeji.cn:8106/sa?project=production"
 #define AppSecret @"ha0UTUGqo4XDqBihQyWMDMvxPYOvdPW3"
-#define MECBuglyAppID @"4165721f36"
+#define MECBuglyAppID @"be5f5f282b"
 
 #endif
 

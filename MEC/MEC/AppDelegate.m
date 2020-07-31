@@ -10,6 +10,9 @@
 
 #import "MECLoginViewController.h"
 #import "MECNavigationController.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import <Bugly/Bugly.h>
+
 @interface AppDelegate ()
 
 @end
@@ -30,6 +33,13 @@
     }
     [self.window makeKeyAndVisible];
     return YES;
+}
+- (void)registerThirdpart{
+    //IQKeyboardManager
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
+    //Bugly
+    [Bugly startWithAppId:MECBuglyAppID];
+    
 }
 #pragma mark -
 #pragma mark -- setupAppearance

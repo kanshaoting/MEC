@@ -8,13 +8,13 @@
 
 #import "QCNetWorkClient.h"
 ///web
-#define QCDebugWebUrl @"https://test.shop.qiancangkeji.cn"
-#define QCPreReleaseWebUrl @"https://stage.shop.qiancangkeji.cn"
-#define QCReleaseWebUrl @"https://shop.qiancangkeji.cn"
+#define QCDebugWebUrl @"https://mec.zksc.com/"
+#define QCPreReleaseWebUrl @"https://mec.zksc.com/"
+#define QCReleaseWebUrl @"https://mec.zksc.com/"
 ///base
-#define QCDebugBaseUrl @"https://gateway.test.qcshop.qiancangkeji.cn"
-#define QCPreReleaseBaseUrl @"https://stage.gateway.qcshop.qiancangkeji.cn"
-#define QCReleaseBaseUrl @"https://gateway.qcshop.qiancangkeji.cn"
+#define QCDebugBaseUrl @"https://mec.zksc.com/"
+#define QCPreReleaseBaseUrl @"https://mec.zksc.com/"
+#define QCReleaseBaseUrl @"https://mec.zksc.com/"
 
 // 阿里云测试环境
 //#define QCAliDebugWebUrl  @"http://qckj.natapp1.cc"
@@ -31,7 +31,7 @@
         client = [[self alloc] init];
         client.requestSerializer = [AFJSONRequestSerializer serializer];
         client.responseSerializer = [AFJSONResponseSerializer serializer];
-        client.requestSerializer.timeoutInterval = 15;
+        client.requestSerializer.timeoutInterval = 10;
         AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         securityPolicy.allowInvalidCertificates = YES;
         securityPolicy.validatesDomainName = NO;
@@ -45,20 +45,8 @@
 
 - (void)setupBaseUrl {
 #if DEBUG
-    NSInteger urlType = [[NSUserDefaults standardUserDefaults] integerForKey:QCBaseUrlKey];
-    if(0 == urlType) {
-        self.QCBaseUrl = QCAliDebugBaseUrl;
-        self.QCWebUrl = QCAliDebugWebUrl;
-    }else if (1 == urlType){
-        self.QCBaseUrl = QCDebugBaseUrl;
-        self.QCWebUrl = QCDebugWebUrl;
-    }else if(2 == urlType) {
-        self.QCBaseUrl = QCPreReleaseBaseUrl;
-        self.QCWebUrl = QCPreReleaseWebUrl;
-    }else if(3 == urlType) {
-        self.QCBaseUrl = QCReleaseBaseUrl;
-        self.QCWebUrl = QCReleaseWebUrl;
-    }
+    self.QCBaseUrl = QCReleaseBaseUrl;
+    self.QCWebUrl = QCReleaseWebUrl;
 #else
     self.QCBaseUrl = QCReleaseBaseUrl;
     self.QCWebUrl = QCReleaseWebUrl;

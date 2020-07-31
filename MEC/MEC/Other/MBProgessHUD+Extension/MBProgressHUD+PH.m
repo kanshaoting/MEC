@@ -91,7 +91,7 @@
 }
 
 - (void)showText:(NSString *)text {
-    [self showText:text delay:MIN(3, text.length/5.0)];
+    [self showText:text delay:MIN(2, text.length/5.0)];
 }
 
 @end

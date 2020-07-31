@@ -10,6 +10,8 @@
 #import "MECDefaultButton.h"
 
 #import "MECMineViewController.h"
+#import "MECUserManager.h"
+#import "MECUserModel.h"
 
 //#import "MECTabBarController.h"
 //#import "AppDelegate.h"
@@ -186,14 +188,40 @@
     
 }
 
+
+- (void)startRegistration {
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    [parm setObject:self.userNameTf.text forKey:@"mname"];
+    [parm setObject:self.emailTf.text forKey:@"memail"];
+    [parm setObject:self.countryTf.text forKey:@"mcounty"];
+    [parm setObject:self.postalCodeTf.text forKey:@"mpostcode"];
+    [parm setObject:self.postalCodeTf.text forKey:@"mpassword"];
+    [QCNetWorkManager postRequestWithUrlPath:QCUrlRegistration parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        if(result.error) {
+            [hud showText:result.error.localizedDescription];
+        }else {
+            [hud showText:@"Registration Success"];
+            MECUserManager *manager = [MECUserManager shareManager];
+            manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
+            [manager saveUserInfo];
+            MECMineViewController *vc = [[MECMineViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+}
+
 #pragma mark -
 #pragma mark -- registrationBtnAction
 - (void)registrationBtnAction:(UIButton *)button{
-    MECMineViewController *vc = [[MECMineViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+
     
 //    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
 //    delegate.window.rootViewController = [[MECTabBarController alloc] init];
+    
+    [self startRegistration];
+    
+    
 }
 
 #pragma mark -

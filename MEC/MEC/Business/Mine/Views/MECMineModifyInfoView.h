@@ -10,8 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^MECMineModifyInfoViewModifyBtnTapBlock)(void);
+
 @interface MECMineModifyInfoView : UIView
 
+
+
+@property (nonatomic ,copy) MECMineModifyInfoViewModifyBtnTapBlock modifyBtnTapBlock;
 
 
 @end

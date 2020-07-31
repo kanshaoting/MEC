@@ -124,7 +124,7 @@ _Pragma("clang diagnostic pop") \
 
 //data
 #define QCErrorCode -1
-#define QCErrorPropmt @"未知错误"
+#define QCErrorPropmt @"Unknown error"
 
 
 #endif /* MECGolablMacro_h */

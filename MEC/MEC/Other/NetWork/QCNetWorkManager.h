@@ -19,7 +19,13 @@ typedef void (^resultInfoBlock)(QCNetWorkResult *result);
 
 + (void)getRequestWithUrlPath:(NSString *)urlPath parameters:(NSDictionary *)parameters finished:(resultInfoBlock)finished;
 
++ (NSURLSessionDataTask *)putRequestWithUrlPath:(NSString *)urlPath parameters:(NSDictionary *)parameters finished:(resultInfoBlock)finished;
+
++ (NSURLSessionDataTask *)deleteRequestWithUrlPath:(NSString *)urlPath parameters:(NSDictionary *)parameters finished:(resultInfoBlock)finished;
+
 + (void)uploadImageWithUrlPath:(NSString *)urlPath parameters:(NSDictionary *)parameters image:(UIImage *)image finished:(resultInfoBlock)finished;
+
+
 
 @end
 

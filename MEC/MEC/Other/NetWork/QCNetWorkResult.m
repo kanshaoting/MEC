@@ -31,34 +31,22 @@
         NSError *error =  [NSError errorWithDomain:QCErrorPropmt code:QCErrorCode userInfo:@{NSLocalizedDescriptionKey: QCErrorPropmt}];
         return [self resultWithError:error];
     }
-    NSInteger code = 0;
-    if([resultObject objectForKey:@"returnCode"]) {
-        code = [[resultObject objectForKey:@"returnCode"] integerValue];
-    }else {
-        code = [[resultObject objectForKey:@"code"] integerValue];
-    }
-    NSString *msg = [resultObject objectForKey:@"message"] ?: QCErrorPropmt;
+   
+    NSString *codeStr = [NSString stringWithFormat:@"%@",[resultObject objectForKey:@"isSuccess"]];
+    NSString *msg = [resultObject objectForKey:@"errorDesc"] ?: QCErrorPropmt;
     id data = nil;
-    if([resultObject objectForKey:@"dataInfo"]) {
-        data = [resultObject objectForKey:@"dataInfo"];
-    }else if([resultObject objectForKey:@"pageData"]) {
-        data = [resultObject objectForKey:@"pageData"];
-    }else if([resultObject objectForKey:@"data"]) {
+    if([resultObject objectForKey:@"data"]) {
         data = [resultObject objectForKey:@"data"];
     }
-    if(200000 != code) {
-        if(401 == code) {
-//            [[QCUserManager shareManager] deleteUserInfo];
-            msg = @"登录失效，请重新登录";
-        }
-        NSError *error = [NSError errorWithDomain:msg code:code userInfo:@{NSLocalizedDescriptionKey: msg}];
-        return [self resultWithError:error];
-    }else {
+    if([codeStr isEqualToString:@"1"]) {
         QCNetWorkResult *result = [[QCNetWorkResult alloc] init];
         result.resultObject = (NSDictionary *)resultObject;
         result.resultData = data;
         result.msg = msg;
         return result;
+    }else {
+        NSError *error = [NSError errorWithDomain:msg code:codeStr.integerValue userInfo:@{NSLocalizedDescriptionKey: msg}];
+        return [self resultWithError:error];
     }
 }
 

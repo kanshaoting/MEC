@@ -39,6 +39,8 @@
 		52DD0F4424D3B3E200426629 /* UIImage+QCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F3924D3B3E200426629 /* UIImage+QCExtension.m */; };
 		52DD0F4524D3B3E200426629 /* UIResponder+Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F3B24D3B3E200426629 /* UIResponder+Router.m */; };
 		52DD0F4924D3B4E000426629 /* QCUrlConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F4724D3B4E000426629 /* QCUrlConst.m */; };
+		52DD0F4D24D3EB1100426629 /* MECUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F4C24D3EB1100426629 /* MECUserManager.m */; };
+		52DD0F5124D3EBEC00426629 /* MECUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F5024D3EBEC00426629 /* MECUserModel.m */; };
 		52F0F40724CFFBB8005085C0 /* MECDeviceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */; };
 		52F0F40A24D00367005085C0 /* MECMineModifyInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40924D00367005085C0 /* MECMineModifyInfoView.m */; };
 		52F0F40D24D00384005085C0 /* MECDeviceListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40C24D00384005085C0 /* MECDeviceListView.m */; };
@@ -112,6 +114,10 @@
 		52DD0F3B24D3B3E200426629 /* UIResponder+Router.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+Router.m"; sourceTree = "<group>"; };
 		52DD0F4724D3B4E000426629 /* QCUrlConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCUrlConst.m; sourceTree = "<group>"; };
 		52DD0F4824D3B4E000426629 /* QCUrlConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCUrlConst.h; sourceTree = "<group>"; };
+		52DD0F4B24D3EB1100426629 /* MECUserManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECUserManager.h; sourceTree = "<group>"; };
+		52DD0F4C24D3EB1100426629 /* MECUserManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECUserManager.m; sourceTree = "<group>"; };
+		52DD0F4F24D3EBEC00426629 /* MECUserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECUserModel.h; sourceTree = "<group>"; };
+		52DD0F5024D3EBEC00426629 /* MECUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECUserModel.m; sourceTree = "<group>"; };
 		52F0F40524CFFBB8005085C0 /* MECDeviceListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListViewController.h; sourceTree = "<group>"; };
 		52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListViewController.m; sourceTree = "<group>"; };
 		52F0F40824D00367005085C0 /* MECMineModifyInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineModifyInfoView.h; sourceTree = "<group>"; };
@@ -350,6 +356,8 @@
 		52DD0F1324D3B1FE00426629 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				52DD0F4E24D3EBDD00426629 /* Global */,
+				52DD0F4A24D3EAF200426629 /* Singleton */,
 				52DD0F4624D3B4E000426629 /* Const */,
 				52DD0F2724D3B3E200426629 /* Category */,
 				52DD0F1A24D3B37000426629 /* NetWork */,
@@ -413,6 +421,24 @@
 				52DD0F4724D3B4E000426629 /* QCUrlConst.m */,
 			);
 			path = Const;
+			sourceTree = "<group>";
+		};
+		52DD0F4A24D3EAF200426629 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				52DD0F4B24D3EB1100426629 /* MECUserManager.h */,
+				52DD0F4C24D3EB1100426629 /* MECUserManager.m */,
+			);
+			path = Singleton;
+			sourceTree = "<group>";
+		};
+		52DD0F4E24D3EBDD00426629 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				52DD0F4F24D3EBEC00426629 /* MECUserModel.h */,
+				52DD0F5024D3EBEC00426629 /* MECUserModel.m */,
+			);
+			path = Global;
 			sourceTree = "<group>";
 		};
 		6DFC9341C81B99154F7E2FAE /* Pods */ = {
@@ -541,11 +567,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				52F0F40D24D00384005085C0 /* MECDeviceListView.m in Sources */,
+				52DD0F5124D3EBEC00426629 /* MECUserModel.m in Sources */,
 				52DD0F3C24D3B3E200426629 /* UIView+QCExtension.m in Sources */,
 				52DD0F4224D3B3E200426629 /* NSString+QCExtension.m in Sources */,
 				52DD0F2624D3B37000426629 /* QCNetWorkResult.m in Sources */,
 				52DD0F3F24D3B3E200426629 /* NSObject+QCExtension.m in Sources */,
 				52DD0F4024D3B3E200426629 /* NSDictionary+QCCategory.m in Sources */,
+				52DD0F4D24D3EB1100426629 /* MECUserManager.m in Sources */,
 				52DD0F2424D3B37000426629 /* QCNetWorkClient.m in Sources */,
 				52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */,
 				5268FE1A24D269DB00CBB01A /* MECNoDeviceFoundViewController.m in Sources */,

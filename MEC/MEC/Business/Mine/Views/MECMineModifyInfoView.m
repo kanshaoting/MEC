@@ -8,6 +8,8 @@
 
 #import "MECMineModifyInfoView.h"
 #import "MECDefaultButton.h"
+#import "MECUserManager.h"
+#import "MECUserModel.h"
 
 @interface MECMineModifyInfoView ()<UITextFieldDelegate>
 
@@ -42,7 +44,7 @@
 @property (nonatomic,strong) UITextField *postalCodeTf;
 
 /// 账号登录提示
-@property (nonatomic,strong) MECDefaultButton *registrationBtn;
+@property (nonatomic,strong) MECDefaultButton *modifyBtn;
 /// 账号登录提示
 @property (nonatomic,strong) UIImageView *bottomImageView;
 
@@ -84,7 +86,7 @@
     [self addSubview:self.countryTf];
     [self addSubview:self.postalCodeTf];
     
-    [self addSubview:self.registrationBtn];
+    [self addSubview:self.modifyBtn];
     [self addSubview:self.bottomImageView];
     
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -169,7 +171,7 @@
 //        make.leading.equalTo(self.postalCodeLabel);
 //    }];
     
-    [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.modifyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(38));
         make.centerX.equalTo(self);
         make.height.mas_equalTo(kWidth6(40));
@@ -183,10 +185,36 @@
 }
 
 #pragma mark -
-#pragma mark -- registrationBtnAction
-- (void)registrationBtnAction:(UIButton *)button{
-    
+#pragma mark -- modifyBtnAction
+- (void)modifyBtnAction:(UIButton *)button{
+    [self startModify];
 }
+
+- (void)startModify {
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    [parm setObject:self.userNameTf.text forKey:@"mname"];
+    [parm setObject:self.emailTf.text forKey:@"memail"];
+    [parm setObject:self.countryTf.text forKey:@"mcounty"];
+    [parm setObject:self.postalCodeTf.text forKey:@"mpostcode"];
+    
+    [[MECUserManager shareManager] readUserInfo];
+    MECUserModel *user = [MECUserManager shareManager].user;
+
+    [parm setObject:user.mid forKey:@"mid"];
+    [QCNetWorkManager putRequestWithUrlPath:QCUrlModify parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        if(result.error) {
+            [hud showText:result.error.localizedDescription];
+        }else {
+            [hud showText:@"Modify Success"];
+            MECUserManager *manager = [MECUserManager shareManager];
+            manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
+            [manager saveUserInfo];
+            
+        }
+    }];
+}
+
 
 #pragma mark -
 #pragma mark -- lazy
@@ -321,11 +349,11 @@
     return _noteLabel;
 }
 
-- (MECDefaultButton *)registrationBtn{
-    if (!_registrationBtn) {
-        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
+- (MECDefaultButton *)modifyBtn{
+    if (!_modifyBtn) {
+        _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(modifyBtnAction:)];
     }
-    return _registrationBtn;
+    return _modifyBtn;
 }
 
 - (UIImageView *)bottomImageView{

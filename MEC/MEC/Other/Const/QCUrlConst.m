@@ -8,23 +8,32 @@
 
 #import "QCUrlConst.h"
 
-/***************  登录  **************/
-//登录类型状态
-NSString * const QCUrlAuthType = @"auth/type";
-//获取验证码
-NSString * const QCUrlSendverifycode = @"auth/login/sendverifycode";
-//登录
-NSString * const QCUrlVerifycode = @"auth/login/verifycode";
-//退出登录
-NSString * const QCUrlLogout = @"auth/logout";
-//微信登录校验
-NSString * const QCUrlWechatLogin = @"auth/login/wechart";
-//手机号绑定
-NSString * const QCUrlBindPhone = @"auth/login/bindphone";
+/***************  公共  **************/
 
-
+//基本UrlKey
 NSString * const QCBaseUrlKey = @"baseUrlKey";
 
+/***************  登录  **************/
+//登录
+NSString * const QCUrlLogin = @"v1/member/login";
+//注册
+NSString * const QCUrlRegistration = @"v1/member/register";
+//修改用户信息
+NSString * const QCUrlModify = @"v1/member/edit";
+
+
+
+
+/***************  设备模块  **************/
+
+//添加设备
+NSString * const QCUrlAddDevice = @"v1/device/add";
+
+//删除设备
+NSString * const QCUrlDeleteDevice = @"v1/device/delByMac";
+
+//查询设备
+NSString * const QCUrlQueryDevice = @"v1/device/query";
 
 
 

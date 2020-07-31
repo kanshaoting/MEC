@@ -6,20 +6,33 @@
 //  Copyright © 2019 QC. All rights reserved.
 //
 
-/***************  登录  **************/
-//登录类型状态
-UIKIT_EXTERN NSString * const QCUrlAuthType;
-//获取验证码
-UIKIT_EXTERN NSString * const QCUrlSendverifycode;
-//登录
-UIKIT_EXTERN NSString * const QCUrlVerifycode;
-//退出登录
-UIKIT_EXTERN NSString * const QCUrlLogout;
-//微信登录校验
-UIKIT_EXTERN NSString * const QCUrlWechatLogin;
-//手机号绑定
-UIKIT_EXTERN NSString * const QCUrlBindPhone;
 
+/***************  公共  **************/
+
+//基本UrlKey
 UIKIT_EXTERN NSString * const QCBaseUrlKey;
+
+/***************  登录  **************/
+
+//登录
+UIKIT_EXTERN NSString * const QCUrlLogin;
+//注册
+UIKIT_EXTERN NSString * const QCUrlRegistration;
+//修改用户信息
+UIKIT_EXTERN NSString * const QCUrlModify;
+
+
+/***************  设备模块  **************/
+
+//添加设备
+UIKIT_EXTERN NSString * const QCUrlAddDevice;
+
+//删除设备
+UIKIT_EXTERN NSString * const QCUrlDeleteDevice;
+
+//查询设备
+UIKIT_EXTERN NSString * const QCUrlQueryDevice;
+
+
 
 

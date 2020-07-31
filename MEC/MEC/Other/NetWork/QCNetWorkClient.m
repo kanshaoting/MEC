@@ -36,7 +36,7 @@
         securityPolicy.allowInvalidCertificates = YES;
         securityPolicy.validatesDomainName = NO;
         client.securityPolicy = securityPolicy;
-        client.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json", @"text/html", @"text/json", @"text/plain", @"text/javascript", @"text/xml", @"image/*", @"application/octet-stream", @"application/zip"]];
+        client.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/x-www-form-urlencoded",@"application/json", @"text/html", @"text/json", @"text/plain", @"text/javascript", @"text/xml", @"image/*", @"application/octet-stream", @"application/zip"]];
         [client.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [client setupBaseUrl];
     });

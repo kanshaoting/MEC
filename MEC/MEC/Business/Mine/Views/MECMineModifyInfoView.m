@@ -200,7 +200,6 @@
     
     [[MECUserManager shareManager] readUserInfo];
     MECUserModel *user = [MECUserManager shareManager].user;
-
     [parm setObject:user.mid forKey:@"mid"];
     [QCNetWorkManager putRequestWithUrlPath:QCUrlModify parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {

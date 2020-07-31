@@ -102,30 +102,32 @@
         MECDeviceListFootInfoTableViewCell *cell = [MECDeviceListFootInfoTableViewCell cellWithTableView:tableView];
         kWeakSelf
         cell.leftBtnTapBlock = ^{
-            // 获取当前cell的视图控制器
-            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
-            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
-                UIResponder* nextResponder = [next nextResponder];
-                if ([nextResponder isKindOfClass:[UIViewController class]]) {
-                    UIViewController *tempVC = (UIViewController*)nextResponder;
-                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
-                        [tempVC.navigationController pushViewController:vc animated:YES];
-                    }
-                }
-            }
+            [weakSelf addDeviceRequest];
+//            // 获取当前cell的视图控制器
+//            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+//            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+//                UIResponder* nextResponder = [next nextResponder];
+//                if ([nextResponder isKindOfClass:[UIViewController class]]) {
+//                    UIViewController *tempVC = (UIViewController*)nextResponder;
+//                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+//                        [tempVC.navigationController pushViewController:vc animated:YES];
+//                    }
+//                }
+//            }
         };
         cell.rightBtnTapBlock = ^{
-            // 获取当前cell的视图控制器
-            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
-            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
-                UIResponder* nextResponder = [next nextResponder];
-                if ([nextResponder isKindOfClass:[UIViewController class]]) {
-                    UIViewController *tempVC = (UIViewController*)nextResponder;
-                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
-                        [tempVC.navigationController pushViewController:vc animated:YES];
-                    }
-                }
-            }
+             [weakSelf queryDeviceRequest];
+//            // 获取当前cell的视图控制器
+//            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+//            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+//                UIResponder* nextResponder = [next nextResponder];
+//                if ([nextResponder isKindOfClass:[UIViewController class]]) {
+//                    UIViewController *tempVC = (UIViewController*)nextResponder;
+//                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+//                        [tempVC.navigationController pushViewController:vc animated:YES];
+//                    }
+//                }
+//            }
         };
         return cell;
     }else{
@@ -134,6 +136,45 @@
     }
 }
 
+- (void)addDeviceRequest{
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    [parm setObject:@"dff" forKey:@"dbtname"];
+    [parm setObject:@"sdf" forKey:@"dmac"];
+    [parm setObject:@"1" forKey:@"type"];
+    [QCNetWorkManager postRequestWithUrlPath:QCUrlAddDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        if(result.error) {
+            [hud showText:result.error.localizedDescription];
+        }else {
+            [hud showText:@"Add Success"];
+        }
+    }];
+}
+
+- (void)deleteDeviceRequest{
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    [parm setObject:@"sdf" forKey:@"dmac"];
+    [QCNetWorkManager deleteRequestWithUrlPath:QCUrlDeleteDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        if(result.error) {
+            [hud showText:result.error.localizedDescription];
+        }else {
+            [hud showText:@"Delete Success"];
+        }
+    }];
+}
+
+- (void)queryDeviceRequest{
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    [QCNetWorkManager getRequestWithUrlPath:QCUrlQueryDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        if(result.error) {
+            [hud showText:result.error.localizedDescription];
+        }else {
+            [hud showText:@"Query Success"];
+        }
+    }];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

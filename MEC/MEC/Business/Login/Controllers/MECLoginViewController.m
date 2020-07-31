@@ -14,6 +14,8 @@
 #import "MECUserManager.h"
 #import "MECUserModel.h"
 
+#import "MECMineViewController.h"
+
 @interface MECLoginViewController ()<UITextFieldDelegate>
 
 
@@ -100,7 +102,7 @@
 - (void)startLogin {
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
-    [parm setObject:@"1002@qq.com" forKey:@"memail"];
+    [parm setObject:@"1122@qq.com" forKey:@"memail"];
     [parm setObject:@"43" forKey:@"mpassword"];
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
@@ -110,8 +112,9 @@
             MECUserManager *manager = [MECUserManager shareManager];
             manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
             [manager saveUserInfo];
-            MECRegistrationViewController *vc = [[MECRegistrationViewController alloc] init];
-            [self.navigationController pushViewController:vc  animated:YES];
+          
+            MECMineViewController *vc = [[MECMineViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }];
 }
@@ -125,7 +128,8 @@
 #pragma mark -
 #pragma mark -- registrationBtnAction
 - (void)registrationBtnAction:(UIButton *)button{
-    
+    MECRegistrationViewController *vc = [[MECRegistrationViewController alloc] init];
+    [self.navigationController pushViewController:vc  animated:YES];
 }
 
 #pragma mark -

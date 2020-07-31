@@ -24,6 +24,8 @@
 		52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BAE24CECDA000745720 /* MECDefaultButton.m */; };
 		52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BB124CEDA3900745720 /* MECRegistrationViewController.m */; };
 		52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57BB424CEF8EC00745720 /* MECMineViewController.m */; };
+		52DD0F1824D3B1FE00426629 /* MBProgressHUD+PH.m in Sources */ = {isa = PBXBuildFile; fileRef = 52DD0F1524D3B1FE00426629 /* MBProgressHUD+PH.m */; };
+		52DD0F1924D3B1FE00426629 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 52DD0F1724D3B1FE00426629 /* MBProgressHUD.bundle */; };
 		52F0F40724CFFBB8005085C0 /* MECDeviceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */; };
 		52F0F40A24D00367005085C0 /* MECMineModifyInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40924D00367005085C0 /* MECMineModifyInfoView.m */; };
 		52F0F40D24D00384005085C0 /* MECDeviceListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F40C24D00384005085C0 /* MECDeviceListView.m */; };
@@ -68,6 +70,9 @@
 		52D57BB124CEDA3900745720 /* MECRegistrationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECRegistrationViewController.m; sourceTree = "<group>"; };
 		52D57BB324CEF8EC00745720 /* MECMineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineViewController.h; sourceTree = "<group>"; };
 		52D57BB424CEF8EC00745720 /* MECMineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECMineViewController.m; sourceTree = "<group>"; };
+		52DD0F1524D3B1FE00426629 /* MBProgressHUD+PH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+PH.m"; sourceTree = "<group>"; };
+		52DD0F1624D3B1FE00426629 /* MBProgressHUD+PH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+PH.h"; sourceTree = "<group>"; };
+		52DD0F1724D3B1FE00426629 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		52F0F40524CFFBB8005085C0 /* MECDeviceListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListViewController.h; sourceTree = "<group>"; };
 		52F0F40624CFFBB8005085C0 /* MECDeviceListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListViewController.m; sourceTree = "<group>"; };
 		52F0F40824D00367005085C0 /* MECMineModifyInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECMineModifyInfoView.h; sourceTree = "<group>"; };
@@ -130,6 +135,7 @@
 		521EF1A424CE780800455497 /* MEC */ = {
 			isa = PBXGroup;
 			children = (
+				52DD0F1324D3B1FE00426629 /* Other */,
 				521EF1A524CE780800455497 /* AppDelegate.h */,
 				521EF1A624CE780800455497 /* AppDelegate.m */,
 				521EF1AB24CE780800455497 /* ViewController.h */,
@@ -302,6 +308,24 @@
 			path = BaseUI;
 			sourceTree = "<group>";
 		};
+		52DD0F1324D3B1FE00426629 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				52DD0F1424D3B1FE00426629 /* MBProgessHUD+Extension */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		52DD0F1424D3B1FE00426629 /* MBProgessHUD+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				52DD0F1524D3B1FE00426629 /* MBProgressHUD+PH.m */,
+				52DD0F1624D3B1FE00426629 /* MBProgressHUD+PH.h */,
+				52DD0F1724D3B1FE00426629 /* MBProgressHUD.bundle */,
+			);
+			path = "MBProgessHUD+Extension";
+			sourceTree = "<group>";
+		};
 		6DFC9341C81B99154F7E2FAE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				521EF1B524CE780A00455497 /* LaunchScreen.storyboard in Resources */,
+				52DD0F1924D3B1FE00426629 /* MBProgressHUD.bundle in Resources */,
 				521EF1B224CE780A00455497 /* Assets.xcassets in Resources */,
 				521EF1B024CE780800455497 /* Main.storyboard in Resources */,
 			);
@@ -433,6 +458,7 @@
 				5268FE1D24D2B0D200CBB01A /* MECBaseMenuView.m in Sources */,
 				521EF1AD24CE780800455497 /* ViewController.m in Sources */,
 				52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */,
+				52DD0F1824D3B1FE00426629 /* MBProgressHUD+PH.m in Sources */,
 				52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */,
 				52D57BAF24CECDA000745720 /* MECDefaultButton.m in Sources */,
 				52F0F41624D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m in Sources */,

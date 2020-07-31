@@ -12,5 +12,6 @@
 
 #import <MJExtension/MJExtension.h>
 #import <Masonry/Masonry.h>
+#import "MBProgressHUD+PH.h"
 
 #endif /* MECGolablHeader_h */

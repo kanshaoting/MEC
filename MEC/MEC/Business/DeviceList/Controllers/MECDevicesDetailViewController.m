@@ -134,8 +134,10 @@
 #pragma mark -
 #pragma mark -- tryBtnAction
 - (void)tryBtnAction:(UIButton *)button{
-    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+//    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    [MBProgressHUD showError:@"Connection fail"];
 }
 
 #pragma mark -

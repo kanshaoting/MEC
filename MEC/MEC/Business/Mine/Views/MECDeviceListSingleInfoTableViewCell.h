@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
+
+@property (nonatomic, copy) NSString *iconStr;
+@property (nonatomic, copy) NSString *textStr;
+@property (nonatomic, copy) NSString *deviceNameStr;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

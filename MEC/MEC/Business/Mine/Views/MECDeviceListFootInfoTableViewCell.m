@@ -91,7 +91,7 @@
     [self.contentView addSubview:self.lineView];
     
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.contentView).offset(kMargin);
+        make.leading.equalTo(self.contentView).offset(kMargin + 2);
         make.width.height.mas_equalTo(kWidth6(20));
         make.centerY.equalTo(self.contentView);
     }];
@@ -111,13 +111,13 @@
     
     
     [self.leftPositionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.iconImageView.mas_trailing).offset(kMargin);
+        make.leading.equalTo(self.contentView).offset(kWidth6(60));
         make.width.mas_equalTo(kWidth6(80));
         make.bottom.equalTo(self.middleLineView.mas_top).offset(-kWidth6(10));
     }];
     
     [self.rightPositionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.iconImageView.mas_trailing).offset(kMargin);
+        make.leading.equalTo(self.leftPositionLabel);
         make.width.mas_equalTo(kWidth6(80));
         make.top.equalTo(self.middleLineView.mas_bottom).offset(kWidth6(10));
     }];
@@ -178,7 +178,7 @@
 - (UIImageView *)iconImageView{
     if (!_iconImageView) {
         _iconImageView = [[UIImageView alloc] init];
-        _iconImageView.image = [UIImage imageNamed:@"device_list_bottom_icon"];
+        _iconImageView.image = [UIImage imageNamed:@"device_list_foot_icon"];
     }
     return _iconImageView;
 }
@@ -187,7 +187,7 @@
     if (!_leftPositionLabel) {
         _leftPositionLabel = [[UILabel alloc] init];
         _leftPositionLabel.font = MEC_Helvetica_Regular_Font(14);
-        _leftPositionLabel.text = @"Me";
+        _leftPositionLabel.text = @"Left";
         _leftPositionLabel.textColor = kColorHex(0x221815);
     }
     return _leftPositionLabel;
@@ -196,7 +196,7 @@
     if (!_leftDeviceNameLabel) {
         _leftDeviceNameLabel = [[UILabel alloc] init];
         _leftDeviceNameLabel.font = MEC_Helvetica_Regular_Font(10);
-        _leftDeviceNameLabel.text = @"Me";
+        _leftDeviceNameLabel.text = @"";
         _leftDeviceNameLabel.textColor = kColorHex(0x9FA0A0);
     }
     return _leftDeviceNameLabel;
@@ -214,7 +214,7 @@
     if (!_rightPositionLabel) {
         _rightPositionLabel = [[UILabel alloc] init];
         _rightPositionLabel.font = MEC_Helvetica_Regular_Font(14);
-        _rightPositionLabel.text = @"Me";
+        _rightPositionLabel.text = @"Right";
         _rightPositionLabel.textColor = kColorHex(0x221815);
     }
     return _rightPositionLabel;
@@ -223,7 +223,7 @@
     if (!_rightDeviceNameLabel) {
         _rightDeviceNameLabel = [[UILabel alloc] init];
         _rightDeviceNameLabel.font = MEC_Helvetica_Regular_Font(10);
-        _rightDeviceNameLabel.text = @"Me";
+        _rightDeviceNameLabel.text = @"";
         _rightDeviceNameLabel.textColor = kColorHex(0x9FA0A0);
     }
     return _rightDeviceNameLabel;

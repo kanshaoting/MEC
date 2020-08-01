@@ -21,6 +21,10 @@ typedef void(^MECDeviceListFootInfoTableViewCellLeftBtnTapBlock)(void);
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
+@property (nonatomic, copy) NSString *iconStr;
+@property (nonatomic, copy) NSString *textStr;
+@property (nonatomic, copy) NSString *deviceNameStr;
+
 
 @end
 

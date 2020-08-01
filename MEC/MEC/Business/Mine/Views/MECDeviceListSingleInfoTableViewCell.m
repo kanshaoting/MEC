@@ -77,8 +77,8 @@
     }];
     
     [self.positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.iconImageView.mas_trailing).offset(kMargin);
-        make.width.mas_equalTo(kWidth6(80));
+        make.leading.equalTo(self.contentView).offset(kWidth6(60));
+        make.width.mas_equalTo(kWidth6(100));
         make.centerY.equalTo(self.contentView);
     }];
     
@@ -106,6 +106,26 @@
         make.leading.trailing.equalTo(self.contentView);
     }];
     
+}
+
+- (void)setIconStr:(NSString *)iconStr{
+    _iconStr = iconStr;
+    UIImage *image = [UIImage imageNamed:_iconStr];
+    [self.iconImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(image.size.width);
+        make.height.mas_equalTo(image.size.height);
+        make.leading.equalTo(self.contentView).offset((kWidth6(60) - image.size.width )/2);
+        make.centerY.equalTo(self.contentView);
+    }];
+    self.iconImageView.image = image;
+}
+- (void)setTextStr:(NSString *)textStr{
+    _textStr = textStr;
+    self.positionLabel.text = _textStr;
+}
+- (void)setDeviceNameStr:(NSString *)deviceNameStr{
+    _deviceNameStr = deviceNameStr;
+    self.deviceNameLabel.text = _deviceNameStr;
 }
 #pragma mark -
 #pragma mark -- addBtnAction

@@ -132,6 +132,20 @@
         return cell;
     }else{
         MECDeviceListSingleInfoTableViewCell *cell = [MECDeviceListSingleInfoTableViewCell cellWithTableView:tableView];
+        NSString *iconStr;
+        NSString *textStr;
+        if (1 == indexPath.row) {
+            iconStr = @"device_list_top_icon";
+            textStr = @"Top";
+        }else if (2 == indexPath.row){
+            iconStr = @"device_list_bottom_icon";
+            textStr = @"Bottom";
+        }else{
+            iconStr = @"device_list_heatingpad_icon";
+            textStr = @"Heating Pad";
+        }
+        cell.iconStr = iconStr;
+        cell.textStr = textStr;
         return cell;
     }
 }

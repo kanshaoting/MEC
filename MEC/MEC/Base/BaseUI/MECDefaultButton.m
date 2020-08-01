@@ -42,8 +42,8 @@
     [self setTitleColor:kColorHex(0x111111) forState:UIControlStateSelected];
     [self setTitleColor:kColorHex(0x999999) forState:UIControlStateDisabled];
     [self setTitleColor:kColorHex(0x111111) forState:UIControlStateNormal];
-    self.layer.cornerRadius = 8;
-    self.layer.masksToBounds = YES;
+//    self.layer.cornerRadius = 8;
+//    self.layer.masksToBounds = YES;
     self.titleLabel.font = [UIFont boldSystemFontOfSize:self.titleLabel.font.pointSize];
 }
 

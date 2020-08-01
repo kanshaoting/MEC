@@ -73,7 +73,7 @@
     [self.signInBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.userNameTf.mas_bottom).offset(kWidth6(26));
         make.centerX.equalTo(self.userNameTf);
-        make.height.mas_equalTo(kWidth6(40));
+        make.height.mas_equalTo(kWidth6(36));
         make.width.mas_equalTo(kWidth6(178));
     }];
     [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -157,21 +157,29 @@
         _userNameTf.delegate = self;
         _userNameTf.placeholder = @"User name / Email";
         _userNameTf.textColor = kColorHex(0xC9CACA);
-        _userNameTf.font = MEC_Helvetica_Regular_Font(14);
+        _userNameTf.font = MEC_Helvetica_Regular_Font(12);
         _userNameTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _userNameTf;
 }
 - (MECDefaultButton *)signInBtn{
     if (!_signInBtn) {
-        _signInBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Sign in" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(signInBtnAction:)];
+        _signInBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(signInBtnAction:)];
+        [_signInBtn setBackgroundImage:[UIImage imageNamed:@"login_sign_in_btn_bg"] forState:UIControlStateNormal];
+        [_signInBtn setBackgroundImage:[UIImage imageNamed:@"login_sign_in_btn_bg"] forState:UIControlStateHighlighted];
+        [_signInBtn setBackgroundImage:[UIImage imageNamed:@"login_sign_in_btn_bg"] forState:UIControlStateSelected];
+        
     }
     return _signInBtn;
 }
 
 - (MECDefaultButton *)registrationBtn{
     if (!_registrationBtn) {
-        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Rgistration" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
+        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
+        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"login_registration_btn_bg"] forState:UIControlStateNormal];
+        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"login_registration_btn_bg"] forState:UIControlStateHighlighted];
+        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"login_registration_btn_bg"] forState:UIControlStateSelected];
+        
     }
     return _registrationBtn;
 }

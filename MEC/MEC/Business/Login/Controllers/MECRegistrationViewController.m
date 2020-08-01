@@ -102,7 +102,7 @@
         make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(40));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(13));
-        make.width.mas_equalTo(kWidth6(102));
+        make.width.mas_equalTo(kWidth6(110));
     }];
     [self.userNameTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.userNameLabel);
@@ -120,7 +120,7 @@
     [self.emailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.userNameLine.mas_bottom).offset(kWidth6(5));
         make.leading.height.equalTo(self.userNameLabel);
-        make.width.mas_equalTo(kWidth6(68));
+        make.width.mas_equalTo(kWidth6(80));
     }];
     [self.emailTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.emailLabel);
@@ -138,7 +138,7 @@
         make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(22));
-        make.width.mas_equalTo(kWidth6(68));
+        make.width.mas_equalTo(kWidth6(75));
     }];
     [self.countryTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.countryLabel);
@@ -155,7 +155,7 @@
     [self.postalCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.countryLine.mas_bottom).offset(kWidth6(5));
         make.leading.height.equalTo(self.countryLabel);
-        make.width.mas_equalTo(kWidth6(100));
+        make.width.mas_equalTo(kWidth6(110));
     }];
     [self.postalCodeTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.postalCodeLabel);
@@ -176,9 +176,9 @@
     }];
     
     [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.noteLabel.mas_bottom).offset(kWidth6(10));
+        make.top.equalTo(self.noteLabel.mas_bottom).offset(kWidth6(20));
         make.centerX.equalTo(self.view);
-        make.height.mas_equalTo(kWidth6(40));
+        make.height.mas_equalTo(kWidth6(36));
         make.width.mas_equalTo(kWidth6(178));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -359,7 +359,10 @@
 
 - (MECDefaultButton *)registrationBtn{
     if (!_registrationBtn) {
-        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Registration" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
+        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(registrationBtnAction:)];
+        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"registration_registration_btn_bg"] forState:UIControlStateNormal];
+        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"registration_registration_btn_bg"] forState:UIControlStateHighlighted];
+        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"registration_registration_btn_bg"] forState:UIControlStateSelected];
     }
     return _registrationBtn;
 }

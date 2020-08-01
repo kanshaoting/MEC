@@ -98,7 +98,7 @@
         make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(40));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(22));
-        make.width.mas_equalTo(kWidth6(90));
+        make.width.mas_equalTo(kWidth6(95));
     }];
     [self.userNameTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.userNameLabel);
@@ -134,7 +134,7 @@
         make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(22));
-        make.width.mas_equalTo(kWidth6(68));
+        make.width.mas_equalTo(kWidth6(75));
     }];
     [self.countryTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.countryLabel);
@@ -151,7 +151,7 @@
     [self.postalCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.countryLine.mas_bottom).offset(kWidth6(5));
         make.leading.height.equalTo(self.countryLabel);
-        make.width.mas_equalTo(kWidth6(100));
+        make.width.mas_equalTo(kWidth6(110));
     }];
     [self.postalCodeTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.postalCodeLabel);
@@ -174,7 +174,7 @@
     [self.modifyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(38));
         make.centerX.equalTo(self);
-        make.height.mas_equalTo(kWidth6(40));
+        make.height.mas_equalTo(kWidth6(36));
         make.width.mas_equalTo(kWidth6(178));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -350,7 +350,11 @@
 
 - (MECDefaultButton *)modifyBtn{
     if (!_modifyBtn) {
-        _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(modifyBtnAction:)];
+        _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(modifyBtnAction:)];
+        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
+        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
+        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateSelected];
+            
     }
     return _modifyBtn;
 }

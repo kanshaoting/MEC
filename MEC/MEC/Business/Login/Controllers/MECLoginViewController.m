@@ -96,13 +96,15 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    self.userNameTf.text = nil;
+    [self.view endEditing:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)startLogin {
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
-    [parm setObject:@"1122@qq.com" forKey:@"memail"];
+    [parm setObject:self.userNameTf.text forKey:@"memail"];
     [parm setObject:@"43" forKey:@"mpassword"];
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
@@ -123,7 +125,12 @@
 #pragma mark -- signInBtnAction
 - (void)signInBtnAction:(UIButton *)button{
 
-    [self startLogin];
+    if (self.userNameTf.text.length > 0 && [self.userNameTf.text containsString:@"@"] ) {
+        [self startLogin];
+    }else{
+        [MBProgressHUD showError:@"Please enter correct username"];
+    }
+    
 }
 #pragma mark -
 #pragma mark -- registrationBtnAction

@@ -64,6 +64,14 @@
     [self configUI];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
+    self.userNameTf.text = nil;
+    self.emailTf.text = nil;
+    self.countryTf.text = nil;
+    self.postalCodeTf.text = nil;
+}
 
 #pragma mark -
 #pragma mark -- configUI
@@ -218,7 +226,30 @@
     
 //    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
 //    delegate.window.rootViewController = [[MECTabBarController alloc] init];
-    
+    if (self.userNameTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct username"];
+        return;
+    }
+    if (self.emailTf.text.length > 0 && [self.emailTf.text containsString:@"@"]) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct e-mail"];
+        return;
+    }
+    if (self.countryTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct country"];
+        return;
+    }
+    if (self.postalCodeTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct postalCode"];
+        return;
+    }
     [self startRegistration];
     
     

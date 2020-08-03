@@ -14,6 +14,7 @@
 		521EF1B224CE780A00455497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1B124CE780A00455497 /* Assets.xcassets */; };
 		521EF1B524CE780A00455497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1B324CE780A00455497 /* LaunchScreen.storyboard */; };
 		521EF1B824CE780A00455497 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1B724CE780A00455497 /* main.m */; };
+		524B19BC24D82D53002A8755 /* MECTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 524B19BB24D82D53002A8755 /* MECTools.m */; };
 		5268FE1A24D269DB00CBB01A /* MECNoDeviceFoundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1924D269DB00CBB01A /* MECNoDeviceFoundViewController.m */; };
 		5268FE1D24D2B0D200CBB01A /* MECBaseMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1C24D2B0D200CBB01A /* MECBaseMenuView.m */; };
 		5268FE2024D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1F24D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m */; };
@@ -62,6 +63,8 @@
 		521EF1B424CE780A00455497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		521EF1B624CE780A00455497 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		521EF1B724CE780A00455497 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		524B19BA24D82D53002A8755 /* MECTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECTools.h; sourceTree = "<group>"; };
+		524B19BB24D82D53002A8755 /* MECTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECTools.m; sourceTree = "<group>"; };
 		5268FE1824D269DB00CBB01A /* MECNoDeviceFoundViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECNoDeviceFoundViewController.h; sourceTree = "<group>"; };
 		5268FE1924D269DB00CBB01A /* MECNoDeviceFoundViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECNoDeviceFoundViewController.m; sourceTree = "<group>"; };
 		5268FE1B24D2B0D200CBB01A /* MECBaseMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECBaseMenuView.h; sourceTree = "<group>"; };
@@ -194,6 +197,15 @@
 				521EF1B724CE780A00455497 /* main.m */,
 			);
 			path = MEC;
+			sourceTree = "<group>";
+		};
+		524B19B924D82CB3002A8755 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				524B19BA24D82D53002A8755 /* MECTools.h */,
+				524B19BB24D82D53002A8755 /* MECTools.m */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		52D57B8F24CEC12800745720 /* Base */ = {
@@ -356,6 +368,7 @@
 		52DD0F1324D3B1FE00426629 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				524B19B924D82CB3002A8755 /* Tools */,
 				52DD0F4E24D3EBDD00426629 /* Global */,
 				52DD0F4A24D3EAF200426629 /* Singleton */,
 				52DD0F4624D3B4E000426629 /* Const */,
@@ -573,6 +586,7 @@
 				52DD0F2624D3B37000426629 /* QCNetWorkResult.m in Sources */,
 				52DD0F3F24D3B3E200426629 /* NSObject+QCExtension.m in Sources */,
 				52DD0F4024D3B3E200426629 /* NSDictionary+QCCategory.m in Sources */,
+				524B19BC24D82D53002A8755 /* MECTools.m in Sources */,
 				52DD0F4D24D3EB1100426629 /* MECUserManager.m in Sources */,
 				52DD0F2424D3B37000426629 /* QCNetWorkClient.m in Sources */,
 				52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */,

@@ -187,6 +187,30 @@
 #pragma mark -
 #pragma mark -- modifyBtnAction
 - (void)modifyBtnAction:(UIButton *)button{
+    if (self.userNameTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct username"];
+        return;
+    }
+    if (self.emailTf.text.length > 0 && [self.emailTf.text containsString:@"@"]) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct e-mail"];
+        return;
+    }
+    if (self.countryTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct country"];
+        return;
+    }
+    if (self.postalCodeTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct postalCode"];
+        return;
+    }
     [self startModify];
 }
 

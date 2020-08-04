@@ -12,6 +12,10 @@
 #import "MECDevicesDetailViewController.h"
 #import "MECMineViewController.h"
 
+
+#import "MECSetTemperatureViewController.h"
+
+
 #define kHeadViewHeight kWidth6(30)
 #define kFooterViewHeight kWidth6(140)
 
@@ -192,6 +196,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+    // 获取当前cell的视图控制器
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            UIViewController *tempVC = (UIViewController*)nextResponder;
+            if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+                [tempVC.navigationController pushViewController:vc animated:YES];
+            }
+        }
+    }
+    
 }
 
 

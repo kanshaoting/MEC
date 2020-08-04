@@ -30,6 +30,10 @@
 /// 账号登录提示
 @property (nonatomic,strong) UIView *emailLine;
 /// 账号登录提示
+@property (nonatomic,strong) UILabel *passwordLabel;
+/// 账号登录提示
+@property (nonatomic,strong) UIView *passwordLine;
+/// 账号登录提示
 @property (nonatomic,strong) UILabel *countryLabel;
 /// 账号登录提示
 @property (nonatomic,strong) UIView *countryLine;
@@ -42,6 +46,8 @@
 
 /// 账号登录提示
 @property (nonatomic,strong) UITextField *userNameTf;
+/// 账号登录提示
+@property (nonatomic,strong) UITextField *passwordTf;
 /// 账号登录提示
 @property (nonatomic,strong) UITextField *emailTf;
 /// 账号登录提示
@@ -61,6 +67,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] init];
     [self configUI];
 }
 
@@ -84,6 +91,9 @@
     [self.view addSubview:self.emailLabel];
     [self.view addSubview:self.emailLine];
     
+    [self.view addSubview:self.passwordLabel];
+    [self.view addSubview:self.passwordLine];
+    
     [self.view addSubview:self.countryLabel];
     [self.view addSubview:self.countryLine];
     
@@ -95,6 +105,7 @@
 
     [self.view addSubview:self.userNameTf];
     [self.view addSubview:self.emailTf];
+    [self.view addSubview:self.passwordTf];
     [self.view addSubview:self.countryTf];
     [self.view addSubview:self.postalCodeTf];
     
@@ -142,8 +153,25 @@
         make.leading.trailing.equalTo(self.view);
     }];
     
-    [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
+        make.leading.height.equalTo(self.userNameLabel);
+        make.width.mas_equalTo(kWidth6(100));
+    }];
+    [self.passwordTf mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.passwordLabel);
+        make.height.mas_equalTo(kWidth6(30));
+        make.leading.equalTo(self.passwordLabel.mas_trailing).offset(kWidth6(5));
+        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+    }];
+    [self.passwordLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.passwordLabel.mas_bottom).offset(kWidth6(1));
+        make.height.mas_equalTo(kWidth6(0.5));
+        make.leading.trailing.equalTo(self.view);
+    }];
+    
+    [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.passwordLine.mas_bottom).offset(kWidth6(5));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(22));
         make.width.mas_equalTo(kWidth6(75));
@@ -202,9 +230,10 @@
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:self.userNameTf.text forKey:@"mname"];
     [parm setObject:self.emailTf.text forKey:@"memail"];
+    [parm setObject:self.passwordTf.text forKey:@"mpassword"];
     [parm setObject:self.countryTf.text forKey:@"mcounty"];
     [parm setObject:self.postalCodeTf.text forKey:@"mpostcode"];
-    [parm setObject:self.postalCodeTf.text forKey:@"mpassword"];
+  
     [QCNetWorkManager postRequestWithUrlPath:QCUrlRegistration parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
             [hud showText:result.error.localizedDescription];
@@ -223,9 +252,6 @@
 #pragma mark -- registrationBtnAction
 - (void)registrationBtnAction:(UIButton *)button{
 
-    
-//    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//    delegate.window.rootViewController = [[MECTabBarController alloc] init];
     if (self.userNameTf.text.length > 0) {
         
     }else{
@@ -321,6 +347,33 @@
         _emailLine.backgroundColor = kLineColor;
     }
     return _emailLine;
+}
+- (UILabel *)passwordLabel{
+    if (!_passwordLabel) {
+        _passwordLabel = [[UILabel alloc] init];
+        _passwordLabel.font = MEC_Helvetica_Regular_Font(14);
+        _passwordLabel.text = @"* Password:";
+        _passwordLabel.textColor = kColorHex(0x221815);
+    }
+    return _passwordLabel;
+}
+- (UITextField *)passwordTf{
+    if(!_passwordTf){
+        _passwordTf = [[UITextField alloc] init];
+        _passwordTf.delegate = self;
+        _passwordTf.placeholder = @"";
+        _passwordTf.textColor = kColorHex(0xC9CACA);
+        _passwordTf.font = MEC_Helvetica_Regular_Font(14);
+//        _passwordTf.borderStyle = UITextBorderStyleRoundedRect;
+    }
+    return _passwordTf;
+}
+- (UIView *)passwordLine{
+    if (!_passwordLine) {
+        _passwordLine = [[UIView alloc] init];
+        _passwordLine.backgroundColor = kLineColor;
+    }
+    return _passwordLine;
 }
 - (UILabel *)countryLabel{
     if (!_countryLabel) {

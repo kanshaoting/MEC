@@ -13,6 +13,10 @@
 #import "MECMineBottomView.h"
 #import "MECDeviceListView.h"
 
+#import "AppDelegate.h"
+#import "MECLoginViewController.h"
+#import "MECNavigationController.h"
+
 
 @interface MECMineViewController ()
 
@@ -33,6 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self configUI];
 }
 
@@ -65,6 +70,12 @@
 - (MECMineModifyInfoView *)mineModifyInfoView{
     if (!_mineModifyInfoView) {
         _mineModifyInfoView = [[MECMineModifyInfoView alloc] init];
+        
+        _mineModifyInfoView.logoutBtnTapBlock = ^{
+            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
+            delegate.window.rootViewController = nav;
+        };
     }
     return _mineModifyInfoView;
 }

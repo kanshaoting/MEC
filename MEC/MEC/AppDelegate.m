@@ -12,6 +12,8 @@
 #import "MECNavigationController.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <Bugly/Bugly.h>
+#import "MECMineViewController.h"
+
 
 @interface AppDelegate ()
 

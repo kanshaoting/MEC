@@ -13,7 +13,7 @@
 #import "MECMineViewController.h"
 
 #define kHeadViewHeight kWidth6(30)
-#define kFooterViewHeight kWidth6(100)
+#define kFooterViewHeight kWidth6(140)
 
 @interface MECDeviceListView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -218,6 +218,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = kWidth6(72);
+        _tableView.scrollEnabled = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         if (@available(iOS 11.0, *)) {
             _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;

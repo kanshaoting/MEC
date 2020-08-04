@@ -15,6 +15,7 @@
 #import "MECUserModel.h"
 
 #import "MECMineViewController.h"
+#import "MECNavigationController.h"
 
 @interface MECLoginViewController ()<UITextFieldDelegate>
 
@@ -25,6 +26,10 @@
 @property (nonatomic,strong) UIImageView *loginIconImageView;
 /// 账号登录提示
 @property (nonatomic,strong) UITextField *userNameTf;
+/// 账号登录提示
+@property (nonatomic,strong) UIImageView *passwordIconImageView;
+/// 账号登录提示
+@property (nonatomic,strong) UITextField *passwordTf;
 /// 账号登录提示
 @property (nonatomic,strong) MECDefaultButton *signInBtn;
 /// 账号登录提示
@@ -47,10 +52,13 @@
     [self.view addSubview:self.tipsLabel];
     [self.view addSubview:self.loginIconImageView];
     [self.view addSubview:self.userNameTf];
+    [self.view addSubview:self.passwordIconImageView];
+    [self.view addSubview:self.passwordTf];
+    
     [self.view addSubview:self.signInBtn];
     [self.view addSubview:self.registrationBtn];
     [self.view addSubview:self.bottomImageView];
-    
+    CGFloat tfWidth = kWidth6(200);
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(kWidth6(160));
         make.centerX.equalTo(self.view);
@@ -58,8 +66,8 @@
     
     [self.userNameTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(20));
-        make.height.mas_equalTo(kWidth6(30));
-        make.width.mas_equalTo(kWidth6(168));
+        make.height.mas_equalTo(kWidth6(36));
+        make.width.mas_equalTo(tfWidth);
         make.centerX.equalTo(self.view);
     }];
     
@@ -69,17 +77,31 @@
         make.height.mas_equalTo(kWidth6(19));
         make.width.mas_equalTo(kWidth6(17));
     }];
+    [self.passwordTf mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.userNameTf.mas_bottom).offset(kWidth6(20));
+        make.height.mas_equalTo(kWidth6(36));
+        make.width.mas_equalTo(tfWidth);
+        make.centerX.equalTo(self.view);
+    }];
+    
+    [self.passwordIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.trailing.equalTo(self.passwordTf.mas_leading).offset(-kWidth6(5));
+        make.centerY.equalTo(self.passwordTf);
+        make.height.mas_equalTo(kWidth6(19));
+        make.width.mas_equalTo(kWidth6(17));
+    }];
+    
     
     [self.signInBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.userNameTf.mas_bottom).offset(kWidth6(26));
-        make.centerX.equalTo(self.userNameTf);
+        make.top.equalTo(self.passwordTf.mas_bottom).offset(kWidth6(26));
+        make.centerX.equalTo(self.passwordTf);
         make.height.mas_equalTo(kWidth6(36));
-        make.width.mas_equalTo(kWidth6(178));
+        make.width.mas_equalTo(tfWidth + 5);
     }];
     [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.signInBtn.mas_bottom).offset(kWidth6(10));
         make.centerX.height.equalTo(self.signInBtn);
-        make.width.mas_equalTo(kWidth6(178));
+        make.width.mas_equalTo(tfWidth + 5);
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.bottom.equalTo(self.view).offset(0);
@@ -97,6 +119,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.userNameTf.text = nil;
+    self.passwordTf.text = nil;
     [self.view endEditing:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
@@ -104,8 +127,9 @@
 - (void)startLogin {
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    
     [parm setObject:self.userNameTf.text forKey:@"memail"];
-    [parm setObject:@"43" forKey:@"mpassword"];
+    [parm setObject:self.passwordTf.text forKey:@"mpassword"];
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
             [hud showText:result.error.localizedDescription];
@@ -114,9 +138,10 @@
             MECUserManager *manager = [MECUserManager shareManager];
             manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
             [manager saveUserInfo];
-          
-            MECMineViewController *vc = [[MECMineViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
+            
+            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECMineViewController alloc] init]];
+            delegate.window.rootViewController = nav;
         }
     }];
 }
@@ -124,7 +149,8 @@
 #pragma mark -
 #pragma mark -- signInBtnAction
 - (void)signInBtnAction:(UIButton *)button{
-
+    self.userNameTf.text = @"1122@qq.com";
+    self.passwordTf.text = @"43";
     if (self.userNameTf.text.length > 0 && [self.userNameTf.text containsString:@"@"] ) {
         [self startLogin];
     }else{
@@ -164,10 +190,28 @@
         _userNameTf.delegate = self;
         _userNameTf.placeholder = @"User name / Email";
         _userNameTf.textColor = kColorHex(0xC9CACA);
-        _userNameTf.font = MEC_Helvetica_Regular_Font(12);
+        _userNameTf.font = MEC_Helvetica_Regular_Font(10);
         _userNameTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _userNameTf;
+}
+- (UIImageView *)passwordIconImageView{
+    if (!_passwordIconImageView) {
+        _passwordIconImageView = [[UIImageView alloc] init];
+        _passwordIconImageView.image = [UIImage imageNamed:@"login_user_icon"];
+    }
+    return _passwordIconImageView;
+}
+- (UITextField *)passwordTf{
+    if(!_passwordTf){
+        _passwordTf = [[UITextField alloc] init];
+        _passwordTf.delegate = self;
+        _passwordTf.placeholder = @"password";
+        _passwordTf.textColor = kColorHex(0xC9CACA);
+        _passwordTf.font = MEC_Helvetica_Regular_Font(10);
+        _passwordTf.borderStyle = UITextBorderStyleRoundedRect;
+    }
+    return _passwordTf;
 }
 - (MECDefaultButton *)signInBtn{
     if (!_signInBtn) {

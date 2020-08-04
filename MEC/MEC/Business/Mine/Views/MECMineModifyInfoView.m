@@ -46,6 +46,9 @@
 /// 账号登录提示
 @property (nonatomic,strong) MECDefaultButton *modifyBtn;
 /// 账号登录提示
+@property (nonatomic,strong) MECDefaultButton *logoutBtn;
+
+/// 账号登录提示
 @property (nonatomic,strong) UIImageView *bottomImageView;
 
 
@@ -87,6 +90,8 @@
     [self addSubview:self.postalCodeTf];
     
     [self addSubview:self.modifyBtn];
+    [self addSubview:self.logoutBtn];
+
     [self addSubview:self.bottomImageView];
     
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -177,6 +182,12 @@
         make.height.mas_equalTo(kWidth6(36));
         make.width.mas_equalTo(kWidth6(178));
     }];
+    [self.logoutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.modifyBtn.mas_bottom).offset(kWidth6(30));
+        make.centerX.equalTo(self);
+        make.height.mas_equalTo(kWidth6(36));
+        make.width.mas_equalTo(kWidth6(178));
+    }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.bottom.equalTo(self).offset(0);
         make.height.mas_equalTo(kWidth6(249));
@@ -213,7 +224,13 @@
     }
     [self startModify];
 }
-
+#pragma mark -
+#pragma mark -- logoutBtnAction
+- (void)logoutBtnAction:(UIButton *)button{
+    if (self.logoutBtnTapBlock) {
+        self.logoutBtnTapBlock();
+    }
+}
 - (void)startModify {
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
@@ -381,6 +398,16 @@
             
     }
     return _modifyBtn;
+}
+- (MECDefaultButton *)logoutBtn{
+    if (!_logoutBtn) {
+        _logoutBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Logout" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(logoutBtnAction:)];
+//        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
+//        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
+//        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateSelected];
+            
+    }
+    return _logoutBtn;
 }
 
 - (UIImageView *)bottomImageView{

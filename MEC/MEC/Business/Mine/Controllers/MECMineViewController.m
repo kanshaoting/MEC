@@ -17,6 +17,7 @@
 #import "MECLoginViewController.h"
 #import "MECNavigationController.h"
 
+#import "MECUserManager.h"
 
 @interface MECMineViewController ()
 
@@ -37,7 +38,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self configUI];
 }
 
@@ -72,6 +73,8 @@
         _mineModifyInfoView = [[MECMineModifyInfoView alloc] init];
         
         _mineModifyInfoView.logoutBtnTapBlock = ^{
+            // 清空用户信息
+            [[MECUserManager shareManager] deleteUserInfo];
             AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
             delegate.window.rootViewController = nav;

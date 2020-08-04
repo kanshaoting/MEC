@@ -152,10 +152,18 @@
     self.userNameTf.text = @"1122@qq.com";
     self.passwordTf.text = @"43";
     if (self.userNameTf.text.length > 0 && [self.userNameTf.text containsString:@"@"] ) {
-        [self startLogin];
+        
     }else{
         [MBProgressHUD showError:@"Please enter correct username"];
+        return;
     }
+    if (self.passwordTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct password"];
+        return;
+    }
+    [self startLogin];
     
 }
 #pragma mark -

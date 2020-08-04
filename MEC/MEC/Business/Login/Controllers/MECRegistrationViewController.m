@@ -264,6 +264,12 @@
         [MBProgressHUD showError:@"Please enter correct e-mail"];
         return;
     }
+    if (self.passwordTf.text.length > 0) {
+        
+    }else{
+        [MBProgressHUD showError:@"Please enter correct password"];
+        return;
+    }
     if (self.countryTf.text.length > 0) {
         
     }else{

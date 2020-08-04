@@ -13,6 +13,8 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <Bugly/Bugly.h>
 #import "MECMineViewController.h"
+#import "MECUserManager.h"
+#import "MECUserModel.h"
 
 
 @interface AppDelegate ()
@@ -29,6 +31,11 @@
     [self setupAppearance];
     [NSThread sleepForTimeInterval:1.0];
     MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
+    [[MECUserManager shareManager] readUserInfo];
+    MECUserModel *user = [MECUserManager shareManager].user;
+    if (user.token) {
+        nav = [[MECNavigationController alloc] initWithRootViewController:[[MECMineViewController alloc] init]];
+    }
     self.window.rootViewController = nav;
     if (@available(iOS 13.0, *)) {
         self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;

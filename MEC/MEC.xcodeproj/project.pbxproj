@@ -14,6 +14,8 @@
 		521EF1B524CE780A00455497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1B324CE780A00455497 /* LaunchScreen.storyboard */; };
 		521EF1B824CE780A00455497 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1B724CE780A00455497 /* main.m */; };
 		524B19BC24D82D53002A8755 /* MECTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 524B19BB24D82D53002A8755 /* MECTools.m */; };
+		5258389F24DBF218007E1E13 /* MECTemperatureCircleAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5258389E24DBF218007E1E13 /* MECTemperatureCircleAnimationView.m */; };
+		525838A224DBF248007E1E13 /* MECCircleAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 525838A124DBF248007E1E13 /* MECCircleAnimationView.m */; };
 		5268FE1A24D269DB00CBB01A /* MECNoDeviceFoundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1924D269DB00CBB01A /* MECNoDeviceFoundViewController.m */; };
 		5268FE1D24D2B0D200CBB01A /* MECBaseMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1C24D2B0D200CBB01A /* MECBaseMenuView.m */; };
 		5268FE2024D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1F24D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m */; };
@@ -63,6 +65,10 @@
 		521EF1B724CE780A00455497 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		524B19BA24D82D53002A8755 /* MECTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECTools.h; sourceTree = "<group>"; };
 		524B19BB24D82D53002A8755 /* MECTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECTools.m; sourceTree = "<group>"; };
+		5258389D24DBF218007E1E13 /* MECTemperatureCircleAnimationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECTemperatureCircleAnimationView.h; sourceTree = "<group>"; };
+		5258389E24DBF218007E1E13 /* MECTemperatureCircleAnimationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECTemperatureCircleAnimationView.m; sourceTree = "<group>"; };
+		525838A024DBF248007E1E13 /* MECCircleAnimationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECCircleAnimationView.h; sourceTree = "<group>"; };
+		525838A124DBF248007E1E13 /* MECCircleAnimationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECCircleAnimationView.m; sourceTree = "<group>"; };
 		5268FE1824D269DB00CBB01A /* MECNoDeviceFoundViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECNoDeviceFoundViewController.h; sourceTree = "<group>"; };
 		5268FE1924D269DB00CBB01A /* MECNoDeviceFoundViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECNoDeviceFoundViewController.m; sourceTree = "<group>"; };
 		5268FE1B24D2B0D200CBB01A /* MECBaseMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECBaseMenuView.h; sourceTree = "<group>"; };
@@ -270,6 +276,10 @@
 			children = (
 				52F0F41A24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.h */,
 				52F0F41B24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m */,
+				5258389D24DBF218007E1E13 /* MECTemperatureCircleAnimationView.h */,
+				5258389E24DBF218007E1E13 /* MECTemperatureCircleAnimationView.m */,
+				525838A024DBF248007E1E13 /* MECCircleAnimationView.h */,
+				525838A124DBF248007E1E13 /* MECCircleAnimationView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -592,9 +602,11 @@
 				52DD0F2424D3B37000426629 /* QCNetWorkClient.m in Sources */,
 				52D57BAA24CEC32800745720 /* MECLoginViewController.m in Sources */,
 				5268FE1A24D269DB00CBB01A /* MECNoDeviceFoundViewController.m in Sources */,
+				525838A224DBF248007E1E13 /* MECCircleAnimationView.m in Sources */,
 				52F0F41324D01522005085C0 /* MECDeviceListSingleInfoTableViewCell.m in Sources */,
 				5268FE1D24D2B0D200CBB01A /* MECBaseMenuView.m in Sources */,
 				52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */,
+				5258389F24DBF218007E1E13 /* MECTemperatureCircleAnimationView.m in Sources */,
 				52DD0F1824D3B1FE00426629 /* MBProgressHUD+PH.m in Sources */,
 				52D57BB224CEDA3900745720 /* MECRegistrationViewController.m in Sources */,
 				52DD0F4324D3B3E200426629 /* NSData+QCExtension.m in Sources */,

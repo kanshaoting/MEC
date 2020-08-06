@@ -8,6 +8,8 @@
 
 #import "MECSetTemperatureViewController.h"
 
+#import "MECTemperatureCircleAnimationView.h"
+
 @interface MECSetTemperatureViewController ()
 
 /// 提示
@@ -32,6 +34,8 @@
 /// 提示
 @property (nonatomic, strong) UIImageView *bottomRightIconImageView;
 
+@property (nonatomic, strong) MECTemperatureCircleAnimationView *temperatureCircleView ;
+
 
 @end
 
@@ -49,6 +53,8 @@
     [self.view addSubview:self.setTemperatureSwitch];
     [self.view addSubview:self.leftTipsLabel];
     [self.view addSubview:self.rightTipsLabel];
+    
+    [self.view addSubview:self.temperatureCircleView];
     
     [self.view addSubview:self.bottomLeftIconImageView];
     [self.view addSubview:self.bottomBluetoothIconImageView];
@@ -96,7 +102,7 @@
 #pragma mark Event
 #pragma mark -- setTemperatureSwitchAction
 - (void)setTemperatureSwitchAction:(UISwitch *)mySwitch {
-    
+    self.temperatureCircleView.isClose = !mySwitch.on;
 }
 
 - (UIImageView *)topIconImageView{
@@ -148,6 +154,15 @@
     return _rightTipsLabel;
 }
 
+- (MECTemperatureCircleAnimationView *)temperatureCircleView{
+    if (!_temperatureCircleView) {
+        _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(130), kWidth6(280), kWidth6(280))];
+        _temperatureCircleView.temperInter = 1;
+        _temperatureCircleView.isClose = NO;
+//        _temperatureCircleView.backgroundColor = [UIColor redColor];
+    }
+    return _temperatureCircleView;
+}
 - (UIImageView *)bottomLeftIconImageView{
     if (!_bottomLeftIconImageView) {
         _bottomLeftIconImageView = [[UIImageView alloc] init];

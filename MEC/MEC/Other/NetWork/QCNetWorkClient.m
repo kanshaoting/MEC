@@ -12,14 +12,10 @@
 #define QCPreReleaseWebUrl @"https://mec.zksc.com/"
 #define QCReleaseWebUrl @"https://mec.zksc.com/"
 ///base
-#define QCDebugBaseUrl @"https://mec.zksc.com/"
-#define QCPreReleaseBaseUrl @"https://mec.zksc.com/"
-#define QCReleaseBaseUrl @"https://mec.zksc.com/"
+#define QCDebugBaseUrl @"https://app.ventureheat.com/"
+#define QCPreReleaseBaseUrl @"https://app.ventureheat.com/"
+#define QCReleaseBaseUrl @"https://app.ventureheat.com/"
 
-// 阿里云测试环境
-//#define QCAliDebugWebUrl  @"http://qckj.natapp1.cc"
-#define QCAliDebugWebUrl @"https://alitest.shop.qiancangkeji.cn"
-#define QCAliDebugBaseUrl @"https://gateway.alitest.qcshop.qiancangkeji.cn"
 
 
 @implementation QCNetWorkClient

@@ -10,7 +10,7 @@
 
 #import "MECTemperatureCircleAnimationView.h"
 
-@interface MECSetTemperatureViewController ()
+@interface MECSetTemperatureViewController ()<UIPickerViewDelegate,UIPickerViewDataSource>
 
 /// 顶部左上角图标
 @property (nonatomic, strong) UIImageView *topIconImageView;
@@ -43,6 +43,11 @@
 
 @property (nonatomic, strong) MECTemperatureCircleAnimationView *temperatureCircleView ;
 
+/// 部位选择器
+@property (nonatomic, strong) UIPickerView *pickerView;
+
+/// 部位选择器中间圆形框
+@property (nonatomic, strong) UIView *middleBgView;
 
 @end
 
@@ -62,6 +67,9 @@
     [self.view addSubview:self.rightTipsLabel];
     
     [self.view addSubview:self.temperatureCircleView];
+    
+    [self.view addSubview:self.pickerView];
+    [self.pickerView addSubview:self.middleBgView];
     
     [self.view addSubview:self.bottomLeftTipsLabel];
     [self.view addSubview:self.bottomLeftIconImageView];
@@ -92,6 +100,18 @@
         make.centerY.equalTo(self.setTemperatureSwitch);
     }];
     
+    [self.pickerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.temperatureCircleView.mas_bottom).offset(kWidth6(10));
+        make.height.mas_offset(kWidth6(70));
+        make.width.mas_offset(kWidth6(100));
+    }];
+    [self.middleBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.pickerView);
+        make.trailing.leading.equalTo(self.pickerView);
+        make.height.mas_offset(kWidth6(26));
+    }];
+    
     [self.bottomLeftIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.view).offset(kMargin * 2);
         make.bottom.equalTo(self.view).offset(-kWidth6(60));
@@ -119,6 +139,70 @@
         make.centerX.equalTo(self.bottomRightIconImageView);
         make.bottom.equalTo(self.bottomLeftIconImageView).offset(-kWidth6(24));
     }];
+    
+}
+
+#pragma mark --
+#pragma mark -- UIPickerViewDataSource && UIPickerViewDelegate
+//设置列数
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+//设置指定列包含的项数
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return 4;
+}
+
+//设置每个选项显示的内容
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+//    NSString *tempStr;
+//    if (0 == row) {
+//         tempStr = @"Foot";
+//    }else if (1 == row){
+//         tempStr = @"Top";
+//    }else if (2 == component){
+//         tempStr = @"Bottom";
+//    }else{
+//         tempStr = @"Heating Pad";
+//    }
+//    return tempStr;
+//}
+- (CGFloat)pickerView:(UIPickerView*)pickerView rowHeightForComponent:(NSInteger)component {
+    return kWidth6(20);
+}
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view{
+
+    UILabel *label;
+    if (!label) {
+        label = [[UILabel alloc] init];
+        label.frame = CGRectMake(0, 0, kWidth6(100), kWidth6(20));
+        label.textColor = kColorHex(0x3D3A39);
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = MEC_Helvetica_Bold_Font(14);
+    }
+    NSString *tempStr;
+    if (0 == row) {
+        tempStr = @"Foot";
+    }else if (1 == row){
+        tempStr = @"Top";
+    }else if (2 == row){
+        tempStr = @"Bottom";
+    }else{
+        tempStr = @"Heating Pad";
+    }
+    label.text = tempStr;
+    // 去掉上下横线
+    if (pickerView.subviews.count >= 2) {
+        ((UIView *)[pickerView.subviews objectAtIndex:2]).backgroundColor = [UIColor clearColor];
+    }
+    if (pickerView.subviews.count >= 3) {
+        ((UIView *)[pickerView.subviews objectAtIndex:3]).backgroundColor = [UIColor clearColor];
+    }
+    return label;
+}
+//用户进行选择
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     
 }
 
@@ -186,6 +270,26 @@
 //        _temperatureCircleView.backgroundColor = [UIColor redColor];
     }
     return _temperatureCircleView;
+}
+
+//懒加载
+- (UIPickerView *)pickerView{
+    if (!_pickerView) {
+        _pickerView = [[UIPickerView alloc] init];
+        _pickerView.delegate = self;
+        _pickerView.dataSource = self;
+    }
+    return _pickerView;
+}
+- (UIView *)middleBgView{
+    if (!_middleBgView) {
+        _middleBgView = [[UIView alloc] init];
+        _middleBgView.layer.masksToBounds = YES;
+        _middleBgView.layer.cornerRadius = kWidth6(13);
+        _middleBgView.layer.borderColor = kColorHex(0x717071).CGColor;
+        _middleBgView.layer.borderWidth = kWidth6(1);
+    }
+    return _middleBgView;
 }
 - (UILabel *)bottomLeftTipsLabel{
     if (!_bottomLeftTipsLabel) {

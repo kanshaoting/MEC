@@ -106,32 +106,32 @@
         MECDeviceListFootInfoTableViewCell *cell = [MECDeviceListFootInfoTableViewCell cellWithTableView:tableView];
         kWeakSelf
         cell.leftBtnTapBlock = ^{
-            [weakSelf addDeviceRequest];
-//            // 获取当前cell的视图控制器
-//            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
-//            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
-//                UIResponder* nextResponder = [next nextResponder];
-//                if ([nextResponder isKindOfClass:[UIViewController class]]) {
-//                    UIViewController *tempVC = (UIViewController*)nextResponder;
-//                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
-//                        [tempVC.navigationController pushViewController:vc animated:YES];
-//                    }
-//                }
-//            }
+//            [weakSelf addDeviceRequest];
+            // 获取当前cell的视图控制器
+            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+                UIResponder* nextResponder = [next nextResponder];
+                if ([nextResponder isKindOfClass:[UIViewController class]]) {
+                    UIViewController *tempVC = (UIViewController*)nextResponder;
+                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+                        [tempVC.navigationController pushViewController:vc animated:YES];
+                    }
+                }
+            }
         };
         cell.rightBtnTapBlock = ^{
-             [weakSelf queryDeviceRequest];
-//            // 获取当前cell的视图控制器
-//            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
-//            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
-//                UIResponder* nextResponder = [next nextResponder];
-//                if ([nextResponder isKindOfClass:[UIViewController class]]) {
-//                    UIViewController *tempVC = (UIViewController*)nextResponder;
-//                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
-//                        [tempVC.navigationController pushViewController:vc animated:YES];
-//                    }
-//                }
-//            }
+//             [weakSelf queryDeviceRequest];
+            // 获取当前cell的视图控制器
+            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+                UIResponder* nextResponder = [next nextResponder];
+                if ([nextResponder isKindOfClass:[UIViewController class]]) {
+                    UIViewController *tempVC = (UIViewController*)nextResponder;
+                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+                        [tempVC.navigationController pushViewController:vc animated:YES];
+                    }
+                }
+            }
         };
         return cell;
     }else{

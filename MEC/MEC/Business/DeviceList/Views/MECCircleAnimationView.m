@@ -51,7 +51,7 @@ static const CGFloat kAnimationTime = 0.5;
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.bgImageView.image = [UIImage imageNamed:@""];
+        self.bgImageView.image = [UIImage imageNamed:@"set_temperature_bg"];
         
         self.circelRadius = self.frame.size.width - kWidth6(10);
         self.lineWidth = kWidth6(20);
@@ -59,7 +59,7 @@ static const CGFloat kAnimationTime = 0.5;
         self.endAngle = 60.f;
         
         // 尺寸需根据图片进行调整
-        self.bgImageView.frame = CGRectMake(-20, -16, self.circelRadius+50, self.circelRadius +10);
+        self.bgImageView.frame = CGRectMake(- kWidth6(20), - kWidth6(20), kWidth6(320) , kWidth6(240));
         
         [self addSubview:self.bgImageView];
         
@@ -320,8 +320,6 @@ static const CGFloat kAnimationTime = 0.5;
     
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] init];
-        
-        
         _bgImageView.userInteractionEnabled = NO ;
     }
     return _bgImageView;

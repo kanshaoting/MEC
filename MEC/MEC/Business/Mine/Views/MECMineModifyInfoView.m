@@ -189,7 +189,8 @@
         make.width.mas_equalTo(kWidth6(178));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.bottom.equalTo(self).offset(0);
+        make.leading.trailing.equalTo(self).offset(0);
+        make.bottom.equalTo(self).offset(-(kIsIphoneX ? kWidth6(34):0));
         make.height.mas_equalTo(kWidth6(249));
     }];
     

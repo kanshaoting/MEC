@@ -12,11 +12,11 @@
 
 @interface MECSetTemperatureViewController ()
 
-/// 提示
+/// 顶部左上角图标
 @property (nonatomic, strong) UIImageView *topIconImageView;
-/// 提示
+/// OFF提示
 @property (nonatomic, strong) UILabel *leftTipsLabel;
-/// 提示
+/// ON提示
 @property (nonatomic, strong) UILabel *rightTipsLabel;
 
 /// 设置温度开关背景视图
@@ -25,14 +25,21 @@
 /// 设置温度开关
 @property (nonatomic ,strong) UISwitch *setTemperatureSwitch;
 
-/// 提示
+/// 底部左边提示 Left
+@property (nonatomic, strong) UILabel *bottomLeftTipsLabel;
+/// 底部左边图标
 @property (nonatomic, strong) UIImageView *bottomLeftIconImageView;
 
-/// 提示
-@property (nonatomic, strong) UIImageView *bottomBluetoothIconImageView;
+/// 底部左边蓝牙图标
+@property (nonatomic, strong) UIImageView *bottomLeftBluetoothIconImageView;
 
-/// 提示
+/// 底部右边提示 Right
+@property (nonatomic, strong) UILabel *bottomRightTipsLabel;
+/// 底部右边图标
 @property (nonatomic, strong) UIImageView *bottomRightIconImageView;
+
+/// 底部左边蓝牙图标
+@property (nonatomic, strong) UIImageView *bottomRightBluetoothIconImageView;
 
 @property (nonatomic, strong) MECTemperatureCircleAnimationView *temperatureCircleView ;
 
@@ -56,8 +63,12 @@
     
     [self.view addSubview:self.temperatureCircleView];
     
+    [self.view addSubview:self.bottomLeftTipsLabel];
     [self.view addSubview:self.bottomLeftIconImageView];
-    [self.view addSubview:self.bottomBluetoothIconImageView];
+    [self.view addSubview:self.bottomLeftBluetoothIconImageView];
+    
+    [self.view addSubview:self.bottomRightTipsLabel];
+    [self.view addSubview:self.bottomRightBluetoothIconImageView];
     [self.view addSubview:self.bottomRightIconImageView];
        
     
@@ -86,14 +97,27 @@
         make.bottom.equalTo(self.view).offset(-kWidth6(60));
     }];
     
-    [self.bottomBluetoothIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomLeftBluetoothIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.bottomLeftIconImageView.mas_trailing).offset(kWidth6(15));
         make.centerY.equalTo(self.bottomLeftIconImageView);
     }];
-    
+    [self.bottomLeftTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.bottomLeftIconImageView);
+        make.bottom.equalTo(self.bottomLeftIconImageView).offset(-kWidth6(24));
+    }];
+ 
     [self.bottomRightIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self.view).offset(-kMargin*2);
         make.centerY.equalTo(self.bottomLeftIconImageView);
+    }];
+    [self.bottomRightBluetoothIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.trailing.equalTo(self.bottomRightIconImageView.mas_leading).offset(-kWidth6(15));
+        make.centerY.equalTo(self.bottomLeftIconImageView);
+    }];
+    
+    [self.bottomRightTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.bottomRightIconImageView);
+        make.bottom.equalTo(self.bottomLeftIconImageView).offset(-kWidth6(24));
     }];
     
 }
@@ -163,6 +187,16 @@
     }
     return _temperatureCircleView;
 }
+- (UILabel *)bottomLeftTipsLabel{
+    if (!_bottomLeftTipsLabel) {
+        _bottomLeftTipsLabel = [[UILabel alloc] init];
+        _bottomLeftTipsLabel.font = MEC_Helvetica_Regular_Font(12);
+        _bottomLeftTipsLabel.text = @"Left";
+        _bottomLeftTipsLabel.textAlignment = NSTextAlignmentCenter;
+        _bottomLeftTipsLabel.textColor = kColorHex(0x717071);
+    }
+    return _bottomLeftTipsLabel;
+}
 - (UIImageView *)bottomLeftIconImageView{
     if (!_bottomLeftIconImageView) {
         _bottomLeftIconImageView = [[UIImageView alloc] init];
@@ -170,12 +204,29 @@
     }
     return _bottomLeftIconImageView;
 }
-- (UIImageView *)bottomBluetoothIconImageView{
-    if (!_bottomBluetoothIconImageView) {
-        _bottomBluetoothIconImageView = [[UIImageView alloc] init];
-        _bottomBluetoothIconImageView.image = [UIImage imageNamed:@"device_list_bottom_icon"];
+- (UIImageView *)bottomLeftBluetoothIconImageView{
+    if (!_bottomLeftBluetoothIconImageView) {
+        _bottomLeftBluetoothIconImageView = [[UIImageView alloc] init];
+        _bottomLeftBluetoothIconImageView.image = [UIImage imageNamed:@"device_list_bottom_icon"];
     }
-    return _bottomBluetoothIconImageView;
+    return _bottomLeftBluetoothIconImageView;
+}
+- (UILabel *)bottomRightTipsLabel{
+    if (!_bottomRightTipsLabel) {
+        _bottomRightTipsLabel = [[UILabel alloc] init];
+        _bottomRightTipsLabel.font = MEC_Helvetica_Regular_Font(12);
+        _bottomRightTipsLabel.text = @"Right";
+        _bottomRightTipsLabel.textAlignment = NSTextAlignmentCenter;
+        _bottomRightTipsLabel.textColor = kColorHex(0x717071);
+    }
+    return _bottomRightTipsLabel;
+}
+- (UIImageView *)bottomRightBluetoothIconImageView{
+    if (!_bottomRightBluetoothIconImageView) {
+        _bottomRightBluetoothIconImageView = [[UIImageView alloc] init];
+        _bottomRightBluetoothIconImageView.image = [UIImage imageNamed:@"device_list_bottom_icon"];
+    }
+    return _bottomRightBluetoothIconImageView;
 }
 - (UIImageView *)bottomRightIconImageView{
     if (!_bottomRightIconImageView) {

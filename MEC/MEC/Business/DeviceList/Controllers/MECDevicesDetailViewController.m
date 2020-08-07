@@ -61,7 +61,8 @@
     }];
     
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.bottom.equalTo(self.view);
+        make.leading.trailing.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-(kIsIphoneX?kWidth6(34):0));
         make.height.mas_equalTo(kBottomViewHeight);
     }];
     [self.bottomTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -134,10 +135,10 @@
 #pragma mark -
 #pragma mark -- tryBtnAction
 - (void)tryBtnAction:(UIButton *)button{
-//    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
     
-    [MBProgressHUD showError:@"Connection fail"];
+//    [MBProgressHUD showError:@"Connection fail"];
 }
 
 #pragma mark -

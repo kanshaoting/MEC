@@ -20,21 +20,21 @@
 @interface MECLoginViewController ()<UITextFieldDelegate>
 
 
-/// 账号登录提示
+/// 顶部提示
 @property (nonatomic,strong) UILabel *tipsLabel;
-/// 账号登录提示
+/// 用户名图标
 @property (nonatomic,strong) UIImageView *loginIconImageView;
-/// 账号登录提示
+/// 用户名文本
 @property (nonatomic,strong) UITextField *userNameTf;
-/// 账号登录提示
+/// 密码图标
 @property (nonatomic,strong) UIImageView *passwordIconImageView;
-/// 账号登录提示
+/// 密码文本
 @property (nonatomic,strong) UITextField *passwordTf;
-/// 账号登录提示
+/// 登录按钮
 @property (nonatomic,strong) MECDefaultButton *signInBtn;
-/// 账号登录提示
+/// 注册按钮
 @property (nonatomic,strong) MECDefaultButton *registrationBtn;
-/// 账号登录提示
+/// 底部图片
 @property (nonatomic,strong) UIImageView *bottomImageView;
 
 @end

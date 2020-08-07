@@ -21,9 +21,9 @@
 
 @interface MECDeviceListView ()<UITableViewDelegate,UITableViewDataSource>
 
-/// 账号登录提示
+/// 顶部提示
 @property (nonatomic,strong) UILabel *tipsLabel;
-///tableview
+/// 列表tableview
 @property (nonatomic ,strong) UITableView *tableView;
 
 

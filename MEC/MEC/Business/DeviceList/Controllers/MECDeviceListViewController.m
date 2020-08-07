@@ -9,7 +9,7 @@
 #import "MECDeviceListViewController.h"
 
 @interface MECDeviceListViewController ()
-/// 账号登录提示
+/// 顶部提示
 @property (nonatomic,strong) UILabel *tipsLabel;
 
 @end

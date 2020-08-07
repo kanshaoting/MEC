@@ -18,46 +18,45 @@
 
 @interface MECRegistrationViewController ()<UITextFieldDelegate>
 
-/// 账号登录提示
+/// 顶部提示
 @property (nonatomic,strong) UILabel *tipsLabel;
-
-/// 账号登录提示
+/// 用户名提示
 @property (nonatomic,strong) UILabel *userNameLabel;
-/// 账号登录提示
+/// 用户名横线
 @property (nonatomic,strong) UIView *userNameLine;
-/// 账号登录提示
+/// 邮箱提示
 @property (nonatomic,strong) UILabel *emailLabel;
-/// 账号登录提示
+/// 邮箱横线
 @property (nonatomic,strong) UIView *emailLine;
-/// 账号登录提示
+/// 密码提示
 @property (nonatomic,strong) UILabel *passwordLabel;
-/// 账号登录提示
+/// 密码横线
 @property (nonatomic,strong) UIView *passwordLine;
-/// 账号登录提示
+/// 国家提示
 @property (nonatomic,strong) UILabel *countryLabel;
-/// 账号登录提示
+/// 国家横线
 @property (nonatomic,strong) UIView *countryLine;
-/// 账号登录提示
+/// 编码提示
 @property (nonatomic,strong) UILabel *postalCodeLabel;
-/// 账号登录提示
+/// 编码横线
 @property (nonatomic,strong) UIView *postalCodeLine;
-/// 账号登录提示
+/// Note提示
 @property (nonatomic,strong) UILabel *noteLabel;
 
-/// 账号登录提示
+/// 用户名文本
 @property (nonatomic,strong) UITextField *userNameTf;
-/// 账号登录提示
+/// 密码文本
 @property (nonatomic,strong) UITextField *passwordTf;
-/// 账号登录提示
+/// 邮箱文本
 @property (nonatomic,strong) UITextField *emailTf;
-/// 账号登录提示
+/// 国家文本
 @property (nonatomic,strong) UITextField *countryTf;
-/// 账号登录提示
+/// 编码文本
 @property (nonatomic,strong) UITextField *postalCodeTf;
 
-/// 账号登录提示
+/// 注册按钮
 @property (nonatomic,strong) MECDefaultButton *registrationBtn;
-/// 账号登录提示
+/// 底部图片
 @property (nonatomic,strong) UIImageView *bottomImageView;
 
 

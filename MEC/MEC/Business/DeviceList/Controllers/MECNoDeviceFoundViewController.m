@@ -12,19 +12,19 @@
 
 @interface MECNoDeviceFoundViewController ()
 
-/// 提示
+/// 顶部提示
 @property (nonatomic, strong) UILabel *topTipsLabel;
 
 /// 提示
 @property (nonatomic, strong) UILabel *tipsLabel;
 
-/// 提示
+/// 中间提示
 @property (nonatomic, strong) UILabel *middleTipsLabel;
 
-/// 提示
+/// 底部文案提示
 @property (nonatomic, strong) UILabel *bottmoTipsLabel;
 
-/// 提示
+/// try按钮
 @property (nonatomic, strong) MECDefaultButton *tryBtn;
 
 

@@ -18,17 +18,17 @@
 
 @interface MECDevicesDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-/// 账号登录提示
+/// 顶部提示
 @property (nonatomic, strong) UILabel *tipsLabel;
-///tableview
+/// 列表tableview
 @property (nonatomic ,strong) UITableView *tableView;
 
 /// 底部视图
 @property (nonatomic, strong) UIView *bottomView;
 
-/// 底部视图
+/// 底部文案
 @property (nonatomic, strong) UILabel *bottomTipsLabel;
-/// 底部视图
+/// try按钮
 @property (nonatomic, strong) MECDefaultButton *tryBtn;
 
 

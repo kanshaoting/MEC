@@ -10,19 +10,18 @@
 
 @interface MECMineBottomView ()
 
-/// 底部视图
+/// 左边背景视图
 @property (nonatomic,strong) UIView *leftBgView;
-/// 底部视图
+/// 右边背景视图
 @property (nonatomic,strong) UIView *rightBgView;
 
-
-/// 底部视图
+/// 我的图标
 @property (nonatomic,strong) UIImageView *mineIconImageView;
-/// 底部视图
+/// 我的文本
 @property (nonatomic,strong) UILabel *mineLabel;
-/// 底部视图
+/// 设备列表图标
 @property (nonatomic,strong) UIImageView *deviceListIconImageView;
-/// 底部视图
+/// 设备列表文本
 @property (nonatomic,strong) UILabel *deviceListLabel;
 
 

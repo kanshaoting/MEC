@@ -11,7 +11,7 @@
 
 @interface MECBaseMenuViewTableViewCell ()
 
-///icon
+/// icon
 @property (nonatomic, strong) UIImageView *iconImgView;
 
 ///名称
@@ -23,7 +23,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

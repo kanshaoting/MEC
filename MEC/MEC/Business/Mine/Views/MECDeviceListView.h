@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^MECDeviceListViewAddDeviceSuccessBlock)(NSString *dbtname,NSString *type);
 
+typedef void(^MECDeviceListViewReloadDataBlock)(void);
 @interface MECDeviceListView : UIView
 
 /// 绑定设备信息model
@@ -21,7 +22,8 @@ typedef void(^MECDeviceListViewAddDeviceSuccessBlock)(NSString *dbtname,NSString
 
 /// 添加设备绑定成功回调
 @property (nonatomic,copy) MECDeviceListViewAddDeviceSuccessBlock addDeviceSuccessBlock;
-
+/// 刷新数据回调
+@property (nonatomic,copy) MECDeviceListViewReloadDataBlock reloadDataBlock;
 
 @end
 

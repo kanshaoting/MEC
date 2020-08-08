@@ -111,23 +111,47 @@
         cell.leftDeviceNameStr = self.bindDeviceListInfoModel.leftDeviceModel.dbtname;
         cell.rightDeviceNameStr = self.bindDeviceListInfoModel.rightDeviceModel.dbtname;
         kWeakSelf
-        cell.leftBtnTapBlock = ^{
-//            [weakSelf addDeviceRequest];
-            // 获取当前cell的视图控制器
-            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
-            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
-                UIResponder* nextResponder = [next nextResponder];
-                if ([nextResponder isKindOfClass:[UIViewController class]]) {
-                    UIViewController *tempVC = (UIViewController*)nextResponder;
-                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
-                        [tempVC.navigationController pushViewController:vc animated:YES];
+        cell.leftAddBtnTapBlock = ^(UIButton * _Nonnull btn) {
+            //            [weakSelf addDeviceRequest];
+            if (101 == btn.tag) {
+                //  101代表减号 102 代表加号
+                [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac];
+            }else{
+                // 获取当前cell的视图控制器
+                MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+                for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+                    UIResponder* nextResponder = [next nextResponder];
+                    if ([nextResponder isKindOfClass:[UIViewController class]]) {
+                        UIViewController *tempVC = (UIViewController*)nextResponder;
+                        if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+                            [tempVC.navigationController pushViewController:vc animated:YES];
+                        }
                     }
                 }
             }
         };
-        cell.rightBtnTapBlock = ^{
+        cell.rightAddBtnTapBlock = ^(UIButton * _Nonnull btn) {
+            if (101 == btn.tag) {
+                //  101代表减号 102 代表加号
+                [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac];
+            }else{
+                // 获取当前cell的视图控制器
+                MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+                for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+                    UIResponder* nextResponder = [next nextResponder];
+                    if ([nextResponder isKindOfClass:[UIViewController class]]) {
+                        UIViewController *tempVC = (UIViewController*)nextResponder;
+                        if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+                            [tempVC.navigationController pushViewController:vc animated:YES];
+                        }
+                    }
+                }
+            }
+           
+        };
+        cell.arrowsBtnTapBlock = ^{
+            MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
             // 获取当前cell的视图控制器
-            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
             for (UIView* next = [weakSelf superview]; next; next = next.superview) {
                 UIResponder* nextResponder = [next nextResponder];
                 if ([nextResponder isKindOfClass:[UIViewController class]]) {
@@ -160,10 +184,51 @@
         cell.iconStr = iconStr;
         cell.textStr = textStr;
         cell.deviceNameStr = deviceNameStr;
+        kWeakSelf
+        cell.addBtnTapBlock = ^(UIButton * _Nonnull btn) {
+            if (101 == btn.tag) {
+                //  101代表减号 102 代表加号
+                NSString *mac;
+                if (1 == indexPath.row) {
+                    mac = weakSelf.bindDeviceListInfoModel.topDeviceModel.dmac;
+                }else if (2 == indexPath.row){
+                    mac = weakSelf.bindDeviceListInfoModel.bottomDeviceModel.dmac;
+                }else{
+                    mac = weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel.dmac;
+                }
+                [weakSelf deleteDeviceRequestWithDeviceMac:mac];
+            }else{
+                // 获取当前cell的视图控制器
+                MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+                for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+                    UIResponder* nextResponder = [next nextResponder];
+                    if ([nextResponder isKindOfClass:[UIViewController class]]) {
+                        UIViewController *tempVC = (UIViewController*)nextResponder;
+                        if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+                            [tempVC.navigationController pushViewController:vc animated:YES];
+                        }
+                    }
+                }
+            }
+        };
+        cell.arrowsBtnTapBlock = ^{
+            MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+            // 获取当前cell的视图控制器
+            for (UIView* next = [weakSelf superview]; next; next = next.superview) {
+                UIResponder* nextResponder = [next nextResponder];
+                if ([nextResponder isKindOfClass:[UIViewController class]]) {
+                    UIViewController *tempVC = (UIViewController*)nextResponder;
+                    if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
+                        [tempVC.navigationController pushViewController:vc animated:YES];
+                    }
+                }
+            }
+        };
         return cell;
     }
 }
-
+#pragma mark -  添加设备
+#pragma mark -- addDeviceRequest
 - (void)addDeviceRequest{
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
@@ -184,16 +249,21 @@
         }
     }];
 }
-
-- (void)deleteDeviceRequest{
+#pragma 删除设备
+#pragma mark -- deleteDeviceRequestWithDeviceMac
+- (void)deleteDeviceRequestWithDeviceMac:(NSString *)deviceMac{
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
-    [parm setObject:@"sdf" forKey:@"dmac"];
+    [parm setObject:deviceMac.length > 0 ? deviceMac:@"" forKey:@"dmac"];
+    kWeakSelf
     [QCNetWorkManager deleteRequestWithUrlPath:QCUrlDeleteDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {
             [hud showText:@"Delete Success"];
+            if (weakSelf.reloadDataBlock) {
+                weakSelf.reloadDataBlock();
+            }
         }
     }];
 }
@@ -202,22 +272,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (0 == indexPath.row || 1 == indexPath.row) {
-        [self addDeviceRequest];
-        return;
-    }
-    MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
-    // 获取当前cell的视图控制器
-    for (UIView* next = [self superview]; next; next = next.superview) {
-        UIResponder* nextResponder = [next nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]]) {
-            UIViewController *tempVC = (UIViewController*)nextResponder;
-            if ([tempVC isKindOfClass:[MECMineViewController  class]]) {
-                [tempVC.navigationController pushViewController:vc animated:YES];
-            }
-        }
-    }
-    
 }
 
 

@@ -55,13 +55,12 @@
 #pragma mark - 查询设备绑定信息
 #pragma mark -- queryDeviceRequest
 - (void)queryDeviceRequest{
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [QCNetWorkManager getRequestWithUrlPath:QCUrlQueryDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
-            [hud showText:result.error.localizedDescription];
+            [MBProgressHUD showError:result.error.localizedDescription];
         }else {
-            [hud showText:@"Query Success"];
+            
             if ([[result.resultObject objectForKey:@"data"] isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *dataDict = [NSDictionary dictionaryWithDictionary:[result.resultObject objectForKey:@"data"]];
                 self.bindDeviceListInfoModel = [[MECBindDeviceListInfoModel alloc] init];
@@ -129,21 +128,25 @@
         _deviceListView = [[MECDeviceListView alloc] init];
         _deviceListView.hidden = YES;
         kWeakSelf
+        _deviceListView.reloadDataBlock = ^{
+            [weakSelf queryDeviceRequest];
+        };
         _deviceListView.addDeviceSuccessBlock = ^(NSString * _Nonnull dbtname, NSString * _Nonnull type) {
-            if (1 == type.integerValue) {
-                weakSelf.bindDeviceListInfoModel.leftDeviceModel.dbtname = dbtname;
-            }else if (2 == type.integerValue){
-                weakSelf.bindDeviceListInfoModel.rightDeviceModel.dbtname = dbtname;
-            }else if (3 == type.integerValue){
-                weakSelf.bindDeviceListInfoModel.topDeviceModel.dbtname = dbtname;
-            }else if (4 == type.integerValue){
-                weakSelf.bindDeviceListInfoModel.bottomDeviceModel.dbtname = dbtname;
-            }else if (5 == type.integerValue){
-                weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname = dbtname;
-            }else{
-                
-            }
-            weakSelf.deviceListView.bindDeviceListInfoModel = weakSelf.bindDeviceListInfoModel;
+            [weakSelf queryDeviceRequest];
+//            if (1 == type.integerValue) {
+//                weakSelf.bindDeviceListInfoModel.leftDeviceModel.dbtname = dbtname;
+//            }else if (2 == type.integerValue){
+//                weakSelf.bindDeviceListInfoModel.rightDeviceModel.dbtname = dbtname;
+//            }else if (3 == type.integerValue){
+//                weakSelf.bindDeviceListInfoModel.topDeviceModel.dbtname = dbtname;
+//            }else if (4 == type.integerValue){
+//                weakSelf.bindDeviceListInfoModel.bottomDeviceModel.dbtname = dbtname;
+//            }else if (5 == type.integerValue){
+//                weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname = dbtname;
+//            }else{
+//
+//            }
+//            weakSelf.deviceListView.bindDeviceListInfoModel = weakSelf.bindDeviceListInfoModel;
         };
     }
     return _deviceListView;

@@ -22,8 +22,8 @@
 ///设备名称
 @property (nonatomic, strong) UIButton *addBtn;
 
-///右边箭头图标
-@property (nonatomic, strong) UIImageView *arrowsIconImageView;
+///右边箭头按钮
+@property (nonatomic, strong) UIButton *arrowsBtn;
 
 ///底部横线
 @property (nonatomic, strong) UIView *lineView;
@@ -67,7 +67,7 @@
     [self.contentView addSubview:self.positionLabel];
     [self.contentView addSubview:self.deviceNameLabel];
     [self.contentView addSubview:self.addBtn];
-    [self.contentView addSubview:self.arrowsIconImageView];
+    [self.contentView addSubview:self.arrowsBtn];
     [self.contentView addSubview:self.lineView];
     
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -82,14 +82,14 @@
         make.centerY.equalTo(self.contentView);
     }];
     
-    [self.arrowsIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.arrowsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self.contentView).offset(-kMargin);
         make.width.height.mas_equalTo(kWidth6(13));
         make.centerY.equalTo(self.contentView);
     }];
     
     [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.arrowsIconImageView.mas_leading).offset(-kMargin);
+        make.trailing.equalTo(self.arrowsBtn.mas_leading).offset(-kMargin);
         make.width.height.mas_equalTo(kWidth6(40));
         make.centerY.equalTo(self.contentView);
     }];
@@ -126,13 +126,26 @@
 - (void)setDeviceNameStr:(NSString *)deviceNameStr{
     _deviceNameStr = deviceNameStr;
     self.deviceNameLabel.text = _deviceNameStr;
+    self.arrowsBtn.hidden = !(_deviceNameStr.length > 0);
+    NSString *imageStr = _deviceNameStr.length > 0 ? @"device_list_delete_icon":@"device_list_add_icon";
+    [self.addBtn setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
+    NSInteger tempTag = _deviceNameStr.length > 0 ? 101:102;
+    self.addBtn.tag = tempTag;
 }
 #pragma mark -
 #pragma mark -- addBtnAction
 - (void)addBtnAction:(UIButton *)button{
-    
+    if (self.addBtnTapBlock) {
+        self.addBtnTapBlock(button);
+    }
 }
-
+#pragma mark -
+#pragma mark -- arrowsAddBtnAction
+- (void)arrowsAddBtnAction:(UIButton *)button{
+    if (self.arrowsBtnTapBlock) {
+        self.arrowsBtnTapBlock();
+    }
+}
 #pragma mark -
 #pragma mark -- lazy
 - (UIImageView *)iconImageView{
@@ -170,13 +183,15 @@
     }
     return _addBtn;
 }
-- (UIImageView *)arrowsIconImageView{
-    if (!_arrowsIconImageView) {
-        _arrowsIconImageView = [[UIImageView alloc] init];
-        _arrowsIconImageView.image = [UIImage imageNamed:@"device_list_arrows_icon"];
+- (UIButton *)arrowsBtn{
+    if (!_arrowsBtn) {
+        _arrowsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_arrowsBtn setImage:[UIImage imageNamed:@"device_list_arrows_icon"] forState:UIControlStateNormal];
+        [_arrowsBtn addTarget:self action:@selector(arrowsAddBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _arrowsIconImageView;
+    return _arrowsBtn;
 }
+
 
 - (UIView *)lineView{
     if (!_lineView) {

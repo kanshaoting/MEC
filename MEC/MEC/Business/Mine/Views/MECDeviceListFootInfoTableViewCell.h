@@ -10,14 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^MECDeviceListFootInfoTableViewCellLeftBtnTapBlock)(void);
+typedef void(^MECDeviceListFootInfoTableViewCellAddBtnTapBlock)(UIButton *btn);
+
+typedef void(^MECDeviceListFootInfoTableViewCellArrowsBtnTapBlock)(void);
 
 @interface MECDeviceListFootInfoTableViewCell : UITableViewCell
 
 
-@property (nonatomic ,copy) MECDeviceListFootInfoTableViewCellLeftBtnTapBlock leftBtnTapBlock;
+@property (nonatomic ,copy) MECDeviceListFootInfoTableViewCellAddBtnTapBlock leftAddBtnTapBlock;
 
-@property (nonatomic ,copy) MECDeviceListFootInfoTableViewCellLeftBtnTapBlock rightBtnTapBlock;
+@property (nonatomic ,copy) MECDeviceListFootInfoTableViewCellAddBtnTapBlock rightAddBtnTapBlock;
+///  箭头点击事件
+@property (nonatomic ,copy) MECDeviceListFootInfoTableViewCellArrowsBtnTapBlock arrowsBtnTapBlock;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

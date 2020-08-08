@@ -358,7 +358,7 @@ static const CGFloat kAnimationTime = 0.5;
     
     CGFloat  tapfloat = [self angleFromStartToPoint:point];
     
-    if (tapfloat>=degreesToRadians(45)&&tapfloat<=degreesToRadians(315)) {
+    if (tapfloat>=degreesToRadians(45)&&tapfloat<=degreesToRadians(315) && self.isClose == NO) {
         
         CGFloat floata = tapfloat-degreesToRadians(45) ;
         
@@ -406,17 +406,17 @@ static const CGFloat kAnimationTime = 0.5;
     
     NSLog(@"**  %@",choose);
     if (self.isClose) {
-        
+        self.commentLabel.text = @"0";
     }else{
         if (choose.integerValue <= 1) {
             choose = @"1";
         }
+        self.commentLabel.text = [NSString stringWithFormat:@"%d",kStartValue+[choose intValue]];
     }
-    self.commentLabel.text = [NSString stringWithFormat:@"%d",kStartValue+[choose intValue]];
 }
 
 #pragma mark - 四舍五入
-- (NSString *) decimalwithFormat:(NSString *)format  floatV:(float)floatV
+- (NSString *)decimalwithFormat:(NSString *)format  floatV:(float)floatV
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     

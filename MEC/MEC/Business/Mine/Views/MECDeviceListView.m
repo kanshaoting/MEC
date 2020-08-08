@@ -117,7 +117,7 @@
                 //  101代表减号 102 代表加号
                 [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac];
             }else{
-                [weakSelf addDeviceRequestWithDeviceBluname:@"leftDbtname" deviceMacname:@"leftmac" type:@"1"];
+                [weakSelf addDeviceRequestWithDeviceBluname:@"leftdbtname" deviceMacname:@"leftmac" type:@"1"];
 //                // 获取当前cell的视图控制器
 //                MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
 //                for (UIView* next = [weakSelf superview]; next; next = next.superview) {
@@ -136,7 +136,7 @@
                 //  101代表减号 102 代表加号
                 [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac];
             }else{
-                 [weakSelf addDeviceRequestWithDeviceBluname:@"rightDbtname" deviceMacname:@"rightmac" type:@"2"];
+                 [weakSelf addDeviceRequestWithDeviceBluname:@"rightdbtname" deviceMacname:@"rightmac" type:@"2"];
             }
         };
         cell.arrowsBtnTapBlock = ^{

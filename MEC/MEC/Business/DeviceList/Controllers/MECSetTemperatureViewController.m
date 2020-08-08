@@ -266,7 +266,7 @@
     if (!_temperatureCircleView) {
         _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(130), kWidth6(280), kWidth6(280))];
         _temperatureCircleView.temperInter = 1;
-        _temperatureCircleView.isClose = NO;
+        _temperatureCircleView.isClose = YES;
 //        _temperatureCircleView.backgroundColor = [UIColor redColor];
     }
     return _temperatureCircleView;

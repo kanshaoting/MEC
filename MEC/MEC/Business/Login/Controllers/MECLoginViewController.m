@@ -149,8 +149,8 @@
 #pragma mark -
 #pragma mark -- signInBtnAction
 - (void)signInBtnAction:(UIButton *)button{
-    self.userNameTf.text = @"1122@qq.com";
-    self.passwordTf.text = @"43";
+//    self.userNameTf.text = @"1122@qq.com";
+//    self.passwordTf.text = @"43";
     if (self.userNameTf.text.length > 0 && [self.userNameTf.text containsString:@"@"] ) {
         
     }else{

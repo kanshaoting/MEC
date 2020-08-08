@@ -113,7 +113,7 @@
     
     [self.leftPositionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.contentView).offset(kWidth6(60));
-        make.width.mas_equalTo(kWidth6(60));
+        make.width.mas_equalTo(kWidth6(50));
         make.bottom.equalTo(self.middleLineView.mas_top).offset(-kWidth6(10));
     }];
     
@@ -137,7 +137,7 @@
     
 
     [self.leftDeviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.leftPositionLabel.mas_trailing).offset(20);
+        make.leading.equalTo(self.leftPositionLabel.mas_trailing).offset(kWidth6(5));
         make.trailing.equalTo(self.leftAddBtn.mas_leading).offset(-kWidth6(2));
         make.centerY.equalTo(self.leftPositionLabel);
     }];

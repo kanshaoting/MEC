@@ -173,14 +173,14 @@
             iconStr = @"device_list_bottom_icon";
             textStr = @"Bottom";
             deviceNameStr = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
-            dbtname = @"bottomdbtname";
+            dbtname = @"bottoname";
             mac = @"bottommac";
             type = @"4";
         }else{
             iconStr = @"device_list_heatingpad_icon";
             textStr = @"Heating Pad";
             deviceNameStr = self.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname;
-            dbtname = @"heatingdbtname";
+            dbtname = @"heatname";
             mac = @"heatingmac";
             type = @"5";
         }

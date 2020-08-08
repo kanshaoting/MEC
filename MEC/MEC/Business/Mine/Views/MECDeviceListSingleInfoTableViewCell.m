@@ -95,7 +95,7 @@
     }];
     
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.positionLabel.mas_trailing).offset(10);
+        make.leading.equalTo(self.positionLabel.mas_trailing).offset(kWidth6(5));
         make.trailing.equalTo(self.addBtn.mas_leading).offset(-kWidth6(2));
         make.centerY.equalTo(self.contentView);
     }];
@@ -121,6 +121,20 @@
 }
 - (void)setTextStr:(NSString *)textStr{
     _textStr = textStr;
+    
+    if ([_textStr isEqualToString:@"Top"]) {
+        [self.positionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_offset(kWidth6(40));
+        }];
+    }else if ([_textStr isEqualToString:@"Heating Pad"]) {
+        [self.positionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_offset(kWidth6(100));
+        }];
+    }else{
+        [self.positionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                   make.width.mas_offset(kWidth6(60));
+               }];
+    }
     self.positionLabel.text = _textStr;
 }
 - (void)setDeviceNameStr:(NSString *)deviceNameStr{

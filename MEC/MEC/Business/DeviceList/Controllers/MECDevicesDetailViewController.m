@@ -81,7 +81,7 @@
 
 #pragma mark UITableViewDelegate,UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 12;
+    return 4;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -115,20 +115,15 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MECDevicesBluetoothTableViewCell *cell = [MECDevicesBluetoothTableViewCell cellWithTableView:tableView];
     cell.contentView.backgroundColor = kColorHex(0xffffff);
-    cell.isStop = NO;
-    if (2 == indexPath.row) {
-        cell.isStop = YES;
-    }
+    cell.isStop = YES;
     return cell;
-   
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     // get a reference to the cell that the user tapped
-       MECDevicesBluetoothTableViewCell *cell = (MECDevicesBluetoothTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    cell.isStop = YES;
-    
+    MECDevicesBluetoothTableViewCell *cell = (MECDevicesBluetoothTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.isStop = NO;
     
 }
 

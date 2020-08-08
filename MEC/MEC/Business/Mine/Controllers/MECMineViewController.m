@@ -48,9 +48,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (self.mineModifyInfoView.hidden) {
-        [self queryDeviceRequest];
-    }
+    [self queryDeviceRequest];
 }
 #pragma mark - 查询设备绑定信息
 #pragma mark -- queryDeviceRequest
@@ -164,7 +162,7 @@
         _bottomView.deviceListTapBlock = ^{
             weakSelf.mineModifyInfoView.hidden = YES;
             weakSelf.deviceListView.hidden = NO;
-            [weakSelf queryDeviceRequest];
+//            [weakSelf queryDeviceRequest];
         };
     }
     return _bottomView;

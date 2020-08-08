@@ -98,7 +98,7 @@
     }];
     
     [self.arrowsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.contentView).offset(-kMargin);
+        make.trailing.equalTo(self.contentView).offset(-kWidth6(5));
         make.width.height.mas_equalTo(kWidth6(40));
         make.centerY.equalTo(self.contentView);
     }];
@@ -107,7 +107,7 @@
         make.centerY.equalTo(self.contentView);
         make.height.mas_equalTo(kWidth6(0.5));
         make.leading.equalTo(self.iconImageView.mas_trailing).offset(kMargin);
-        make.trailing.equalTo(self.arrowsBtn.mas_leading).offset(-kMargin);
+        make.trailing.equalTo(self.arrowsBtn.mas_leading).offset(-kWidth6(5));
     }];
     
     
@@ -125,14 +125,13 @@
     
     
     [self.leftAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.arrowsBtn.mas_leading).offset(-kMargin);
+        make.trailing.equalTo(self.arrowsBtn.mas_leading).offset(-kWidth6(5));
         make.width.height.mas_equalTo(kWidth6(40));
         make.centerY.equalTo(self.leftPositionLabel);
     }];
     
     [self.rightAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.arrowsBtn.mas_leading).offset(-kMargin);
-        make.width.height.mas_equalTo(kWidth6(40));
+        make.width.height.trailing.equalTo(self.leftAddBtn);
         make.centerY.equalTo(self.rightPositionLabel);
     }];
     

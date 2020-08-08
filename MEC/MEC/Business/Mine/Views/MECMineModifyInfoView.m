@@ -60,6 +60,7 @@
     self = [super init];
     if (self) {
         [self configUI];
+        [self initDatas];
     }
     return self;
 }
@@ -195,7 +196,16 @@
     }];
     
 }
-
+#pragma mark -
+#pragma mark -- initDatas
+- (void)initDatas{
+    [[MECUserManager shareManager] readUserInfo];
+    MECUserModel *user = [MECUserManager shareManager].user;
+    self.userNameTf.text = user.mname;
+    self.emailTf.text = user.memail;
+    self.countryTf.text = user.mcounty;
+    self.postalCodeTf.text = user.mpostcode;
+}
 #pragma mark -
 #pragma mark -- modifyBtnAction
 - (void)modifyBtnAction:(UIButton *)button{
@@ -211,18 +221,18 @@
         [MBProgressHUD showError:@"Please enter correct e-mail"];
         return;
     }
-    if (self.countryTf.text.length > 0) {
-        
-    }else{
-        [MBProgressHUD showError:@"Please enter correct country"];
-        return;
-    }
-    if (self.postalCodeTf.text.length > 0) {
-        
-    }else{
-        [MBProgressHUD showError:@"Please enter correct postalCode"];
-        return;
-    }
+//    if (self.countryTf.text.length > 0) {
+//
+//    }else{
+//        [MBProgressHUD showError:@"Please enter correct country"];
+//        return;
+//    }
+//    if (self.postalCodeTf.text.length > 0) {
+//
+//    }else{
+//        [MBProgressHUD showError:@"Please enter correct postalCode"];
+//        return;
+//    }
     [self startModify];
 }
 #pragma mark -
@@ -237,19 +247,22 @@
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:self.userNameTf.text forKey:@"mname"];
     [parm setObject:self.emailTf.text forKey:@"memail"];
-    [parm setObject:self.countryTf.text forKey:@"mcounty"];
-    [parm setObject:self.postalCodeTf.text forKey:@"mpostcode"];
-    
+    [parm setObject:self.countryTf.text.length > 0 ? self.countryTf.text : @"" forKey:@"mcounty"];
+    [parm setObject:self.postalCodeTf.text.length > 0 ? self.postalCodeTf.text : @"" forKey:@"mpostcode"];
     [[MECUserManager shareManager] readUserInfo];
     MECUserModel *user = [MECUserManager shareManager].user;
     [parm setObject:user.mid forKey:@"mid"];
+    kWeakSelf
     [QCNetWorkManager putRequestWithUrlPath:QCUrlModify parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {
             [hud showText:@"Modify Success"];
             MECUserManager *manager = [MECUserManager shareManager];
-            manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
+            manager.user.mname = weakSelf.userNameTf.text;
+            manager.user.memail = weakSelf.emailTf.text;
+            manager.user.mcounty = weakSelf.countryTf.text;
+            manager.user.mpostcode = weakSelf.postalCodeTf.text;
             [manager saveUserInfo];
             
         }

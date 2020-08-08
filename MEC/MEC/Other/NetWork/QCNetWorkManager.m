@@ -98,7 +98,7 @@ typedef NS_ENUM(NSInteger, NetWorkType) {
         //增加mid
         [client.requestSerializer setValue:user.token forHTTPHeaderField:@"token"];
     }
-    if ([urlPath isEqualToString: QCUrlAddDevice ] || [urlPath isEqualToString: QCUrlDeleteDevice ] || [urlPath isEqualToString: QCUrlQueryDevice ]) {
+    if ([urlPath isEqualToString: QCUrlAddDevice ] || [urlPath isEqualToString: QCUrlDeleteDevice ] || [urlPath isEqualToString: QCUrlQueryDevice ] || [urlPath isEqualToString: QCUrlModify ]) {
         //增加mid
         [client.requestSerializer setValue:user.mid forHTTPHeaderField:@"mid"];
     }

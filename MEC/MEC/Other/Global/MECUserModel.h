@@ -23,7 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *token;
 /**  */
 @property (nonatomic, copy) NSString *mappheadimgurl;
-
+/** 国家 */
+@property (nonatomic, copy) NSString *mcounty;
+/** 编码 */
+@property (nonatomic, copy) NSString *mpostcode;
 
 @end
 

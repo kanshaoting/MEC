@@ -230,19 +230,14 @@
     [parm setObject:self.userNameTf.text forKey:@"mname"];
     [parm setObject:self.emailTf.text forKey:@"memail"];
     [parm setObject:self.passwordTf.text forKey:@"mpassword"];
-    [parm setObject:self.countryTf.text forKey:@"mcounty"];
-    [parm setObject:self.postalCodeTf.text forKey:@"mpostcode"];
-  
+    [parm setObject:self.countryTf.text.length > 0 ? self.countryTf.text : @"" forKey:@"mcounty"];
+    [parm setObject:self.postalCodeTf.text.length > 0 ? self.postalCodeTf.text : @"" forKey:@"mpostcode"];
     [QCNetWorkManager postRequestWithUrlPath:QCUrlRegistration parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {
             [hud showText:@"Registration Success"];
-            MECUserManager *manager = [MECUserManager shareManager];
-            manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
-            [manager saveUserInfo];
-            MECMineViewController *vc = [[MECMineViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }];
 }
@@ -269,18 +264,18 @@
         [MBProgressHUD showError:@"Please enter correct password"];
         return;
     }
-    if (self.countryTf.text.length > 0) {
-        
-    }else{
-        [MBProgressHUD showError:@"Please enter correct country"];
-        return;
-    }
-    if (self.postalCodeTf.text.length > 0) {
-        
-    }else{
-        [MBProgressHUD showError:@"Please enter correct postalCode"];
-        return;
-    }
+//    if (self.countryTf.text.length > 0) {
+//
+//    }else{
+//        [MBProgressHUD showError:@"Please enter correct country"];
+//        return;
+//    }
+//    if (self.postalCodeTf.text.length > 0) {
+//
+//    }else{
+//        [MBProgressHUD showError:@"Please enter correct postalCode"];
+//        return;
+//    }
     [self startRegistration];
     
     

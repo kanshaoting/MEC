@@ -20,6 +20,8 @@
 		5268FE1D24D2B0D200CBB01A /* MECBaseMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1C24D2B0D200CBB01A /* MECBaseMenuView.m */; };
 		5268FE2024D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5268FE1F24D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m */; };
 		527EB96524D94AE100627E57 /* MECSetTemperatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527EB96424D94AE100627E57 /* MECSetTemperatureViewController.m */; };
+		5281373F24DE820900FF1546 /* MECBindDeviceListInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5281373E24DE820900FF1546 /* MECBindDeviceListInfoModel.m */; };
+		5281374224DE821600FF1546 /* MECBindDeviceDetailInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5281374124DE821600FF1546 /* MECBindDeviceDetailInfoModel.m */; };
 		52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9224CEC12800745720 /* MECBaseViewController.m */; };
 		52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9524CEC12800745720 /* MECNavigationController.m */; };
 		52D57BA724CEC12800745720 /* MECTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D57B9724CEC12800745720 /* MECTabBarController.m */; };
@@ -77,6 +79,10 @@
 		5268FE1F24D2B1D800CBB01A /* MECBaseMenuViewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECBaseMenuViewTableViewCell.m; sourceTree = "<group>"; };
 		527EB96324D94AE100627E57 /* MECSetTemperatureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECSetTemperatureViewController.h; sourceTree = "<group>"; };
 		527EB96424D94AE100627E57 /* MECSetTemperatureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECSetTemperatureViewController.m; sourceTree = "<group>"; };
+		5281373D24DE820900FF1546 /* MECBindDeviceListInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECBindDeviceListInfoModel.h; sourceTree = "<group>"; };
+		5281373E24DE820900FF1546 /* MECBindDeviceListInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECBindDeviceListInfoModel.m; sourceTree = "<group>"; };
+		5281374024DE821600FF1546 /* MECBindDeviceDetailInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECBindDeviceDetailInfoModel.h; sourceTree = "<group>"; };
+		5281374124DE821600FF1546 /* MECBindDeviceDetailInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECBindDeviceDetailInfoModel.m; sourceTree = "<group>"; };
 		52D57B9024CEC12800745720 /* MECNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECNavigationController.h; sourceTree = "<group>"; };
 		52D57B9124CEC12800745720 /* MECGolablMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECGolablMacro.h; sourceTree = "<group>"; };
 		52D57B9224CEC12800745720 /* MECBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECBaseViewController.m; sourceTree = "<group>"; };
@@ -252,6 +258,10 @@
 		52D57B9A24CEC12800745720 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5281373D24DE820900FF1546 /* MECBindDeviceListInfoModel.h */,
+				5281373E24DE820900FF1546 /* MECBindDeviceListInfoModel.m */,
+				5281374024DE821600FF1546 /* MECBindDeviceDetailInfoModel.h */,
+				5281374124DE821600FF1546 /* MECBindDeviceDetailInfoModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -614,6 +624,7 @@
 				52F0F41624D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m in Sources */,
 				52F0F40724CFFBB8005085C0 /* MECDeviceListViewController.m in Sources */,
 				52DD0F4424D3B3E200426629 /* UIImage+QCExtension.m in Sources */,
+				5281374224DE821600FF1546 /* MECBindDeviceDetailInfoModel.m in Sources */,
 				52DD0F4924D3B4E000426629 /* QCUrlConst.m in Sources */,
 				52D57BB524CEF8EC00745720 /* MECMineViewController.m in Sources */,
 				52DD0F4524D3B3E200426629 /* UIResponder+Router.m in Sources */,
@@ -622,6 +633,7 @@
 				52F0F40A24D00367005085C0 /* MECMineModifyInfoView.m in Sources */,
 				52DD0F2524D3B37000426629 /* QCNetWorkManager.m in Sources */,
 				52D57BA524CEC12800745720 /* MECBaseViewController.m in Sources */,
+				5281373F24DE820900FF1546 /* MECBindDeviceListInfoModel.m in Sources */,
 				52F0F41C24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m in Sources */,
 				52D57BA624CEC12800745720 /* MECNavigationController.m in Sources */,
 				521EF1A724CE780800455497 /* AppDelegate.m in Sources */,

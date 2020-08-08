@@ -95,8 +95,8 @@
     }];
     
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.positionLabel.mas_trailing).offset(40);
-        make.trailing.equalTo(self.addBtn.mas_leading).offset(-kMargin);
+        make.leading.equalTo(self.positionLabel.mas_trailing).offset(10);
+        make.trailing.equalTo(self.addBtn.mas_leading).offset(-kWidth6(2));
         make.centerY.equalTo(self.contentView);
     }];
     

@@ -11,7 +11,8 @@
 #import "MECDeviceListFootInfoTableViewCell.h"
 #import "MECDevicesDetailViewController.h"
 #import "MECMineViewController.h"
-
+#import "MECBindDeviceListInfoModel.h"
+#import "MECBindDeviceDetailInfoModel.h"
 
 #import "MECSetTemperatureViewController.h"
 
@@ -39,7 +40,10 @@
     return self;
 }
 
-
+- (void)setBindDeviceListInfoModel:(MECBindDeviceListInfoModel *)bindDeviceListInfoModel{
+    _bindDeviceListInfoModel = bindDeviceListInfoModel;
+    [self.tableView reloadData];
+}
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
@@ -54,7 +58,7 @@
         make.leading.trailing.bottom.equalTo(self);
     }];
 }
-    
+
 #pragma mark UITableViewDelegate,UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 4;
@@ -104,6 +108,8 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (0 == indexPath.row) {
         MECDeviceListFootInfoTableViewCell *cell = [MECDeviceListFootInfoTableViewCell cellWithTableView:tableView];
+        cell.leftDeviceNameStr = self.bindDeviceListInfoModel.leftDeviceModel.dbtname;
+        cell.rightDeviceNameStr = self.bindDeviceListInfoModel.rightDeviceModel.dbtname;
         kWeakSelf
         cell.leftBtnTapBlock = ^{
 //            [weakSelf addDeviceRequest];
@@ -120,7 +126,6 @@
             }
         };
         cell.rightBtnTapBlock = ^{
-//             [weakSelf queryDeviceRequest];
             // 获取当前cell的视图控制器
             MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
             for (UIView* next = [weakSelf superview]; next; next = next.superview) {
@@ -138,18 +143,23 @@
         MECDeviceListSingleInfoTableViewCell *cell = [MECDeviceListSingleInfoTableViewCell cellWithTableView:tableView];
         NSString *iconStr;
         NSString *textStr;
+        NSString *deviceNameStr;
         if (1 == indexPath.row) {
             iconStr = @"device_list_top_icon";
             textStr = @"Top";
+            deviceNameStr = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
         }else if (2 == indexPath.row){
             iconStr = @"device_list_bottom_icon";
             textStr = @"Bottom";
+            deviceNameStr = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
         }else{
             iconStr = @"device_list_heatingpad_icon";
             textStr = @"Heating Pad";
+            deviceNameStr = self.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname;
         }
         cell.iconStr = iconStr;
         cell.textStr = textStr;
+        cell.deviceNameStr = deviceNameStr;
         return cell;
     }
 }
@@ -157,14 +167,20 @@
 - (void)addDeviceRequest{
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
-    [parm setObject:@"dff" forKey:@"dbtname"];
-    [parm setObject:@"sdf" forKey:@"dmac"];
-    [parm setObject:@"1" forKey:@"type"];
+    NSString *dbtname = @"heatpaddbtname";
+    NSString *type = @"5";
+    [parm setObject:dbtname forKey:@"dbtname"];
+    [parm setObject:@"heatpaddmac" forKey:@"dmac"];
+    [parm setObject:type forKey:@"type"];
+    kWeakSelf
     [QCNetWorkManager postRequestWithUrlPath:QCUrlAddDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {
             [hud showText:@"Add Success"];
+            if (weakSelf.addDeviceSuccessBlock) {
+                weakSelf.addDeviceSuccessBlock(dbtname,type);
+            }
         }
     }];
 }
@@ -182,20 +198,14 @@
     }];
 }
 
-- (void)queryDeviceRequest{
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
-    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
-    [QCNetWorkManager getRequestWithUrlPath:QCUrlQueryDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
-        if(result.error) {
-            [hud showText:result.error.localizedDescription];
-        }else {
-            [hud showText:@"Query Success"];
-        }
-    }];
-}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (0 == indexPath.row || 1 == indexPath.row) {
+        [self addDeviceRequest];
+        return;
+    }
     MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
     // 获取当前cell的视图控制器
     for (UIView* next = [self superview]; next; next = next.superview) {

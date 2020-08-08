@@ -112,13 +112,12 @@
     
     [self.leftPositionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.contentView).offset(kWidth6(60));
-        make.width.mas_equalTo(kWidth6(80));
+        make.width.mas_equalTo(kWidth6(60));
         make.bottom.equalTo(self.middleLineView.mas_top).offset(-kWidth6(10));
     }];
     
     [self.rightPositionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.leftPositionLabel);
-        make.width.mas_equalTo(kWidth6(80));
+        make.leading.width.equalTo(self.leftPositionLabel);
         make.top.equalTo(self.middleLineView.mas_bottom).offset(kWidth6(10));
     }];
     
@@ -138,15 +137,14 @@
     
 
     [self.leftDeviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.leftPositionLabel.mas_trailing).offset(40);
-        make.trailing.equalTo(self.leftAddBtn.mas_leading).offset(-kMargin);
+        make.leading.equalTo(self.leftPositionLabel.mas_trailing).offset(20);
+        make.trailing.equalTo(self.leftAddBtn.mas_leading).offset(-kWidth6(2));
         make.centerY.equalTo(self.leftPositionLabel);
     }];
     
    
     [self.rightDeviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.rightPositionLabel.mas_trailing).offset(40);
-        make.trailing.equalTo(self.rightAddBtn.mas_leading).offset(-kMargin);
+        make.leading.trailing.equalTo(self.leftDeviceNameLabel);
         make.centerY.equalTo(self.rightPositionLabel);
     }];
     
@@ -157,6 +155,14 @@
         make.leading.trailing.equalTo(self.contentView);
     }];
     
+}
+- (void)setLeftDeviceNameStr:(NSString *)leftDeviceNameStr{
+    _leftDeviceNameStr = leftDeviceNameStr;
+    self.leftDeviceNameLabel.text = _leftDeviceNameStr;
+}
+- (void)setRightDeviceNameStr:(NSString *)rightDeviceNameStr{
+    _rightDeviceNameStr = rightDeviceNameStr;
+    self.rightDeviceNameLabel.text = _rightDeviceNameStr;
 }
 #pragma mark -
 #pragma mark -- leftAddBtnAction

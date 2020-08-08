@@ -10,7 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MECBindDeviceListInfoModel;
+
+typedef void(^MECDeviceListViewAddDeviceSuccessBlock)(NSString *dbtname,NSString *type);
+
 @interface MECDeviceListView : UIView
+
+/// 绑定设备信息model
+@property (nonatomic,strong) MECBindDeviceListInfoModel *bindDeviceListInfoModel;
+
+/// 添加设备绑定成功回调
+@property (nonatomic,copy) MECDeviceListViewAddDeviceSuccessBlock addDeviceSuccessBlock;
+
 
 @end
 

@@ -18,8 +18,8 @@
 #import "MECNavigationController.h"
 
 #import "MECUserManager.h"
-
-
+#import "MECBindDeviceListInfoModel.h"
+#import "MECBindDeviceDetailInfoModel.h"
 
 
 @interface MECMineViewController ()
@@ -30,10 +30,12 @@
 /// 账号登录提示
 @property (nonatomic,strong) MECDeviceListView *deviceListView;
 
-
-
 /// 底部视图
 @property (nonatomic,strong) MECMineBottomView *bottomView;
+
+/// 绑定设备信息model
+@property (nonatomic,strong) MECBindDeviceListInfoModel *bindDeviceListInfoModel;
+
 
 @end
 
@@ -41,11 +43,48 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     [self configUI];
 }
 
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.mineModifyInfoView.hidden) {
+        [self queryDeviceRequest];
+    }
+}
+#pragma mark - 查询设备绑定信息
+#pragma mark -- queryDeviceRequest
+- (void)queryDeviceRequest{
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    [QCNetWorkManager getRequestWithUrlPath:QCUrlQueryDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        if(result.error) {
+            [hud showText:result.error.localizedDescription];
+        }else {
+            [hud showText:@"Query Success"];
+            if ([[result.resultObject objectForKey:@"data"] isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *dataDict = [NSDictionary dictionaryWithDictionary:[result.resultObject objectForKey:@"data"]];
+                self.bindDeviceListInfoModel = [[MECBindDeviceListInfoModel alloc] init];
+                if ([[dataDict objectForKey:@"left"] isKindOfClass:[NSDictionary class]]) {
+                     self.bindDeviceListInfoModel.leftDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"left"]]];
+                }
+                if ([[dataDict objectForKey:@"right"] isKindOfClass:[NSDictionary class]]) {
+                     self.bindDeviceListInfoModel.rightDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"right"]]];
+                }
+                if ([[dataDict objectForKey:@"top"] isKindOfClass:[NSDictionary class]]) {
+                     self.bindDeviceListInfoModel.topDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"top"]]];
+                }
+                if ([[dataDict objectForKey:@"bottom"] isKindOfClass:[NSDictionary class]]) {
+                     self.bindDeviceListInfoModel.bottomDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"bottom"]]];
+                }
+                if ([[dataDict objectForKey:@"pad"] isKindOfClass:[NSDictionary class]]) {
+                     self.bindDeviceListInfoModel.heatingPadDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"pad"]]];
+                }
+                self.deviceListView.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
+            }
+        }
+    }];
+}
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
@@ -89,6 +128,23 @@
     if (!_deviceListView) {
         _deviceListView = [[MECDeviceListView alloc] init];
         _deviceListView.hidden = YES;
+        kWeakSelf
+        _deviceListView.addDeviceSuccessBlock = ^(NSString * _Nonnull dbtname, NSString * _Nonnull type) {
+            if (1 == type.integerValue) {
+                weakSelf.bindDeviceListInfoModel.leftDeviceModel.dbtname = dbtname;
+            }else if (2 == type.integerValue){
+                weakSelf.bindDeviceListInfoModel.rightDeviceModel.dbtname = dbtname;
+            }else if (3 == type.integerValue){
+                weakSelf.bindDeviceListInfoModel.topDeviceModel.dbtname = dbtname;
+            }else if (4 == type.integerValue){
+                weakSelf.bindDeviceListInfoModel.bottomDeviceModel.dbtname = dbtname;
+            }else if (5 == type.integerValue){
+                weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname = dbtname;
+            }else{
+                
+            }
+            weakSelf.deviceListView.bindDeviceListInfoModel = weakSelf.bindDeviceListInfoModel;
+        };
     }
     return _deviceListView;
 }
@@ -105,6 +161,7 @@
         _bottomView.deviceListTapBlock = ^{
             weakSelf.mineModifyInfoView.hidden = YES;
             weakSelf.deviceListView.hidden = NO;
+            [weakSelf queryDeviceRequest];
         };
     }
     return _bottomView;

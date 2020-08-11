@@ -264,7 +264,6 @@
             manager.user.mcounty = weakSelf.countryTf.text;
             manager.user.mpostcode = weakSelf.postalCodeTf.text;
             [manager saveUserInfo];
-            
         }
     }];
 }

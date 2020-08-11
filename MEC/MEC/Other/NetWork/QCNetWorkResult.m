@@ -7,6 +7,11 @@
 //
 
 #import "QCNetWorkResult.h"
+#import "MECUserManager.h"
+#import "AppDelegate.h"
+#import "MECNavigationController.h"
+#import "MECLoginViewController.h"
+
 
 @implementation QCNetWorkResult
 
@@ -37,6 +42,15 @@
     id data = nil;
     if([resultObject objectForKey:@"data"]) {
         data = [resultObject objectForKey:@"data"];
+    }
+    NSString *errorCode = [NSString stringWithFormat:@"%@",[resultObject objectForKey:@"errorCode"]];
+    // 0010 错误码提示token失效，显示登录页面
+    if ([errorCode isEqualToString:@"0010"] ) {
+        // 清空用户信息
+        [[MECUserManager shareManager] deleteUserInfo];
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
+        delegate.window.rootViewController = nav;
     }
     if([codeStr isEqualToString:@"1"]) {
         QCNetWorkResult *result = [[QCNetWorkResult alloc] init];

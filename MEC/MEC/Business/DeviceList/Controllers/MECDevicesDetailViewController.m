@@ -14,6 +14,7 @@
 
 
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "MECSetTemperatureViewController.h"
 
 
 
@@ -184,11 +185,23 @@
     
     NSString *bleName = per.name;
     cell.deviceNameStr = bleName;
-    cell.positionStr = @"Heating Pad";
     cell.contentView.backgroundColor = kColorHex(0xffffff);
     if (0 == indexPath.section) {
         if (self.currentRow == indexPath.row) {
             cell.isStop = !(BluetoothStateConnecting == self.bluetoothState);
+            if (PositionTypeFootLeft == self.positionType) {
+                cell.positionStr = @"Left";
+            }else if (PositionTypeFootRight == self.positionType){
+                cell.positionStr = @"Right";
+            }else if (PositionTypeFootTop == self.positionType){
+                cell.positionStr = @"Top";
+            }else if (PositionTypeFootBottom == self.positionType){
+                cell.positionStr = @"Bottom";
+            }else if (PositionTypeFootHeatingPad == self.positionType){
+                cell.positionStr = @"Heating Pad";
+            }else{
+                cell.positionStr = @"";
+            }
         }
     }else{
         cell.isStop = YES;
@@ -199,9 +212,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     // get a reference to the cell that the user tapped
-    MECDevicesBluetoothTableViewCell *cell = (MECDevicesBluetoothTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+//    MECDevicesBluetoothTableViewCell *cell = (MECDevicesBluetoothTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if ( 0 == indexPath.section) {
-        
+        //跳转到温度设置页面
+        MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+        [self.navigationController pushViewController:vc  animated:YES];
     }else{
         CBPeripheral *peripheral=(CBPeripheral *)self.searchBluDataMuArr[indexPath.row];
         //设定周边设备，指定代理者
@@ -304,7 +319,7 @@
     }
     
     self.bluetoothState  = BluetoothStateScanSuccess;
-    [_tableView reloadData];
+    [self.tableView reloadData];
 
 }
 #pragma mark - 连接到外围设备
@@ -315,8 +330,9 @@
     peripheral.delegate = self;
     //外围设备开始寻找服务
     [peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
-    
-    
+    NSString *uuid = [NSString stringWithFormat:@"%@",peripheral.identifier];
+    NSString *type = [NSString stringWithFormat:@"%ld",(long)self.positionType];
+    [self addDeviceRequestWithDeviceBluname:peripheral.name deviceMacname:uuid type:type];
     [self.centralManager stopScan];
 
     self.bluetoothState = BluetoothStateConnected;
@@ -512,6 +528,32 @@
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
+
+#pragma mark -  添加设备
+#pragma mark -- addDeviceRequest
+- (void)addDeviceRequestWithDeviceBluname:(NSString *)dbtname deviceMacname:(NSString *)dmac type:(NSString *)type{
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+    [parm setObject:dbtname ? dbtname:@"" forKey:@"dbtname"];
+    [parm setObject:dmac?dmac:@"" forKey:@"dmac"];
+    [parm setObject:type?type:@"" forKey:@"type"];
+    kWeakSelf
+    [QCNetWorkManager postRequestWithUrlPath:QCUrlAddDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        if(result.error) {
+            [hud showText:result.error.localizedDescription];
+            // 添加失败移到下面列表
+            [weakSelf.searchBluDataMuArr removeObject:weakSelf.discoveredPeripheral];
+            [weakSelf.matchBluDataMuArr addObject:weakSelf.discoveredPeripheral];
+            [weakSelf.tableView reloadData];
+        }else {
+            [hud showText:@"Add Success"];
+            //跳转到温度设置页面
+            MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+            [weakSelf.navigationController pushViewController:vc  animated:YES];
+        }
+    }];
+}
+
 #pragma mark -
 #pragma mark -- lazy
 - (UILabel *)tipsLabel{

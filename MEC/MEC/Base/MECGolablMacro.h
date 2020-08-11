@@ -120,6 +120,14 @@ _Pragma("clang diagnostic pop") \
 #define MEC_Helvetica_Bold_Font(value) [UIFont fontWithName:@"Helvetica Bold" size:value]
 #define MEC_Helvetica_Regular_Font(value) [UIFont fontWithName:@"Helvetica Regular" size:value]
 
+/// 部位类型
+typedef NS_ENUM(NSInteger, PositionType){
+    PositionTypeFootLeft = 1,
+    PositionTypeFootRight,
+    PositionTypeFootTop,
+    PositionTypeFootBottom,
+    PositionTypeFootHeatingPad
+};
 
 
 //data

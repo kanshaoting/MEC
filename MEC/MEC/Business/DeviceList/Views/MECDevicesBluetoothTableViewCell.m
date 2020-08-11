@@ -86,12 +86,12 @@
     
     [self.positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self.contentView).offset(- 2*kMargin);
-        make.width.mas_equalTo(kWidth6(120));
+        make.width.mas_equalTo(kWidth6(100));
         make.centerY.equalTo(self.contentView);
     }];
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.loadImgView.mas_trailing).offset(kWidth6(10));
-        make.trailing.equalTo(self.positionLabel.mas_leading).offset(-kMargin);
+        make.trailing.equalTo(self.positionLabel.mas_leading).offset(-kWidth6(2));
         make.centerY.equalTo(self.contentView);
     }];
    
@@ -122,7 +122,6 @@
     
     
 }
-
 - (void)rotateView:(UIImageView *)view
 {
     CABasicAnimation *rotationAnimation;
@@ -131,6 +130,15 @@
     rotationAnimation.duration = 2;
     rotationAnimation.repeatCount = HUGE_VALF;
     [view.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
+
+- (void)setPositionStr:(NSString *)positionStr{
+    _positionStr = positionStr;
+    self.positionLabel.text = _positionStr;
+}
+- (void)setDeviceNameStr:(NSString *)deviceNameStr{
+    _deviceNameStr = deviceNameStr;
+    self.deviceNameLabel.text = _deviceNameStr;
 }
 
 #pragma mark -

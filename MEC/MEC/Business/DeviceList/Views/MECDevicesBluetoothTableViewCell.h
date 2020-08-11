@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @property (nonatomic, assign) BOOL isStop;
+///位置
+@property (nonatomic, copy) NSString *positionStr;
+/// 设备名字
+@property (nonatomic, copy) NSString *deviceNameStr;
 
 
 @end

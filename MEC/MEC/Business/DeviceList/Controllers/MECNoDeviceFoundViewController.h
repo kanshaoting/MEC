@@ -9,7 +9,7 @@
 #import "MECBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+/// 蓝牙搜索失败页面
 @interface MECNoDeviceFoundViewController : MECBaseViewController
 
 @end

@@ -17,8 +17,12 @@
 #import "MECSetTemperatureViewController.h"
 
 
+// 0000ffb0-0000-1000-8000-00805f9b34fb
 
-#define kServiceUUID @"0000ffb0-0000-1000-8000-00805f9b34fb"
+#define kServiceUUID @"FFB0"
+#define kWriteUUID @"FFB1"
+#define kReadUUID @"FFB2"
+
 #define kCharacteristicUUID @"0000ffb1-0000-1000-8000-00805f9b34fb"
 
 
@@ -211,7 +215,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    // get a reference to the cell that the user tapped
+    
 //    MECDevicesBluetoothTableViewCell *cell = (MECDevicesBluetoothTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if ( 0 == indexPath.section) {
         //跳转到温度设置页面
@@ -314,8 +318,10 @@
 //    if(range.location != NSNotFound && [self.searchBluDataMuArr containsObject:peripheral] == NO){
 //        [self.searchBluDataMuArr addObject:peripheral];
 //    }
+    
     if([self.searchBluDataMuArr containsObject:peripheral] == NO && peripheral.name != nil){
         [self.searchBluDataMuArr addObject:peripheral];
+        NSLog(@"advertisementData is \n%@,peripheral is \n%@ ",advertisementData,peripheral);
     }
     
     self.bluetoothState  = BluetoothStateScanSuccess;
@@ -332,7 +338,7 @@
     [peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
     NSString *uuid = [NSString stringWithFormat:@"%@",peripheral.identifier];
     NSString *type = [NSString stringWithFormat:@"%ld",(long)self.positionType];
-    [self addDeviceRequestWithDeviceBluname:peripheral.name deviceMacname:uuid type:type];
+//    [self addDeviceRequestWithDeviceBluname:peripheral.name deviceMacname:uuid type:type];
     [self.centralManager stopScan];
 
     self.bluetoothState = BluetoothStateConnected;
@@ -364,10 +370,10 @@
         NSLog(@"服务%@",service.UUID);
         
         //找到你需要的servicesuuid
-        if ([service.UUID isEqual:[CBUUID UUIDWithString:@"你的设备服务的uuid"]])
+        if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]])
         {
             //监听它
-            [peripheral discoverCharacteristics:nil forService:service];
+            [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:kServiceUUID],[CBUUID UUIDWithString:kWriteUUID],[CBUUID UUIDWithString:kReadUUID]] forService:service];
         }
         
         
@@ -395,7 +401,7 @@
         //注意：uuid 分为可读，可写，要区别对待！！！
         
         
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"你的特征uuid"]])
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kWriteUUID]])
         {
             NSLog(@"监听：%@",characteristic);//监听特征
             //保存characteristic特征值对象
@@ -406,7 +412,7 @@
         }
         
         //当然，你也可以监听多个characteristic特征值对象
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"你的特征uuid"]])
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kReadUUID]])
         {
             //同样用一个变量保存，demo里面没有声明变量，要去声明
 //            _characteristic2 = characteristic;
@@ -438,7 +444,7 @@
             NSLog(@"停止已停止.");
              
             //取消连接
-            [self.centralManager cancelPeripheralConnection:peripheral];
+//            [self.centralManager cancelPeripheralConnection:peripheral];
         }
     }
 }

@@ -114,7 +114,7 @@
         self.activityIndicatorView.hidesWhenStopped = YES;
      
         [self.loadImgView.layer removeAllAnimations];
-        self.loadImgView.image = [UIImage imageNamed:@""];
+        self.loadImgView.image = [UIImage imageNamed:@"none"];
     }else{
         self.loadImgView.image = [UIImage imageNamed:@"device_list_loading_icon"];
         [self rotateView:self.loadImgView];

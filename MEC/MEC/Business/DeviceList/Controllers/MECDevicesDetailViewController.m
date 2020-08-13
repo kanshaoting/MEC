@@ -19,11 +19,12 @@
 
 // 0000ffb0-0000-1000-8000-00805f9b34fb
 
+#define kServiceName @"USB_521_Addheat"
 #define kServiceUUID @"FFB0"
-#define kWriteUUID @"FFB1"
-#define kReadUUID @"FFB2"
+#define kWriteUUID @"0000ffb1-0000-1000-8000-00805f9b34fb"
+#define kReadUUID @"0000ffb2-0000-1000-8000-00805f9b34fb"
 
-#define kCharacteristicUUID @"0000ffb1-0000-1000-8000-00805f9b34fb"
+#define kCharacteristicUUID @"0000ffb2-0000-1000-8000-00805f9b34fb"
 
 
 #define kHeadViewHeight kWidth6(40)
@@ -56,6 +57,9 @@
 ///周边设备服务特性
 @property (nonatomic, strong) CBCharacteristic *characteristic;
 
+///周边设备服务特性
+@property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
+
 /// 搜索蓝牙列表数据
 @property (nonatomic, strong) NSMutableArray *searchBluDataMuArr;
 /// 配对蓝牙列表数据
@@ -82,6 +86,7 @@
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
+    
     [self.view addSubview:self.tipsLabel];
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.bottomView];
@@ -209,6 +214,7 @@
         }
     }else{
         cell.isStop = YES;
+        cell.positionStr = @"";
     }
     return cell;
 }
@@ -244,9 +250,10 @@
 #pragma mark -
 #pragma mark -- tryBtnAction
 - (void)tryBtnAction:(UIButton *)button{
-    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+//    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
     
+    [self writeDataWithHexStr:@""];
 //    [MBProgressHUD showError:@"Connection fail"];
 }
 
@@ -319,15 +326,17 @@
 //        [self.searchBluDataMuArr addObject:peripheral];
 //    }
     
-    if([self.searchBluDataMuArr containsObject:peripheral] == NO && peripheral.name != nil){
+    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
         [self.searchBluDataMuArr addObject:peripheral];
         NSLog(@"advertisementData is \n%@,peripheral is \n%@ ",advertisementData,peripheral);
+
     }
-    
+
     self.bluetoothState  = BluetoothStateScanSuccess;
     [self.tableView reloadData];
 
 }
+
 #pragma mark - 连接到外围设备
 #pragma mark --
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
@@ -345,7 +354,6 @@
 
     [self.tableView reloadData];
 }
- 
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     NSLog(@"连接外围设备失败！");
@@ -373,11 +381,8 @@
         if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]])
         {
             //监听它
-            [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:kServiceUUID],[CBUUID UUIDWithString:kWriteUUID],[CBUUID UUIDWithString:kReadUUID]] forService:service];
+            [peripheral discoverCharacteristics:nil forService:service];
         }
-        
-        
-        
     }
     NSLog(@"此时链接的peripheral：%@",peripheral);
     
@@ -399,26 +404,55 @@
         NSLog(@"%@",characteristic.UUID);
         //发现特征
         //注意：uuid 分为可读，可写，要区别对待！！！
-        
-        
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kWriteUUID]])
-        {
-            NSLog(@"监听：%@",characteristic);//监听特征
-            //保存characteristic特征值对象
-            //以后发信息也是用这个uuid
+        if (characteristic.properties & CBCharacteristicPropertyRead) {
+            // 直接读取这个特征数据，会调用didUpdateValueForCharacteristic
+            [peripheral readValueForCharacteristic:characteristic];
+        }
+        if ((characteristic.properties & CBCharacteristicPropertyNotify) || (characteristic.properties & CBCharacteristicPropertyIndicate)) {
+            // 订阅通知
             self.characteristic = characteristic;
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        }
+        if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
+            NSLog(@"Properties is Write");
+            self.writeCharacteristic = characteristic;
+            //必须等notifCharacteristic 注册了之后才能去写数据 否则数据结果会没有回调
             
-            [_discoveredPeripheral setNotifyValue:YES forCharacteristic:characteristic];
+            //            [peripheral discoverDescriptorsForCharacteristic:characteristic];
         }
         
-        //当然，你也可以监听多个characteristic特征值对象
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kReadUUID]])
-        {
+        
+        
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kWriteUUID]])
+//        {
+//            NSLog(@"监听：%@",characteristic);//监听特征
+//            //保存characteristic特征值对象
+//            //以后发信息也是用这个uuid
+//            self.characteristic = characteristic;
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+////            NSString *str  = @"AA00100000000055";
+////            [self writeDataWithHexStr:str];
+//
+//
+//        }
+        
+      //  当然，你也可以监听多个characteristic特征值对象
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kReadUUID]])
+//        {
+//            if(characteristic.value){
+////                NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+//                 NSString *value = characteristic.value.description;
+//                NSLog(@"读取到特征值：%@",value);
+//            }
+//            self.characteristic = characteristic;
+//
+           
+//            [peripheral readValueForCharacteristic:characteristic];
             //同样用一个变量保存，demo里面没有声明变量，要去声明
 //            _characteristic2 = characteristic;
 //            [peripheral setNotifyValue:YES forCharacteristic:_characteristic2];
 //            NSLog(@"监听：%@",characteristic);//监听特征
-        }
+//        }
     }
 }
 #pragma mark - 特征值被更新后
@@ -439,6 +473,8 @@
             }else if (characteristic.properties == CBCharacteristicPropertyRead){
                  //从外围设备读取新值,调用此方法会触发代理方法：-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
                 [peripheral readValueForCharacteristic:characteristic];
+            }else{
+                
             }
         }else{
             NSLog(@"停止已停止.");
@@ -458,7 +494,8 @@
         return;
     }
     if (characteristic.value) {
-        NSString *value = [[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+//        NSString *value = [[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+         NSString *value = characteristic.value.description;
         NSLog(@"读取到特征值：%@",value);
     }else{
         NSLog(@"未发现特征值.");
@@ -467,8 +504,10 @@
 #pragma mark - 写入数据
 #pragma mark -- writeDataWithHexStr
 - (void)writeDataWithHexStr:(NSString *)hexStr {
-    NSData *data = [self convertHexStrToData:hexStr];
-    [self.discoveredPeripheral writeValue:data forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+//    NSData *data = [self convertHexStrToData:hexStr];
+    unsigned char send[8] = {0xAA, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00,0x055};
+    NSData *sendData = [NSData dataWithBytes:send length:8];
+    [self.discoveredPeripheral writeValue:sendData forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
 }
 #pragma mark - 16进制转NSData
 #pragma mark --
@@ -559,7 +598,14 @@
         }
     }];
 }
-
+#pragma mark - lazy
+#pragma mark - tableview
+- (void)tapAction{
+    if (self.characteristic) {
+         [self writeDataWithHexStr:@""];
+        
+    }
+}
 #pragma mark -
 #pragma mark -- lazy
 - (UILabel *)tipsLabel{
@@ -569,6 +615,7 @@
         _tipsLabel.text = @"Bluetooth";
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
         _tipsLabel.textColor = kColorHex(0x221815);
+         
     }
     return _tipsLabel;
 }

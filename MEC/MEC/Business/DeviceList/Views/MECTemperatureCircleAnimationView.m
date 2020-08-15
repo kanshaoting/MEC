@@ -40,6 +40,9 @@
     [self.circleAnimationView setDidTouchBlock:^(NSInteger temp) {
 
         weakSelf.temperInter  = temp;
+        if (weakSelf.temperatureCircleBlock) {
+            weakSelf.temperatureCircleBlock(temp);
+        }
     }];
     
     

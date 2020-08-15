@@ -10,7 +10,15 @@
 
 #import "MECTemperatureCircleAnimationView.h"
 
-@interface MECSetTemperatureViewController ()<UIPickerViewDelegate,UIPickerViewDataSource>
+#define kServiceName @"USB_521_Addheat"
+#define kServiceUUID @"FFB0"
+#define kWriteUUID @"0000ffb1-0000-1000-8000-00805f9b34fb"
+#define kReadUUID @"0000ffb2-0000-1000-8000-00805f9b34fb"
+
+
+#define kCharacteristicUUID @"0000ffb2-0000-1000-8000-00805f9b34fb"
+
+@interface MECSetTemperatureViewController ()<UIPickerViewDelegate,UIPickerViewDataSource,CBCentralManagerDelegate,CBPeripheralDelegate>
 
 /// 顶部左上角图标
 @property (nonatomic, strong) UIImageView *topIconImageView;
@@ -49,6 +57,19 @@
 /// 部位选择器中间圆形框
 @property (nonatomic, strong) UIView *middleBgView;
 
+/// 搜索蓝牙列表数据
+@property (nonatomic, strong) NSMutableArray *searchBluDataMuArr;
+
+///中央设备
+@property (nonatomic, strong) CBCentralManager *centralManager;
+
+
+///周边设备服务特性
+@property (nonatomic, strong) CBCharacteristic *characteristic;
+
+///周边设备服务特性
+@property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
+
 @end
 
 @implementation MECSetTemperatureViewController
@@ -56,6 +77,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configUI];
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+   
 }
 #pragma mark -
 #pragma mark -- configUI
@@ -206,6 +229,333 @@
     
 }
 
+#pragma mark - 检测蓝牙状态
+#pragma mark -- centralManagerDidUpdateState
+/**
+ *  --  初始化成功自动调用
+ *  --  必须实现的代理，用来返回创建的centralManager的状态。
+ *  --  注意：必须确认当前是CBCentralManagerStatePoweredOn状态才可以调用扫描外设的方法：
+ scanForPeripheralsWithServices
+ */
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central{
+    switch (central.state) {
+        case CBManagerStateUnknown:
+            break;
+        case CBManagerStateResetting:
+            break;
+        case CBManagerStateUnsupported:
+            [MBProgressHUD showError:@"The current mobile phone is not supported, please replace it"];
+            break;
+        case CBManagerStateUnauthorized:
+            [self alertMessageController];
+            break;
+        case CBManagerStatePoweredOff:
+             [self alertMessageController];
+            break;
+        case CBManagerStatePoweredOn:
+        {
+            // 开始扫描周围的外设。
+            [self startScan];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)startScan{
+    //判断状态开始扫瞄周围设备 第一个参数为空则会扫瞄所有的可连接设备  你可以
+    //指定一个CBUUID对象 从而只扫瞄注册用指定服务的设备
+    //scanForPeripheralsWithServices方法调用完后会调用代理CBCentralManagerDelegate的
+    //- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI方法
+    [self.centralManager scanForPeripheralsWithServices:nil options:nil];
+   
+    //清空所有外设数组
+    [self.searchBluDataMuArr removeAllObjects];
+ 
+}
+#pragma mark 发现外设
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
+    if (peripheral == nil||peripheral.identifier == nil)
+    {
+        return;
+    }
+
+    //已经被系统或者其他APP连接上的设备数组
+    NSArray *arr = [central retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:kServiceUUID]]];//serviceUUID就是你首次连接配对的蓝牙
+//    NSLog(@"%@",arr);
+    if(arr.count > 0)
+    {
+        for (CBPeripheral* peripheral in arr)
+        {
+            
+        }
+    }
+  
+    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
+        [self.searchBluDataMuArr addObject:peripheral];
+        NSLog(@"advertisementData is \n%@,peripheral is \n%@ ",advertisementData,peripheral);
+    }
+     NSLog(@"++++++peripheral is \n%@ ",peripheral);
+    if ([self.discoveredPeripheral.identifier isEqual:peripheral.identifier]) {
+        
+        //设定周边设备，指定代理者
+               self.discoveredPeripheral = peripheral;
+               self.discoveredPeripheral.delegate = self;
+               //连接设备
+               [self.centralManager connectPeripheral:peripheral
+                                              options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+        
+    }
+   
+    
+}
+
+#pragma mark - 连接到外围设备成功回调
+#pragma mark -- centralManager
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
+    // 停止扫描
+    [self.centralManager stopScan];
+    //设置外围设备的代理为当前视图控制器
+    peripheral.delegate = self;
+    //外围设备开始寻找服务
+    [peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
+}
+//连接外围设备失败
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+    NSLog(@"连接外围设备失败！");
+  
+}
+
+#pragma mark - 获取当前设备服务services
+#pragma mark --
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
+    if (error) {
+        NSLog(@"Error discovering services: %@", [error localizedDescription]);
+        return;
+    }
+    
+    NSLog(@"所有的servicesUUID%@",peripheral.services);
+ 
+    //遍历所有service
+    for (CBService *service in peripheral.services)
+    {
+        
+        NSLog(@"服务%@",service.UUID);
+        
+        //找到你需要的servicesuuid
+        if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]])
+        {
+            //监听它
+            [peripheral discoverCharacteristics:nil forService:service];
+        }
+    }
+    NSLog(@"此时链接的peripheral：%@",peripheral);
+    
+}
+
+#pragma mark - 外围设备寻找到特征后
+#pragma mark --
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
+    
+    if (error)
+    {
+        NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
+        return;
+    }
+    NSLog(@"服务：%@",service.UUID);
+    // 特征
+    for (CBCharacteristic *characteristic in service.characteristics)
+    {
+        NSLog(@"%@",characteristic.UUID);
+        //发现特征
+        //注意：uuid 分为可读，可写，区别对待
+        // 读
+        if (characteristic.properties & CBCharacteristicPropertyRead) {
+            // 直接读取这个特征数据，会调用didUpdateValueForCharacteristic
+            [peripheral readValueForCharacteristic:characteristic];
+        }
+        // 通知
+        if ((characteristic.properties & CBCharacteristicPropertyNotify) || (characteristic.properties & CBCharacteristicPropertyIndicate)) {
+            // 订阅通知监听
+            self.characteristic = characteristic;
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        }
+        // 写入
+        if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
+            NSLog(@"Properties is Write");
+            // 写入
+            self.writeCharacteristic = characteristic;
+            
+        }
+        
+        //必须等notifCharacteristic 注册了之后才能去写数据 否则数据结果会没有回调
+        
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kWriteUUID]])
+//        {
+//            NSLog(@"监听：%@",characteristic);//监听特征
+//            //保存characteristic特征值对象
+//            //以后发信息也是用这个uuid
+//            self.characteristic = characteristic;
+//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+////            NSString *str  = @"AA00100000000055";
+////            [self writeDataWithHexStr:str];
+//
+//
+//        }
+        
+      //  当然，你也可以监听多个characteristic特征值对象
+//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kReadUUID]])
+//        {
+//            if(characteristic.value){
+////                NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+//                 NSString *value = characteristic.value.description;
+//                NSLog(@"读取到特征值：%@",value);
+//            }
+//            self.characteristic = characteristic;
+//
+           
+//            [peripheral readValueForCharacteristic:characteristic];
+            //同样用一个变量保存，demo里面没有声明变量，要去声明
+//            _characteristic2 = characteristic;
+//            [peripheral setNotifyValue:YES forCharacteristic:_characteristic2];
+//            NSLog(@"监听：%@",characteristic);//监听特征
+//        }
+    }
+}
+
+#pragma mark - 数据写入成功回调
+#pragma mark --
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    NSLog(@"写入成功");
+    
+    [self.discoveredPeripheral readValueForCharacteristic:characteristic];
+    
+    NSString *value = characteristic.value.description;
+    NSLog(@"读取到特征值：%@",value);
+                
+    
+}
+#pragma mark - 特征值被更新后
+#pragma mark --
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    NSLog(@"收到特征更新通知...");
+    if (error) {
+        NSLog(@"更新通知状态时发生错误，错误信息：%@",error.localizedDescription);
+    }
+     
+    //给特征值设置新的值
+    CBUUID *characteristicUUID = [CBUUID UUIDWithString:kCharacteristicUUID];
+    if ([characteristic.UUID isEqual:characteristicUUID]) {
+        if (characteristic.isNotifying) {
+            if (characteristic.properties == CBCharacteristicPropertyNotify) {
+                NSLog(@"已订阅特征通知.");
+                return;
+            }else if (characteristic.properties == CBCharacteristicPropertyRead){
+                 //从外围设备读取新值,调用此方法会触发代理方法：-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+                [peripheral readValueForCharacteristic:characteristic];
+            }else{
+                
+            }
+        }else{
+            NSLog(@"停止已停止.");
+             
+            //取消连接
+//            [self.centralManager cancelPeripheralConnection:peripheral];
+        }
+    }
+}
+
+#pragma mark - 更新特征值后
+#pragma mark --
+//（调用readValueForCharacteristic:方法或者外围设备在订阅后更新特征值都会调用此代理方法）
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    if (error) {
+        NSLog(@"更新特征值时发生错误，错误信息：%@",error.localizedDescription);
+        return;
+    }
+    if (characteristic.value) {
+//        NSString *value = [[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+         NSString *value = characteristic.value.description;
+        NSLog(@"读取到特征值：%@",value);
+    }else{
+        NSLog(@"未发现特征值.");
+    }
+}
+#pragma mark - 写入数据
+#pragma mark -- writeDataWithHexStr
+- (void)writeDataWithHexStr:(NSString *)hexStr {
+    
+    NSData *data = [self convertHexStrToData:hexStr];
+//    unsigned char send[8] = {0xAA, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00,0x055};
+//    NSData *sendData = [NSData dataWithBytes:send length:8];
+    [self.discoveredPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
+}
+#pragma mark - 16进制转NSData
+#pragma mark --
+- (NSData *)convertHexStrToData:(NSString *)str{
+    if (!str || [str length] == 0) {
+        return nil;
+    }
+     
+    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:20];
+    NSRange range;
+    if ([str length] % 2 == 0) {
+        range = NSMakeRange(0, 2);
+    } else {
+        range = NSMakeRange(0, 1);
+    }
+    for (NSInteger i = range.location; i < [str length]; i += 2) {
+        unsigned int anInt;
+        NSString *hexCharStr = [str substringWithRange:range];
+        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
+         
+        [scanner scanHexInt:&anInt];
+        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
+        [hexData appendData:entity];
+         
+        range.location += range.length;
+        range.length = 2;
+    }
+    return hexData;
+}
+#pragma mark - 关闭蓝牙
+#pragma mark -- closeBluetooth
+- (void)closeBluetooth{
+    [self.centralManager stopScan];
+    if (self.discoveredPeripheral) {
+        [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
+    }
+    self.centralManager = nil;
+    self.discoveredPeripheral = nil;
+    self.characteristic = nil;
+}
+
+#pragma mark -
+#pragma mark -- alertMessageController
+- (void)alertMessageController{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Tips" message:@"Please allow bluetooth permissions to be enabled" preferredStyle:UIAlertControllerStyleAlert];
+    kWeakSelf
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    UIAlertAction *gotoAction = [UIAlertAction actionWithTitle:@"Goto" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+       
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+        }
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:gotoAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 
 #pragma mark Event
 #pragma mark -- setTemperatureSwitchAction
@@ -267,6 +617,54 @@
         _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(130), kWidth6(280), kWidth6(280))];
         _temperatureCircleView.temperInter = 1;
         _temperatureCircleView.isClose = YES;
+        kWeakSelf
+        _temperatureCircleView.temperatureCircleBlock = ^(NSInteger temperature) {
+            NSString *flagStr = weakSelf.setTemperatureSwitch.on ? @"01":@"00";
+            NSString *temperatureStr;
+            // 小余1直接返回
+            if (temperature < 1)  return ;
+          
+            // 十进制转十六进制
+            switch (temperature) {
+                case 0:
+                    temperatureStr = @"00";
+                    break;
+                case 1:
+                    temperatureStr = @"01";
+                    break;
+                case 2:
+                    temperatureStr = @"02";
+                    break;
+                case 3:
+                    temperatureStr = @"03";
+                    break;
+                case 4:
+                    temperatureStr = @"04";
+                    break;
+                case 5:
+                    temperatureStr = @"05";
+                    break;
+                case 6:
+                    temperatureStr = @"06";
+                    break;
+                case 7:
+                    temperatureStr = @"07";
+                    break;
+                case 8:
+                    temperatureStr = @"08";
+                    break;
+                case 9:
+                    temperatureStr = @"09";
+                    break;
+                case 10:
+                    temperatureStr = @"0a";
+                    break;
+                default:
+                    break;
+            }
+            NSString *sendDataStr = [NSString stringWithFormat:@"AA%@%@0000000055",flagStr,temperatureStr];
+            [weakSelf writeDataWithHexStr:sendDataStr];
+        };
 //        _temperatureCircleView.backgroundColor = [UIColor redColor];
     }
     return _temperatureCircleView;
@@ -338,6 +736,13 @@
         _bottomRightIconImageView.image = [UIImage imageNamed:@"device_list_heatingpad_icon"];
     }
     return _bottomRightIconImageView;
+}
+
+- (NSMutableArray *)searchBluDataMuArr{
+    if (!_searchBluDataMuArr) {
+        _searchBluDataMuArr = [NSMutableArray array];
+    }
+    return _searchBluDataMuArr;
 }
 
 @end

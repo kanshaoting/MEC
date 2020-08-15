@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 设备mac地址
 @property (nonatomic, copy) NSString *dmac;
 
+/// 位置 1 left 2 right 3 top 4 bottom 5 heating pad
+@property (nonatomic, copy) NSString *positionTpye;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -63,19 +63,29 @@
                 NSDictionary *dataDict = [NSDictionary dictionaryWithDictionary:[result.resultObject objectForKey:@"data"]];
                 self.bindDeviceListInfoModel = [[MECBindDeviceListInfoModel alloc] init];
                 if ([[dataDict objectForKey:@"left"] isKindOfClass:[NSDictionary class]]) {
-                     self.bindDeviceListInfoModel.leftDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"left"]]];
+                    NSMutableDictionary *leftMuDict = [NSMutableDictionary dictionaryWithDictionary:[dataDict objectForKey:@"left"]];
+                    [leftMuDict setObject:@"1" forKey:@"positionTpye"];
+                     self.bindDeviceListInfoModel.leftDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:leftMuDict]];
                 }
                 if ([[dataDict objectForKey:@"right"] isKindOfClass:[NSDictionary class]]) {
-                     self.bindDeviceListInfoModel.rightDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"right"]]];
+                    NSMutableDictionary *rightMuDict = [NSMutableDictionary dictionaryWithDictionary:[dataDict objectForKey:@"right"]];
+                    [rightMuDict setObject:@"2" forKey:@"positionTpye"];
+                     self.bindDeviceListInfoModel.rightDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:rightMuDict]];
                 }
                 if ([[dataDict objectForKey:@"top"] isKindOfClass:[NSDictionary class]]) {
-                     self.bindDeviceListInfoModel.topDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"top"]]];
+                    NSMutableDictionary *topMuDict = [NSMutableDictionary dictionaryWithDictionary:[dataDict objectForKey:@"top"]];
+                    [topMuDict setObject:@"3" forKey:@"positionTpye"];
+                     self.bindDeviceListInfoModel.topDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:topMuDict]];
                 }
                 if ([[dataDict objectForKey:@"bottom"] isKindOfClass:[NSDictionary class]]) {
-                     self.bindDeviceListInfoModel.bottomDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"bottom"]]];
+                    NSMutableDictionary *bottomMuDict = [NSMutableDictionary dictionaryWithDictionary:[dataDict objectForKey:@"bottom"]];
+                    [bottomMuDict setObject:@"4" forKey:@"positionTpye"];
+                     self.bindDeviceListInfoModel.bottomDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:bottomMuDict]];
                 }
                 if ([[dataDict objectForKey:@"pad"] isKindOfClass:[NSDictionary class]]) {
-                     self.bindDeviceListInfoModel.heatingPadDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:[dataDict objectForKey:@"pad"]]];
+                    NSMutableDictionary *padMuDict = [NSMutableDictionary dictionaryWithDictionary:[dataDict objectForKey:@"pad"]];
+                    [padMuDict setObject:@"5" forKey:@"positionTpye"];
+                     self.bindDeviceListInfoModel.heatingPadDeviceModel = [MECBindDeviceDetailInfoModel mj_objectWithKeyValues:[NSDictionary dictionaryWithDictionary:padMuDict]];
                 }
                 self.deviceListView.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
             }

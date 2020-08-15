@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, BluetoothCentralManagerState){
 @property (nonatomic, assign) PositionType positionType;
 
 
+
 @end
 
 NS_ASSUME_NONNULL_END

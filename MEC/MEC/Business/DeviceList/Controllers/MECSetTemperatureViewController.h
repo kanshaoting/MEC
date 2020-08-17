@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///  设备mac地址
 @property (nonatomic, copy) NSString *macAddressStr;
 
+
 @end
 
 NS_ASSUME_NONNULL_END

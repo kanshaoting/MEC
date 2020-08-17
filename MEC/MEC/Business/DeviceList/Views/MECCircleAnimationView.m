@@ -287,7 +287,7 @@ static const CGFloat kAnimationTime = 0.5;
         _temperInter = temperInter ;
         
         self.percent = ((temperInter-kStartValue)/kCount)*100;
-        
+        self.commentLabel.text = [NSString stringWithFormat:@"%0.f",_temperInter];
     }
     
 }

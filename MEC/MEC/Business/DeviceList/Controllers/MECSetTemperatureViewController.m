@@ -76,6 +76,22 @@
 /// 当前温度值
 @property (nonatomic, assign) NSInteger currentTemperature;
 
+/// 发送的温度值
+@property (nonatomic, assign) NSInteger sendTemperature;
+/// 发送的开关值
+@property (nonatomic, assign) BOOL sendFlag;
+
+
+/// 接受到的温度值
+@property (nonatomic, assign) NSInteger receiveTemperature;
+
+/// 接受到的开关值
+@property (nonatomic, assign) BOOL receiveFlag;
+
+
+/// 是否是首次
+@property (nonatomic, assign) BOOL isFirst;
+
 
 @end
 
@@ -83,10 +99,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self configUI];
+    self.isFirst = YES;
     self.currentTemperature = 1;
+    self.sendFlag = NO;
+    self.sendTemperature = -1;
+    [self configUI];
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-   
+    
 }
 
 #pragma mark - 返回根视图控制器
@@ -302,7 +321,9 @@
     }
 
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
+    
     if (manufacturerDataStr.length > 0 && manufacturerDataStr != nil) {
+        NSLog(@"advertisementData is %@,peripheral is %@",advertisementData,peripheral);
         // 英文字母转大写
         manufacturerDataStr = [manufacturerDataStr uppercaseString];
         // 替换空格
@@ -342,8 +363,7 @@
 }
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
-    NSLog(@"连接外围设备失败！");
-  
+   [MBProgressHUD showError:@"Device Connection  failed"];
 }
 
 #pragma mark - 获取当前设备服务services
@@ -454,10 +474,47 @@
     }
     if (characteristic.value) {
         NSString *value = characteristic.value.description;
+        NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
+        NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
+        if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
+            NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
+            NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
+            self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
+            if (self.isFirst) {
+                if (self.receiveFlag == self.sendFlag) {
+                        
+                    }else{
+                        self.sendFlag = self.receiveFlag;
+                        if (self.receiveFlag) {
+                            self.setTemperatureSwitch.on = YES;
+                        }else{
+                            self.setTemperatureSwitch.on = NO;
+                        }
+                    }
+                
+                    self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
+                    
+                    if (self.receiveTemperature == self.sendTemperature) {
+                        
+                    }else{
+                        self.sendTemperature = self.receiveTemperature;
+                        self.temperatureCircleView.temperInter = self.receiveTemperature;
+                        self.temperatureCircleView.isClose = !self.setTemperatureSwitch.on;
+                    }
+            }else{
+                self.isFirst = NO;
+            }
+            
+        }
         NSLog(@"读取到特征值：%@",value);
     }else{
         NSLog(@"未发现特征值.");
     }
+}
+#pragma mark -  处理开关及温度值
+#pragma mark -- handleTemperatureSwitchAndTemperatureView
+- (void)handleTemperatureSwitchAndTemperatureView{
+    
 }
 #pragma mark - 写入数据
 #pragma mark -- writeDataWithHexStr
@@ -539,10 +596,21 @@
 - (void)setTemperatureSwitchAction:(UISwitch *)mySwitch {
     self.temperatureCircleView.isClose = !mySwitch.on;
     
-    self.temperatureCircleView.temperInter = !mySwitch.on ? 1:10;
+    self.temperatureCircleView.temperInter = self.currentTemperature;
     [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.currentTemperature];
 }
 
+- (NSInteger )handleReceiveTemperature:(NSString *)receiveTemperature{
+    NSInteger tempTemperature;
+    //十六进制的 0a 代表10
+    if ([receiveTemperature isEqualToString:@"0a"]) {
+        tempTemperature = 10;
+    }else{
+        // 截取最后一位 0 - 9
+        tempTemperature = [receiveTemperature substringFromIndex:1].integerValue;
+    }
+    return tempTemperature;
+}
 - (UIImageView *)topIconImageView{
     if (!_topIconImageView) {
         _topIconImageView = [[UIImageView alloc] init];
@@ -611,7 +679,6 @@
     NSString *temperatureStr;
     // 小余1直接返回
     if (temperature < 1)  return ;
-    
     // 十进制转十六进制
     switch (temperature) {
         case 0:
@@ -650,6 +717,8 @@
         default:
             break;
     }
+    self.sendFlag = self.setTemperatureSwitch.on;
+    self.sendTemperature = temperature;
     NSString *sendDataStr = [NSString stringWithFormat:@"AA%@%@0000000055",flagStr,temperatureStr];
     [self writeDataWithHexStr:sendDataStr];
 }

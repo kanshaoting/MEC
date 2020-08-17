@@ -364,6 +364,7 @@
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     NSLog(@"连接外围设备失败！");
+    [MBProgressHUD showError:@"Device Connection  failed"];
     self.bluetoothState = BluetoothStateConnected;
     [self.tableView reloadData];
 }
@@ -590,14 +591,7 @@
         }
     }];
 }
-#pragma mark - lazy
-#pragma mark - tableview
-- (void)tapAction{
-    if (self.characteristic) {
-         [self writeDataWithHexStr:@""];
-        
-    }
-}
+
 #pragma mark -
 #pragma mark -- lazy
 - (UILabel *)tipsLabel{

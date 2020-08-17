@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MECBaseViewController : UIViewController
 
+
+/// 返回按钮方法
+- (void)goBackBtnAction;
+
 @end
 
 NS_ASSUME_NONNULL_END

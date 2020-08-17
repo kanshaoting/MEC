@@ -8,7 +8,7 @@
 
 #import "MECNavigationController.h"
 
-@interface MECNavigationController ()
+@interface MECNavigationController ()<UIGestureRecognizerDelegate>
 
 @end
 
@@ -26,14 +26,10 @@
     self.navigationBar.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.navigationBar.bounds].CGPath;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+// 禁止测滑返回
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    return NO;
 }
-*/
+
 
 @end

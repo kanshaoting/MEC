@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MECBindDeviceDetailInfoModel;
+
 @interface MECDevicesBluetoothTableViewCell : UITableViewCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
@@ -20,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *positionStr;
 /// 设备名字
 @property (nonatomic, copy) NSString *deviceNameStr;
+
+
+///模型
+@property (nonatomic, strong) MECBindDeviceDetailInfoModel *deviceDetailInfoModel;
+
 
 
 @end

@@ -198,7 +198,8 @@
             }
         };
         cell.arrowsBtnTapBlock = ^{
-            [weakSelf pushMECSetTemperatureViewController];
+           
+            [self pushMECSetTemperatureViewControllerWithDeviceIdentifier:@""];
         };
         return cell;
     }
@@ -209,6 +210,20 @@
     //获取当前cell的视图控制器
     MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
     vc.positionType = type;
+    vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
+    NSMutableArray *tempMuArr = [NSMutableArray array];
+    if (self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
+        [tempMuArr addObject:self.bindDeviceListInfoModel.leftDeviceModel];
+    }else if (self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0){
+         [tempMuArr addObject:self.bindDeviceListInfoModel.rightDeviceModel];
+    }else if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0){
+         [tempMuArr addObject:self.bindDeviceListInfoModel.topDeviceModel];
+    }else if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0){
+         [tempMuArr addObject:self.bindDeviceListInfoModel.bottomDeviceModel];
+    }else if(self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0){
+        [tempMuArr addObject:self.bindDeviceListInfoModel.heatingPadDeviceModel];
+    }
+    vc.matchBluDataMuArr = [NSMutableArray arrayWithArray:tempMuArr];
     for (UIView* next = [self superview]; next; next = next.superview) {
         UIResponder* nextResponder = [next nextResponder];
         if ([nextResponder isKindOfClass:[UIViewController class]]) {
@@ -221,9 +236,11 @@
 }
 #pragma mark - 跳转到温度设置页面
 #pragma mark -- pushMECSetTemperatureViewController
-- (void)pushMECSetTemperatureViewController{
+- (void)pushMECSetTemperatureViewControllerWithDeviceIdentifier:(NSString *)deviceIdentifier{
     //获取当前cell的视图控制器
-    MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+    MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+    vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
+//    vc.deviceIdentifier = deviceIdentifier;
     for (UIView* next = [self superview]; next; next = next.superview) {
         UIResponder* nextResponder = [next nextResponder];
         if ([nextResponder isKindOfClass:[UIViewController class]]) {
@@ -258,6 +275,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (0 == indexPath.row) {
+        if (self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) {
+            [self pushMECSetTemperatureViewControllerWithDeviceIdentifier:self.bindDeviceListInfoModel.leftDeviceModel.dmac];
+        }
+    }else if (1 == indexPath.row){
+        if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 ) {
+            [self pushMECSetTemperatureViewControllerWithDeviceIdentifier:self.bindDeviceListInfoModel.topDeviceModel.dmac];
+        }
+    }else if (2 == indexPath.row){
+        if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 ) {
+            [self pushMECSetTemperatureViewControllerWithDeviceIdentifier:self.bindDeviceListInfoModel.bottomDeviceModel.dmac];
+        }
+        
+    }else {
+        if (self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 ) {
+            [self pushMECSetTemperatureViewControllerWithDeviceIdentifier:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac];
+        }
+    }
 }
 
 

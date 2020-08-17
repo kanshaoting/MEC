@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <CoreBluetooth/CoreBluetooth.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MECBindDeviceDetailInfoModel : NSObject
@@ -23,6 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 位置 1 left 2 right 3 top 4 bottom 5 heating pad
 @property (nonatomic, copy) NSString *positionTpye;
+
+/// 周边设备
+@property (nonatomic, strong) CBPeripheral *discoveredPeripheral;
+
+/// 是否在加载中
+@property (nonatomic, assign) BOOL isLoading;
 
 @end
 

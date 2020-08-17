@@ -8,6 +8,7 @@
 
 #import "MECBaseViewController.h"
 
+#import "MECBindDeviceListInfoModel.h"
 
 #import <CoreBluetooth/CoreBluetooth.h>
 
@@ -17,9 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MECSetTemperatureViewController : MECBaseViewController
 
 
-///周边设备
-@property (nonatomic, strong) CBPeripheral *discoveredPeripheral;
-
+/// 绑定设备信息model
+@property (nonatomic,strong) MECBindDeviceListInfoModel *bindDeviceListInfoModel;
+///  设备mac地址
+@property (nonatomic, copy) NSString *macAddressStr;
 
 @end
 

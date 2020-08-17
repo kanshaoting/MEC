@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "MECBindDeviceDetailInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@class MECBindDeviceDetailInfoModel;
 @interface MECBindDeviceListInfoModel : NSObject
 
 @property (nonatomic, strong) MECBindDeviceDetailInfoModel *leftDeviceModel;

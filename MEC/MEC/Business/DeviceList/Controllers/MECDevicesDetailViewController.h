@@ -7,6 +7,7 @@
 //
 
 #import "MECBaseViewController.h"
+#import "MECBindDeviceListInfoModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,7 +35,11 @@ typedef NS_ENUM(NSInteger, BluetoothCentralManagerState){
 /// 部位类型
 @property (nonatomic, assign) PositionType positionType;
 
+/// 绑定设备信息model
+@property (nonatomic,strong) MECBindDeviceListInfoModel *bindDeviceListInfoModel;
 
+/// 配对蓝牙列表数据
+@property (nonatomic, strong) NSMutableArray *matchBluDataMuArr;
 
 @end
 

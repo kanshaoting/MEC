@@ -7,7 +7,7 @@
 //
 
 #import "MECBindDeviceListInfoModel.h"
-#import "MECBindDeviceDetailInfoModel.h"
+
 
 @implementation MECBindDeviceListInfoModel
 

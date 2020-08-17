@@ -59,14 +59,16 @@
 
 /// 搜索蓝牙列表数据
 @property (nonatomic, strong) NSMutableArray *searchBluDataMuArr;
-/// 配对蓝牙列表数据
-@property (nonatomic, strong) NSMutableArray *matchBluDataMuArr;
+
 
 
 /// 当前选中cell row
 @property (nonatomic, assign) NSInteger currentRow;
 /// 当前选中连接状态
 @property (nonatomic, assign) BOOL currentSelectStatus;
+
+/// 当前选中设备信息Model
+@property (nonatomic, strong) MECBindDeviceDetailInfoModel *currentDeviceDetailInfoModel;
 
 
 @end
@@ -80,6 +82,13 @@
     
 }
 
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    // 关闭蓝牙，下个页面会重启蓝牙
+    [self closeBluetooth];
+
+}
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
@@ -180,76 +189,64 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MECDevicesBluetoothTableViewCell *cell = [MECDevicesBluetoothTableViewCell cellWithTableView:tableView];
-    CBPeripheral *per;
+    MECBindDeviceDetailInfoModel *model;
     if (0 == indexPath.section) {
-        per = (CBPeripheral *)self.matchBluDataMuArr[indexPath.row];
+        model = [self.matchBluDataMuArr objectAtIndex:indexPath.row];
     }else{
-        per = (CBPeripheral *)self.searchBluDataMuArr[indexPath.row];
+         model = [self.searchBluDataMuArr objectAtIndex:indexPath.row];
     }
-    
-    NSString *bleName = per.name;
-    cell.deviceNameStr = bleName;
+     
     cell.contentView.backgroundColor = kColorHex(0xffffff);
+    cell.deviceDetailInfoModel = model;
+//    cell.isStop = model.isLoading;
     if (0 == indexPath.section) {
         if (self.currentRow == indexPath.row) {
-            cell.isStop = !(BluetoothStateConnecting == self.bluetoothState);
-            if (PositionTypeFootLeft == self.positionType) {
-                cell.positionStr = @"Left";
-            }else if (PositionTypeFootRight == self.positionType){
-                cell.positionStr = @"Right";
-            }else if (PositionTypeFootTop == self.positionType){
-                cell.positionStr = @"Top";
-            }else if (PositionTypeFootBottom == self.positionType){
-                cell.positionStr = @"Bottom";
-            }else if (PositionTypeFootHeatingPad == self.positionType){
-                cell.positionStr = @"Heating Pad";
-            }else{
-                cell.positionStr = @"";
-            }
+//            cell.isStop = NO;
         }
-    }else{
-        cell.isStop = YES;
-        cell.positionStr = @"";
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MECBindDeviceDetailInfoModel *model;
+    if (0 == indexPath.section) {
+        model = [self.matchBluDataMuArr objectAtIndex:indexPath.row];
+    }else{
+        model = [self.searchBluDataMuArr objectAtIndex:indexPath.row];
+    }
     
-//    MECDevicesBluetoothTableViewCell *cell = (MECDevicesBluetoothTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if ( 0 == indexPath.section) {
         //跳转到温度设置页面
         MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
-        vc.discoveredPeripheral = self.discoveredPeripheral;
+        vc.macAddressStr = model.dmac;
+        vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
         [self.navigationController pushViewController:vc  animated:YES];
     }else{
-        CBPeripheral *peripheral=(CBPeripheral *)self.searchBluDataMuArr[indexPath.row];
         //设定周边设备，指定代理者
-        self.discoveredPeripheral = peripheral;
+        self.discoveredPeripheral = model.discoveredPeripheral;
+        model.isLoading = YES;
         self.discoveredPeripheral.delegate = self;
         //连接设备
-        [self.centralManager connectPeripheral:peripheral
+        [self.centralManager connectPeripheral:model.discoveredPeripheral
                                        options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
         // 开始匹配中
         self.bluetoothState = BluetoothStateConnecting;
         // 搜索列表移除 配对列表加入，并更新列表
-        [self.searchBluDataMuArr removeObject:peripheral];
-        [self.matchBluDataMuArr addObject:peripheral];
+        [self.searchBluDataMuArr removeObject:model];
+        [self.matchBluDataMuArr addObject:model];
         self.currentRow = self.matchBluDataMuArr.count - 1;
+        self.currentDeviceDetailInfoModel = model;
         [self.tableView reloadData];
         
     }
-   
 }
 
 #pragma mark -
 #pragma mark -- tryBtnAction
 - (void)tryBtnAction:(UIButton *)button{
-//    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
-    
-    [self writeDataWithHexStr:@"AA01010000000055"];
+    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
@@ -306,26 +303,43 @@
         return;
     }
 
-    //已经被系统或者其他APP连接上的设备数组
-    NSArray *arr = [central retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:kServiceUUID]]];//serviceUUID就是你首次连接配对的蓝牙
-//    NSLog(@"%@",arr);
-    if(arr.count > 0)
-    {
-        for (CBPeripheral* peripheral in arr)
-        {
-            if (peripheral != nil && [self.matchBluDataMuArr containsObject:peripheral] == NO)
-            {
-                // 之前配对过的设备
-//                 [self.matchBluDataMuArr addObject:peripheral];
+    NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
+    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
+        
+        // 英文字母转大写
+        manufacturerDataStr = [manufacturerDataStr uppercaseString];
+        // 替换空格
+        manufacturerDataStr = [manufacturerDataStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+        NSMutableString *tempMuStr = [NSMutableString stringWithString:manufacturerDataStr];
+
+        // 每个2位插入冒号，和安卓统一蓝牙mac地址格式
+        for(NSInteger i = tempMuStr.length - 2; i > 0; i -=2) {
+            [tempMuStr insertString:@":" atIndex:i];
+        }
+        // 过滤掉之前已经匹配过的设备
+        if (self.matchBluDataMuArr.count > 0 ) {
+            for (MECBindDeviceDetailInfoModel *tempModel in self.matchBluDataMuArr) {
+                if (![tempMuStr isEqualToString:tempModel.dmac]) {
+                    MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
+                    model.dmac = tempMuStr;
+                    model.dbtname = peripheral.name;
+                    model.dname = peripheral.name;
+                    model.discoveredPeripheral = peripheral;
+                    model.positionTpye = @"0";
+                    [self.searchBluDataMuArr addObject:model];
+                }
             }
+        }else{
+            MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
+            model.dmac = tempMuStr;
+            model.dbtname = peripheral.name;
+            model.dname = peripheral.name;
+            model.discoveredPeripheral = peripheral;
+            model.positionTpye = @"0";
+            [self.searchBluDataMuArr addObject:model];
         }
     }
-  
-    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
-        [self.searchBluDataMuArr addObject:peripheral];
-        NSLog(@"advertisementData is \n%@,peripheral is \n%@ ",advertisementData,peripheral);
-    }
-    
     self.bluetoothState  = BluetoothStateScanSuccess;
     [self.tableView reloadData];
     
@@ -340,9 +354,8 @@
     peripheral.delegate = self;
     //外围设备开始寻找服务
     [peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
-    NSString *uuid = [NSString stringWithFormat:@"%@",peripheral.identifier];
     NSString *type = [NSString stringWithFormat:@"%ld",(long)self.positionType];
-    [self addDeviceRequestWithDeviceBluname:peripheral.name deviceMacname:uuid type:type];
+    [self addDeviceRequestWithDeviceBluname:self.currentDeviceDetailInfoModel.dname deviceMacname:self.currentDeviceDetailInfoModel.dmac type:type];
     
     self.bluetoothState = BluetoothStateConnected;
 
@@ -391,7 +404,7 @@
         NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
         
     }
-//    return;
+    return;
     NSLog(@"服务：%@",service.UUID);
     // 特征
     for (CBCharacteristic *characteristic in service.characteristics)
@@ -408,7 +421,7 @@
         if ((characteristic.properties & CBCharacteristicPropertyNotify) || (characteristic.properties & CBCharacteristicPropertyIndicate)) {
             // 订阅通知监听
             self.characteristic = characteristic;
-//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
         }
         // 写入
         if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
@@ -571,7 +584,8 @@
             [hud showText:@"Add Success"];
             //跳转到温度设置页面
             MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
-            vc.discoveredPeripheral = weakSelf.discoveredPeripheral;
+            vc.macAddressStr = dmac;
+            vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
             [weakSelf.navigationController pushViewController:vc  animated:YES];
         }
     }];
@@ -641,17 +655,12 @@
     }
     return _tryBtn;
 }
+
 - (NSMutableArray *)searchBluDataMuArr{
     if (!_searchBluDataMuArr) {
         _searchBluDataMuArr = [NSMutableArray array];
     }
     return _searchBluDataMuArr;
-}
-- (NSMutableArray *)matchBluDataMuArr{
-    if (!_matchBluDataMuArr) {
-        _matchBluDataMuArr = [NSMutableArray array];
-    }
-    return _matchBluDataMuArr;
 }
 
 

@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, NetWorkType) {
 
 + (void)getRequestWithUrlPath:(NSString *)urlPath parameters:(NSDictionary *)parameters finished:(resultInfoBlock)finished {
     QCNetWorkClient *client = [QCNetWorkClient shareClient];
-    NSString *urlStr = urlStr = [NSString stringWithFormat:@"%@/%@", client.QCBaseUrl, urlPath];
+    NSString *urlStr = urlStr = [NSString stringWithFormat:@"%@%@", client.QCBaseUrl, urlPath];
     [self setHeadersWithUrlpath:urlPath parameters:parameters client:client netType:NetWorkTypePost];
     [client GET:urlStr parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         QCNetWorkResult *result = [QCNetWorkResult resultWithResultObject:responseObject];
@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger, NetWorkType) {
     QCNetWorkClient *client = [QCNetWorkClient shareClient];
     NSString *urlStr = urlPath;
     if(![urlPath containsString:@"http"]) {
-        urlStr = [NSString stringWithFormat:@"%@/%@", client.QCBaseUrl, urlPath];
+        urlStr = [NSString stringWithFormat:@"%@%@", client.QCBaseUrl, urlPath];
     }
     [self setHeadersWithUrlpath:urlPath parameters:parameters client:client netType:NetWorkTypePost];
     [client POST:urlStr parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {

@@ -63,12 +63,19 @@
 ///中央设备
 @property (nonatomic, strong) CBCentralManager *centralManager;
 
+///周边设备
+@property (nonatomic, strong) CBPeripheral *discoveredPeripheral;
 
 ///周边设备服务特性
 @property (nonatomic, strong) CBCharacteristic *characteristic;
 
 ///周边设备服务特性
 @property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
+
+
+/// 当前温度值
+@property (nonatomic, assign) NSInteger currentTemperature;
+
 
 @end
 
@@ -77,9 +84,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configUI];
+    self.currentTemperature = 1;
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
    
 }
+
+#pragma mark - 返回根视图控制器
+#pragma mark -- goBackBtnAction
+- (void)goBackBtnAction{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    // 关闭蓝牙，下个页面会重启蓝牙
+    [self closeBluetooth];
+}
+
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
@@ -281,34 +301,33 @@
         return;
     }
 
-    //已经被系统或者其他APP连接上的设备数组
-    NSArray *arr = [central retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:kServiceUUID]]];//serviceUUID就是你首次连接配对的蓝牙
-//    NSLog(@"%@",arr);
-    if(arr.count > 0)
-    {
-        for (CBPeripheral* peripheral in arr)
-        {
-            
+    NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
+    if (manufacturerDataStr.length > 0 && manufacturerDataStr != nil) {
+        // 英文字母转大写
+        manufacturerDataStr = [manufacturerDataStr uppercaseString];
+        // 替换空格
+        manufacturerDataStr = [manufacturerDataStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+        NSMutableString *tempMuStr = [NSMutableString stringWithString:manufacturerDataStr];
+        
+        // 每个2位插入冒号，和安卓统一蓝牙mac地址格式
+        for(NSInteger i = tempMuStr.length - 2; i > 0; i -=2) {
+            [tempMuStr insertString:@":" atIndex:i];
+        }
+        
+        if ([tempMuStr isEqualToString:self.macAddressStr]) {
+            // 判断如果是之前绑定的，则自动链接
+            //设定周边设备，指定代理者
+            self.discoveredPeripheral = peripheral;
+            self.discoveredPeripheral.delegate = self;
+            //连接设备
+            [self.centralManager connectPeripheral:peripheral
+                                           options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
         }
     }
-  
     if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
         [self.searchBluDataMuArr addObject:peripheral];
-        NSLog(@"advertisementData is \n%@,peripheral is \n%@ ",advertisementData,peripheral);
     }
-     NSLog(@"++++++peripheral is \n%@ ",peripheral);
-    if ([self.discoveredPeripheral.identifier isEqual:peripheral.identifier]) {
-        
-        //设定周边设备，指定代理者
-               self.discoveredPeripheral = peripheral;
-               self.discoveredPeripheral.delegate = self;
-               //连接设备
-               [self.centralManager connectPeripheral:peripheral
-                                              options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
-        
-    }
-   
-    
 }
 
 #pragma mark - 连接到外围设备成功回调
@@ -388,39 +407,6 @@
             self.writeCharacteristic = characteristic;
             
         }
-        
-        //必须等notifCharacteristic 注册了之后才能去写数据 否则数据结果会没有回调
-        
-//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kWriteUUID]])
-//        {
-//            NSLog(@"监听：%@",characteristic);//监听特征
-//            //保存characteristic特征值对象
-//            //以后发信息也是用这个uuid
-//            self.characteristic = characteristic;
-//            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-////            NSString *str  = @"AA00100000000055";
-////            [self writeDataWithHexStr:str];
-//
-//
-//        }
-        
-      //  当然，你也可以监听多个characteristic特征值对象
-//        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kReadUUID]])
-//        {
-//            if(characteristic.value){
-////                NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-//                 NSString *value = characteristic.value.description;
-//                NSLog(@"读取到特征值：%@",value);
-//            }
-//            self.characteristic = characteristic;
-//
-           
-//            [peripheral readValueForCharacteristic:characteristic];
-            //同样用一个变量保存，demo里面没有声明变量，要去声明
-//            _characteristic2 = characteristic;
-//            [peripheral setNotifyValue:YES forCharacteristic:_characteristic2];
-//            NSLog(@"监听：%@",characteristic);//监听特征
-//        }
     }
 }
 
@@ -428,18 +414,11 @@
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     NSLog(@"写入成功");
-    
-    [self.discoveredPeripheral readValueForCharacteristic:characteristic];
-    
-    NSString *value = characteristic.value.description;
-    NSLog(@"读取到特征值：%@",value);
-                
-    
 }
 #pragma mark - 特征值被更新后
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    NSLog(@"收到特征更新通知...");
+    
     if (error) {
         NSLog(@"更新通知状态时发生错误，错误信息：%@",error.localizedDescription);
     }
@@ -459,9 +438,8 @@
             }
         }else{
             NSLog(@"停止已停止.");
-             
             //取消连接
-//            [self.centralManager cancelPeripheralConnection:peripheral];
+            [self.centralManager cancelPeripheralConnection:peripheral];
         }
     }
 }
@@ -475,8 +453,7 @@
         return;
     }
     if (characteristic.value) {
-//        NSString *value = [[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-         NSString *value = characteristic.value.description;
+        NSString *value = characteristic.value.description;
         NSLog(@"读取到特征值：%@",value);
     }else{
         NSLog(@"未发现特征值.");
@@ -485,8 +462,9 @@
 #pragma mark - 写入数据
 #pragma mark -- writeDataWithHexStr
 - (void)writeDataWithHexStr:(NSString *)hexStr {
-    
+    // 方法一 字符串转NSData
     NSData *data = [self convertHexStrToData:hexStr];
+    // 方法w二 字节数组转NSData
 //    unsigned char send[8] = {0xAA, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00,0x055};
 //    NSData *sendData = [NSData dataWithBytes:send length:8];
     [self.discoveredPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
@@ -497,7 +475,6 @@
     if (!str || [str length] == 0) {
         return nil;
     }
-     
     NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:20];
     NSRange range;
     if ([str length] % 2 == 0) {
@@ -561,6 +538,9 @@
 #pragma mark -- setTemperatureSwitchAction
 - (void)setTemperatureSwitchAction:(UISwitch *)mySwitch {
     self.temperatureCircleView.isClose = !mySwitch.on;
+    
+    self.temperatureCircleView.temperInter = !mySwitch.on ? 1:10;
+    [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.currentTemperature];
 }
 
 - (UIImageView *)topIconImageView{
@@ -619,57 +599,60 @@
         _temperatureCircleView.isClose = YES;
         kWeakSelf
         _temperatureCircleView.temperatureCircleBlock = ^(NSInteger temperature) {
-            NSString *flagStr = weakSelf.setTemperatureSwitch.on ? @"01":@"00";
-            NSString *temperatureStr;
-            // 小余1直接返回
-            if (temperature < 1)  return ;
-          
-            // 十进制转十六进制
-            switch (temperature) {
-                case 0:
-                    temperatureStr = @"00";
-                    break;
-                case 1:
-                    temperatureStr = @"01";
-                    break;
-                case 2:
-                    temperatureStr = @"02";
-                    break;
-                case 3:
-                    temperatureStr = @"03";
-                    break;
-                case 4:
-                    temperatureStr = @"04";
-                    break;
-                case 5:
-                    temperatureStr = @"05";
-                    break;
-                case 6:
-                    temperatureStr = @"06";
-                    break;
-                case 7:
-                    temperatureStr = @"07";
-                    break;
-                case 8:
-                    temperatureStr = @"08";
-                    break;
-                case 9:
-                    temperatureStr = @"09";
-                    break;
-                case 10:
-                    temperatureStr = @"0a";
-                    break;
-                default:
-                    break;
-            }
-            NSString *sendDataStr = [NSString stringWithFormat:@"AA%@%@0000000055",flagStr,temperatureStr];
-            [weakSelf writeDataWithHexStr:sendDataStr];
+            weakSelf.currentTemperature = temperature;
+            [weakSelf writeDataWithStatus:weakSelf.setTemperatureSwitch.on temperature:temperature];
         };
-//        _temperatureCircleView.backgroundColor = [UIColor redColor];
     }
     return _temperatureCircleView;
 }
 
+- (void)writeDataWithStatus:(BOOL)status temperature:(NSInteger)temperature{
+    NSString *flagStr = self.setTemperatureSwitch.on ? @"01":@"00";
+    NSString *temperatureStr;
+    // 小余1直接返回
+    if (temperature < 1)  return ;
+    
+    // 十进制转十六进制
+    switch (temperature) {
+        case 0:
+            temperatureStr = @"00";
+            break;
+        case 1:
+            temperatureStr = @"01";
+            break;
+        case 2:
+            temperatureStr = @"02";
+            break;
+        case 3:
+            temperatureStr = @"03";
+            break;
+        case 4:
+            temperatureStr = @"04";
+            break;
+        case 5:
+            temperatureStr = @"05";
+            break;
+        case 6:
+            temperatureStr = @"06";
+            break;
+        case 7:
+            temperatureStr = @"07";
+            break;
+        case 8:
+            temperatureStr = @"08";
+            break;
+        case 9:
+            temperatureStr = @"09";
+            break;
+        case 10:
+            temperatureStr = @"0a";
+            break;
+        default:
+            break;
+    }
+    NSString *sendDataStr = [NSString stringWithFormat:@"AA%@%@0000000055",flagStr,temperatureStr];
+    [self writeDataWithHexStr:sendDataStr];
+}
 //懒加载
 - (UIPickerView *)pickerView{
     if (!_pickerView) {

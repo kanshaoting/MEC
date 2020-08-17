@@ -7,6 +7,7 @@
 //
 
 #import "MECDevicesBluetoothTableViewCell.h"
+#import "MECBindDeviceDetailInfoModel.h"
 
 
 @interface MECDevicesBluetoothTableViewCell ()
@@ -132,6 +133,42 @@
     [view.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 
+- (void)setDeviceDetailInfoModel:(MECBindDeviceDetailInfoModel *)deviceDetailInfoModel{
+    _deviceDetailInfoModel = deviceDetailInfoModel;
+    NSString *positionStr = @"";
+    switch (_deviceDetailInfoModel.positionTpye.integerValue) {
+        case 1:
+            positionStr = @"Left";
+            break;
+        case 2:
+            positionStr = @"Right";
+            break;
+        case 3:
+            positionStr = @"Top";
+            break;
+        case 4:
+            positionStr = @"Bottom";
+            break;
+        case 5:
+            positionStr = @"Heating Pad";
+            break;
+        default:
+            break;
+    }
+    self.positionLabel.text = positionStr;
+    self.deviceNameLabel.text = _deviceDetailInfoModel.dmac ?  _deviceDetailInfoModel.dname : @"";
+    if (_deviceDetailInfoModel.isLoading) {
+        self.loadImgView.image = [UIImage imageNamed:@"device_list_loading_icon"];
+        [self rotateView:self.loadImgView];
+    }else{
+        [self.activityIndicatorView stopAnimating];
+        self.activityIndicatorView.hidesWhenStopped = YES;
+        
+        [self.loadImgView.layer removeAllAnimations];
+        self.loadImgView.image = [UIImage imageNamed:@"none"];
+    }
+    
+}
 - (void)setPositionStr:(NSString *)positionStr{
     _positionStr = positionStr;
     self.positionLabel.text = _positionStr;

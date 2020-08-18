@@ -103,6 +103,11 @@
 /// 位置数组
 @property (nonatomic, strong) NSArray *positionArr;
 
+/// 左边电量数值
+@property (nonatomic, assign) NSInteger leftElectricValue;
+/// 右边电量数值
+@property (nonatomic, assign) NSInteger rightElectricValue;
+
 
 @end
 
@@ -558,7 +563,7 @@
         NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
         NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
         NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
-        
+        [self handleElectricValueWithElectricValue:electricValue position:1];
         if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
             NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
             NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
@@ -591,6 +596,31 @@
         NSLog(@"未发现特征值.");
     }
 }
+#pragma mark - 处理电量
+#pragma mark -- handleElectricValueWithElectricValue
+- (void)handleElectricValueWithElectricValue:(NSString *)electricValue position:(NSInteger)position{
+    NSInteger tempInt = 1;
+    if ([electricValue isEqualToString:@"00"]) {
+        tempInt = 0;
+    }else if ([electricValue isEqualToString:@"11"]){
+        tempInt = 1;
+    }else if ([electricValue isEqualToString:@"12"]){
+        tempInt = 2;
+    }else if ([electricValue isEqualToString:@"13"]){
+        tempInt = 3;
+    }else if ([electricValue isEqualToString:@"14"]){
+        tempInt = 4;
+    }
+    // 默认为1格电量
+    tempInt = 1;
+    NSString *imageStr = [NSString stringWithFormat:@"battery_icon_%ld",(long)tempInt];
+    if (1 == position) {
+         self.bottomLeftIconImageView.image = [UIImage imageNamed:imageStr];
+    }else{
+         self.bottomRightIconImageView.image = [UIImage imageNamed:imageStr];
+    }
+}
+
 #pragma mark -  处理开关及温度值
 #pragma mark -- handleTemperatureSwitchAndTemperatureView
 - (void)handleTemperatureSwitchAndTemperatureView{

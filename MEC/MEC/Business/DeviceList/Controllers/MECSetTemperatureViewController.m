@@ -81,7 +81,6 @@
 /// 发送的开关值
 @property (nonatomic, assign) BOOL sendFlag;
 
-
 /// 接受到的温度值
 @property (nonatomic, assign) NSInteger receiveTemperature;
 
@@ -92,6 +91,8 @@
 /// 是否是首次
 @property (nonatomic, assign) BOOL isFirst;
 
+/// 位置数组
+@property (nonatomic, strong) NSArray *positionArr;
 
 @end
 
@@ -99,15 +100,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.isFirst = YES;
-    self.currentTemperature = 1;
-    self.sendFlag = NO;
-    self.sendTemperature = -1;
+    [self initDatas];
     [self configUI];
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    
+    NSInteger row = 0;
+    if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+        row = 0;
+    }else{
+        row = self.positionType - 2;
+    }
+    [self.pickerView selectRow:row inComponent:0 animated:YES];
 }
-
+#pragma mark - 初始化数据
+#pragma mark -- initDatas
+- (void)initDatas{
+    self.isFirst = YES;
+    // 初始化的温度值
+    self.currentTemperature = 10;
+    self.sendFlag = NO;
+    self.sendTemperature = -1;
+}
 #pragma mark - 返回根视图控制器
 #pragma mark -- goBackBtnAction
 - (void)goBackBtnAction{
@@ -216,20 +228,6 @@
     return 4;
 }
 
-//设置每个选项显示的内容
-//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-//    NSString *tempStr;
-//    if (0 == row) {
-//         tempStr = @"Foot";
-//    }else if (1 == row){
-//         tempStr = @"Top";
-//    }else if (2 == component){
-//         tempStr = @"Bottom";
-//    }else{
-//         tempStr = @"Heating Pad";
-//    }
-//    return tempStr;
-//}
 - (CGFloat)pickerView:(UIPickerView*)pickerView rowHeightForComponent:(NSInteger)component {
     return kWidth6(20);
 }
@@ -243,16 +241,7 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.font = MEC_Helvetica_Bold_Font(14);
     }
-    NSString *tempStr;
-    if (0 == row) {
-        tempStr = @"Foot";
-    }else if (1 == row){
-        tempStr = @"Top";
-    }else if (2 == row){
-        tempStr = @"Bottom";
-    }else{
-        tempStr = @"Heating Pad";
-    }
+    NSString *tempStr = [self.positionArr objectAtIndex:row];
     label.text = tempStr;
     // 去掉上下横线
     if (pickerView.subviews.count >= 2) {
@@ -481,17 +470,14 @@
             NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
             self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
             if (self.isFirst) {
+                self.isFirst = NO;
                 if (self.receiveFlag == self.sendFlag) {
                         
                     }else{
                         self.sendFlag = self.receiveFlag;
-                        if (self.receiveFlag) {
-                            self.setTemperatureSwitch.on = YES;
-                        }else{
-                            self.setTemperatureSwitch.on = NO;
-                        }
+                        self.setTemperatureSwitch.on = self.receiveFlag == YES;
                     }
-                
+                    
                     self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
                     
                     if (self.receiveTemperature == self.sendTemperature) {
@@ -499,10 +485,10 @@
                     }else{
                         self.sendTemperature = self.receiveTemperature;
                         self.temperatureCircleView.temperInter = self.receiveTemperature;
-                        self.temperatureCircleView.isClose = !self.setTemperatureSwitch.on;
+                        self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
                     }
             }else{
-                self.isFirst = NO;
+                
             }
             
         }
@@ -594,9 +580,10 @@
 #pragma mark Event
 #pragma mark -- setTemperatureSwitchAction
 - (void)setTemperatureSwitchAction:(UISwitch *)mySwitch {
-    self.temperatureCircleView.isClose = !mySwitch.on;
-    
+ 
     self.temperatureCircleView.temperInter = self.currentTemperature;
+    self.temperatureCircleView.isClose = mySwitch.on == NO;
+    
     [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.currentTemperature];
 }
 
@@ -663,7 +650,7 @@
 - (MECTemperatureCircleAnimationView *)temperatureCircleView{
     if (!_temperatureCircleView) {
         _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(130), kWidth6(280), kWidth6(280))];
-        _temperatureCircleView.temperInter = 1;
+        _temperatureCircleView.temperInter = self.currentTemperature;
         _temperatureCircleView.isClose = YES;
         kWeakSelf
         _temperatureCircleView.temperatureCircleBlock = ^(NSInteger temperature) {
@@ -797,4 +784,10 @@
     return _searchBluDataMuArr;
 }
 
+- (NSArray *)positionArr{
+    if (!_positionArr) {
+        _positionArr = [NSArray arrayWithObjects:@"Foot", @"Top", @"Bottom", @"Heating Pad", nil];
+    }
+    return _positionArr;
+}
 @end

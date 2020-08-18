@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///  设备mac地址
 @property (nonatomic, copy) NSString *macAddressStr;
 
+/// 部位类型
+@property (nonatomic, assign) PositionType positionType;
+
 
 @end
 

@@ -220,12 +220,14 @@
         //跳转到温度设置页面
         MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
         vc.macAddressStr = model.dmac;
+        vc.positionType = model.positionTpye.integerValue;
         vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
         [self.navigationController pushViewController:vc  animated:YES];
     }else{
         //设定周边设备，指定代理者
         self.discoveredPeripheral = model.discoveredPeripheral;
         model.isLoading = YES;
+        model.positionTpye = [NSString stringWithFormat:@"%ld",(long)self.positionType];
         self.discoveredPeripheral.delegate = self;
         //连接设备
         [self.centralManager connectPeripheral:model.discoveredPeripheral
@@ -586,7 +588,8 @@
             //跳转到温度设置页面
             MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
             vc.macAddressStr = dmac;
-            vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
+            vc.positionType = weakSelf.currentDeviceDetailInfoModel.positionTpye.integerValue;
+            vc.bindDeviceListInfoModel = weakSelf.bindDeviceListInfoModel;
             [weakSelf.navigationController pushViewController:vc  animated:YES];
         }
     }];

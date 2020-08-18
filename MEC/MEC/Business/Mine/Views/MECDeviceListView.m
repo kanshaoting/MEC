@@ -132,6 +132,7 @@
             }
         };
         cell.arrowsBtnTapBlock = ^{
+            
             MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
             // 获取当前cell的视图控制器
             for (UIView* next = [weakSelf superview]; next; next = next.superview) {
@@ -158,22 +159,22 @@
             iconStr = @"device_list_top_icon";
             textStr = @"Top";
             deviceNameStr = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
-            dbtname = @"topdbtname";
-            mac = @"topmac";
+            dbtname = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
+            mac = self.bindDeviceListInfoModel.topDeviceModel.dmac;
             type = 3;
         }else if (2 == indexPath.row){
             iconStr = @"device_list_bottom_icon";
             textStr = @"Bottom";
             deviceNameStr = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
-            dbtname = @"bottoname";
-            mac = @"bottommac";
+            dbtname = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
+            mac = self.bindDeviceListInfoModel.bottomDeviceModel.dmac;
             type = 4;
         }else{
             iconStr = @"device_list_heatingpad_icon";
             textStr = @"Heating Pad";
             deviceNameStr = self.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname;
-            dbtname = @"heatname";
-            mac = @"heatingmac";
+            dbtname = self.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname;
+            mac = self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac;
             type = 5;
         }
         cell.iconStr = iconStr;
@@ -183,14 +184,6 @@
         cell.addBtnTapBlock = ^(UIButton * _Nonnull btn) {
             if (101 == btn.tag) {
                 //  101代表减号 102 代表加号
-                NSString *mac;
-                if (1 == indexPath.row) {
-                    mac = weakSelf.bindDeviceListInfoModel.topDeviceModel.dmac;
-                }else if (2 == indexPath.row){
-                    mac = weakSelf.bindDeviceListInfoModel.bottomDeviceModel.dmac;
-                }else{
-                    mac = weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel.dmac;
-                }
                 [weakSelf deleteDeviceRequestWithDeviceMac:mac];
             }else{
                 // push搜索蓝牙页面
@@ -198,7 +191,7 @@
             }
         };
         cell.arrowsBtnTapBlock = ^{
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:@""];
+            [self pushMECSetTemperatureViewControllerWithDeviceMac:mac position:type];
         };
         return cell;
     }
@@ -235,11 +228,12 @@
 }
 #pragma mark - 跳转到温度设置页面
 #pragma mark -- pushMECSetTemperatureViewController
-- (void)pushMECSetTemperatureViewControllerWithDeviceMac:(NSString *)mac{
+- (void)pushMECSetTemperatureViewControllerWithDeviceMac:(NSString *)mac position:(NSInteger)position{
     //获取当前cell的视图控制器
     MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
     vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
     vc.macAddressStr = mac;
+    vc.positionType = position;
     for (UIView* next = [self superview]; next; next = next.superview) {
         UIResponder* nextResponder = [next nextResponder];
         if ([nextResponder isKindOfClass:[UIViewController class]]) {
@@ -277,20 +271,20 @@
     
     if (0 == indexPath.row) {
         if (self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) {
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.leftDeviceModel.dmac];
+            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.leftDeviceModel.dmac position:PositionTypeFootRight];
         }
     }else if (1 == indexPath.row){
         if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 ) {
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.topDeviceModel.dmac];
+            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.topDeviceModel.dmac position:PositionTypeFootTop];
         }
     }else if (2 == indexPath.row){
         if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 ) {
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.bottomDeviceModel.dmac];
+            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.bottomDeviceModel.dmac position:PositionTypeFootBottom];
         }
         
     }else {
         if (self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 ) {
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac];
+            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac position:PositionTypeFootHeatingPad];
         }
     }
 }

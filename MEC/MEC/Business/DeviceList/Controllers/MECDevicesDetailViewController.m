@@ -195,15 +195,8 @@
     }else{
          model = [self.searchBluDataMuArr objectAtIndex:indexPath.row];
     }
-     
     cell.contentView.backgroundColor = kColorHex(0xffffff);
     cell.deviceDetailInfoModel = model;
-//    cell.isStop = model.isLoading;
-    if (0 == indexPath.section) {
-        if (self.currentRow == indexPath.row) {
-//            cell.isStop = NO;
-        }
-    }
     return cell;
 }
 
@@ -217,6 +210,11 @@
     }
     
     if ( 0 == indexPath.section) {
+        if (PositionTypeFootLeft == model.positionTpye.integerValue || PositionTypeFootRight == model.positionTpye.integerValue) {
+            
+        }else{
+            
+        }
         //跳转到温度设置页面
         MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
         vc.macAddressStr = model.dmac;
@@ -585,16 +583,37 @@
             [weakSelf.tableView reloadData];
         }else {
             [hud showText:@"Add Success"];
-            //跳转到温度设置页面
-            MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
-            vc.macAddressStr = dmac;
-            vc.positionType = weakSelf.currentDeviceDetailInfoModel.positionTpye.integerValue;
-            vc.bindDeviceListInfoModel = weakSelf.bindDeviceListInfoModel;
-            [weakSelf.navigationController pushViewController:vc  animated:YES];
+            // 左、右腿部位需同时绑定才可以设置温度
+            if (PositionTypeFootLeft == weakSelf.positionType) {
+                if (weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
+                    //跳转到温度设置页面
+                    [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
+                }else{
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+            }else if (PositionTypeFootRight == weakSelf.positionType){
+                if (weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
+                    //跳转到温度设置页面
+                    [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
+                }else{
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+            }else{
+                //跳转到温度设置页面
+                [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
+            }
         }
     }];
 }
-
+#pragma mark - 跳转到温度设置页面
+#pragma mark -- pushMECSetTemperatureViewControllerWithMac
+- (void)pushMECSetTemperatureViewControllerWithMac:(NSString *)mac{
+    MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+    vc.macAddressStr = mac;
+    vc.positionType = self.currentDeviceDetailInfoModel.positionTpye.integerValue;
+    vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 #pragma mark -
 #pragma mark -- lazy
 - (UILabel *)tipsLabel{

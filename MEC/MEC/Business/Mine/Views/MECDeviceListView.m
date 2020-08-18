@@ -186,8 +186,12 @@
                 //  101代表减号 102 代表加号
                 [weakSelf deleteDeviceRequestWithDeviceMac:mac];
             }else{
-                // push搜索蓝牙页面
-                [weakSelf pushMECDevicesDetailViewControllerWithType:type];
+                // push搜索蓝牙页面 左边、右边同时设置或者同时没有设置，则可以设置其它部位
+                if ((self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.did.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length == 0)) {
+                    [weakSelf pushMECDevicesDetailViewControllerWithType:type];
+                }else{
+                    [MBProgressHUD showError:@"Please select foot"];
+                }
             }
         };
         cell.arrowsBtnTapBlock = ^{

@@ -61,7 +61,7 @@
         view = [UIApplication sharedApplication].keyWindow;
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    [hud showText:text delay:2];
+    [hud showText:text delay:1];
 }
 
 #pragma mark - 隐藏
@@ -91,7 +91,7 @@
 }
 
 - (void)showText:(NSString *)text {
-    [self showText:text delay:MIN(2, text.length/5.0)];
+    [self showText:text delay:MIN(1, text.length/5.0)];
 }
 
 @end

@@ -178,10 +178,10 @@
 - (UILabel *)tipsLabel{
     if (!_tipsLabel) {
         _tipsLabel = [[UILabel alloc] init];
-        _tipsLabel.font = MEC_Helvetica_Bold_Font(15);
+        _tipsLabel.font = MEC_Helvetica_Bold_Font(20);
         _tipsLabel.text = @"Account login";
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
-        _tipsLabel.textColor = [UIColor blackColor];
+        _tipsLabel.textColor = kTipsTitleColor;
     }
     return _tipsLabel;
 }

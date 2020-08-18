@@ -274,10 +274,10 @@
 - (UILabel *)tipsLabel{
     if (!_tipsLabel) {
         _tipsLabel = [[UILabel alloc] init];
-        _tipsLabel.font = MEC_Helvetica_Bold_Font(17);
+        _tipsLabel.font = MEC_Helvetica_Bold_Font(20);
         _tipsLabel.text = @"Account information";
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
-        _tipsLabel.textColor = [UIColor blackColor];
+        _tipsLabel.textColor = kTipsTitleColor;
     }
     return _tipsLabel;
 }

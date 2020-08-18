@@ -61,9 +61,13 @@
 #define kColorRGBA(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
 #define kColorRGB(R, G, B) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:1.0]
 #define kColorHex(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
+
 #define kThemeColor kColorHex(0x91C132)
 #define kLightThemeColor kColorHex(0x90C340)
 #define kBackgroundColor kColorHex(0xF5F5F5)
+
+//Tips 标题颜色
+#define kTipsTitleColor kColorHex(0x000000)
 
 #define kLineColor kColorHex(0x8C8C8C)
 

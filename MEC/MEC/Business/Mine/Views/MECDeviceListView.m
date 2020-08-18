@@ -132,8 +132,9 @@
             }
         };
         cell.arrowsBtnTapBlock = ^{
-            
+            [weakSelf pushMECSetTemperatureViewControllerWithDeviceMac:@"" position:PositionTypeFootRight];
             MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+            vc.positionType = PositionTypeFootRight;
             // 获取当前cell的视图控制器
             for (UIView* next = [weakSelf superview]; next; next = next.superview) {
                 UIResponder* nextResponder = [next nextResponder];
@@ -210,15 +211,20 @@
     NSMutableArray *tempMuArr = [NSMutableArray array];
     if (self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
         [tempMuArr addObject:self.bindDeviceListInfoModel.leftDeviceModel];
-    }else if (self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0){
+    }
+    if (self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0){
          [tempMuArr addObject:self.bindDeviceListInfoModel.rightDeviceModel];
-    }else if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0){
+    }
+    if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0){
          [tempMuArr addObject:self.bindDeviceListInfoModel.topDeviceModel];
-    }else if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0){
+    }
+    if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0){
          [tempMuArr addObject:self.bindDeviceListInfoModel.bottomDeviceModel];
-    }else if(self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0){
+    }
+    if(self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0){
         [tempMuArr addObject:self.bindDeviceListInfoModel.heatingPadDeviceModel];
     }
+    
     vc.matchBluDataMuArr = [NSMutableArray arrayWithArray:tempMuArr];
     for (UIView* next = [self superview]; next; next = next.superview) {
         UIResponder* nextResponder = [next nextResponder];

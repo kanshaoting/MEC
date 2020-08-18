@@ -76,8 +76,8 @@
     [self.deviceListIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.rightBgView);
         make.top.mas_equalTo(kWidth6(8));
-        make.width.mas_equalTo(kWidth6(27));
-        make.height.mas_equalTo(kWidth6(15));
+        make.width.mas_equalTo(kWidth6(20));
+        make.height.mas_equalTo(kWidth6(20));
     }];
     
     [self.deviceListLabel mas_makeConstraints:^(MASConstraintMaker *make) {

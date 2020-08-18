@@ -193,7 +193,7 @@
     if (0 == indexPath.section) {
         model = [self.matchBluDataMuArr objectAtIndex:indexPath.row];
     }else{
-         model = [self.searchBluDataMuArr objectAtIndex:indexPath.row];
+        model = [self.searchBluDataMuArr objectAtIndex:indexPath.row];
     }
     cell.contentView.backgroundColor = kColorHex(0xffffff);
     cell.deviceDetailInfoModel = model;
@@ -311,28 +311,30 @@
         // 替换空格
         manufacturerDataStr = [manufacturerDataStr stringByReplacingOccurrencesOfString:@" " withString:@""];
         manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
-        NSMutableString *tempMuStr = [NSMutableString stringWithString:manufacturerDataStr];
+        NSMutableString *tempMacMuStr = [NSMutableString stringWithString:manufacturerDataStr];
 
         // 每个2位插入冒号，和安卓统一蓝牙mac地址格式
-        for(NSInteger i = tempMuStr.length - 2; i > 0; i -=2) {
-            [tempMuStr insertString:@":" atIndex:i];
+        for(NSInteger i = tempMacMuStr.length - 2; i > 0; i -=2) {
+            [tempMacMuStr insertString:@":" atIndex:i];
         }
         // 过滤掉之前已经匹配过的设备
         if (self.matchBluDataMuArr.count > 0 ) {
+            NSMutableArray *tempMacMuArr = [NSMutableArray array];
             for (MECBindDeviceDetailInfoModel *tempModel in self.matchBluDataMuArr) {
-                if (![tempMuStr isEqualToString:tempModel.dmac]) {
-                    MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
-                    model.dmac = tempMuStr;
-                    model.dbtname = peripheral.name;
-                    model.dname = peripheral.name;
-                    model.discoveredPeripheral = peripheral;
-                    model.positionTpye = @"0";
-                    [self.searchBluDataMuArr addObject:model];
-                }
+                [tempMacMuArr addObject:tempModel.dmac];
+            }
+            if(![tempMacMuArr containsObject:tempMacMuStr]){
+                MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
+                model.dmac = tempMacMuStr;
+                model.dbtname = peripheral.name;
+                model.dname = peripheral.name;
+                model.discoveredPeripheral = peripheral;
+                model.positionTpye = @"0";
+                [self.searchBluDataMuArr addObject:model];
             }
         }else{
             MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
-            model.dmac = tempMuStr;
+            model.dmac = tempMacMuStr;
             model.dbtname = peripheral.name;
             model.dname = peripheral.name;
             model.discoveredPeripheral = peripheral;
@@ -578,8 +580,8 @@
         if(result.error) {
             [hud showText:result.error.localizedDescription];
             // 添加失败移到下面列表
-            [weakSelf.searchBluDataMuArr removeObject:weakSelf.discoveredPeripheral];
-            [weakSelf.matchBluDataMuArr addObject:weakSelf.discoveredPeripheral];
+            [weakSelf.matchBluDataMuArr removeObject:weakSelf.currentDeviceDetailInfoModel];
+            [weakSelf.searchBluDataMuArr addObject:weakSelf.currentDeviceDetailInfoModel];
             [weakSelf.tableView reloadData];
         }else {
             [hud showText:@"Add Success"];

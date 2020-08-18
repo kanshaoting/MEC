@@ -39,15 +39,15 @@
 @property (nonatomic, strong) UIImageView *bottomLeftIconImageView;
 
 /// 底部左边蓝牙图标
-@property (nonatomic, strong) UIImageView *bottomLeftBluetoothIconImageView;
+@property (nonatomic, strong) UIButton *bottomLeftBluetoothButton;
 
 /// 底部右边提示 Right
 @property (nonatomic, strong) UILabel *bottomRightTipsLabel;
 /// 底部右边图标
 @property (nonatomic, strong) UIImageView *bottomRightIconImageView;
 
-/// 底部左边蓝牙图标
-@property (nonatomic, strong) UIImageView *bottomRightBluetoothIconImageView;
+/// 底部右边蓝牙图标
+@property (nonatomic, strong) UIButton *bottomRightBluetoothButton;
 
 @property (nonatomic, strong) MECTemperatureCircleAnimationView *temperatureCircleView ;
 
@@ -73,6 +73,15 @@
 @property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
 
 
+///周边设备2
+@property (nonatomic, strong) CBPeripheral *discoveredPeripheral2;
+
+///周边设备服务特性2
+@property (nonatomic, strong) CBCharacteristic *characteristic2;
+
+///周边设备服务特性2
+@property (nonatomic, strong) CBCharacteristic *writeCharacteristic2;
+
 /// 当前温度值
 @property (nonatomic, assign) NSInteger currentTemperature;
 
@@ -93,6 +102,7 @@
 
 /// 位置数组
 @property (nonatomic, strong) NSArray *positionArr;
+
 
 @end
 
@@ -147,10 +157,10 @@
     
     [self.view addSubview:self.bottomLeftTipsLabel];
     [self.view addSubview:self.bottomLeftIconImageView];
-    [self.view addSubview:self.bottomLeftBluetoothIconImageView];
+    [self.view addSubview:self.bottomLeftBluetoothButton];
     
     [self.view addSubview:self.bottomRightTipsLabel];
-    [self.view addSubview:self.bottomRightBluetoothIconImageView];
+    [self.view addSubview:self.bottomRightBluetoothButton];
     [self.view addSubview:self.bottomRightIconImageView];
        
     
@@ -191,9 +201,10 @@
         make.bottom.equalTo(self.view).offset(-kWidth6(60));
     }];
     
-    [self.bottomLeftBluetoothIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomLeftBluetoothButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.bottomLeftIconImageView.mas_trailing).offset(kWidth6(15));
         make.centerY.equalTo(self.bottomLeftIconImageView);
+        make.height.with.mas_offset(kWidth6(30));
     }];
     [self.bottomLeftTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.bottomLeftIconImageView);
@@ -204,9 +215,10 @@
         make.trailing.equalTo(self.view).offset(-kMargin*2);
         make.centerY.equalTo(self.bottomLeftIconImageView);
     }];
-    [self.bottomRightBluetoothIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomRightBluetoothButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self.bottomRightIconImageView.mas_leading).offset(-kWidth6(15));
         make.centerY.equalTo(self.bottomLeftIconImageView);
+        make.height.with.mas_offset(kWidth6(30));
     }];
     
     [self.bottomRightTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -310,8 +322,8 @@
     }
 
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
-    
-    if (manufacturerDataStr.length > 0 && manufacturerDataStr != nil) {
+    if([peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
+        
         NSLog(@"advertisementData is %@,peripheral is %@",advertisementData,peripheral);
         // 英文字母转大写
         manufacturerDataStr = [manufacturerDataStr uppercaseString];
@@ -324,17 +336,65 @@
         for(NSInteger i = tempMuStr.length - 2; i > 0; i -=2) {
             [tempMuStr insertString:@":" atIndex:i];
         }
-        
-        if ([tempMuStr isEqualToString:self.macAddressStr]) {
-            // 判断如果是之前绑定的，则自动链接
-            //设定周边设备，指定代理者
-            self.discoveredPeripheral = peripheral;
-            self.discoveredPeripheral.delegate = self;
-            //连接设备
-            [self.centralManager connectPeripheral:peripheral
-                                           options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+        if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+           // foot
+            if (PositionTypeFootLeft == self.positionType) {
+                // top、bottom、heatingpad
+                if ([tempMuStr isEqualToString:self.macAddressStr]) {
+                    // 判断如果是之前绑定的，则自动链接
+                    //设定周边设备，指定代理者
+                    self.discoveredPeripheral = peripheral;
+                    self.discoveredPeripheral.delegate = self;
+                    //连接设备
+                    [self.centralManager connectPeripheral:peripheral
+                                                   options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+                }else{
+                    if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
+                        // 判断如果是之前绑定的，则自动链接
+                        //设定周边设备，指定代理者 右边的
+                        self.discoveredPeripheral2 = peripheral;
+                        self.discoveredPeripheral2.delegate = self;
+                        //连接设备
+                        [self.centralManager connectPeripheral:peripheral
+                                                       options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+                    }
+                }
+            }else{
+                if ([tempMuStr isEqualToString:self.macAddressStr]) {
+                    // 判断如果是之前绑定的，则自动链接
+                    //设定周边设备，指定代理者
+                    self.discoveredPeripheral2 = peripheral;
+                    self.discoveredPeripheral2.delegate = self;
+                    //连接设备
+                    [self.centralManager connectPeripheral:peripheral
+                                                   options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+                }else{
+                    if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.leftDeviceModel.dmac]) {
+                        // 判断如果是之前绑定的，则自动链接
+                        //设定周边设备，指定代理者 右边的
+                        self.discoveredPeripheral = peripheral;
+                        self.discoveredPeripheral.delegate = self;
+                        //连接设备
+                        [self.centralManager connectPeripheral:peripheral
+                                                       options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+                    }
+                }
+            }
+            
+        }else{
+            // top、bottom、heatingpad
+            if ([tempMuStr isEqualToString:self.macAddressStr]) {
+                // 判断如果是之前绑定的，则自动链接
+                //设定周边设备，指定代理者
+                self.discoveredPeripheral = peripheral;
+                self.discoveredPeripheral.delegate = self;
+                //连接设备
+                [self.centralManager connectPeripheral:peripheral
+                                               options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+            }
         }
     }
+    
     if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
         [self.searchBluDataMuArr addObject:peripheral];
     }
@@ -392,29 +452,56 @@
         return;
     }
     NSLog(@"服务：%@",service.UUID);
-    // 特征
-    for (CBCharacteristic *characteristic in service.characteristics)
-    {
-        NSLog(@"%@",characteristic.UUID);
-        //发现特征
-        //注意：uuid 分为可读，可写，区别对待
-        // 读
-        if (characteristic.properties & CBCharacteristicPropertyRead) {
-            // 直接读取这个特征数据，会调用didUpdateValueForCharacteristic
-            [peripheral readValueForCharacteristic:characteristic];
+    if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+        if (self.discoveredPeripheral.identifier == service.peripheral.identifier) {
+            // 特征
+            for (CBCharacteristic *characteristic in service.characteristics){
+                //发现特征 注意：uuid 分为可读，可写，区别对待
+                // 通知
+                if ((characteristic.properties & CBCharacteristicPropertyNotify) || (characteristic.properties & CBCharacteristicPropertyIndicate)) {
+                    // 订阅通知监听
+                    self.characteristic = characteristic;
+                    [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+                }
+                // 写入
+                if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
+                    // 写入
+                    self.writeCharacteristic = characteristic;
+                }
+            }
         }
-        // 通知
-        if ((characteristic.properties & CBCharacteristicPropertyNotify) || (characteristic.properties & CBCharacteristicPropertyIndicate)) {
-            // 订阅通知监听
-            self.characteristic = characteristic;
-            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        if (self.discoveredPeripheral2.identifier == service.peripheral.identifier) {
+            // 特征
+            for (CBCharacteristic *characteristic in service.characteristics){
+                //发现特征 注意：uuid 分为可读，可写，区别对待
+                // 通知
+                if ((characteristic.properties & CBCharacteristicPropertyNotify) || (characteristic.properties & CBCharacteristicPropertyIndicate)) {
+                    // 订阅通知监听
+                    self.characteristic2 = characteristic;
+                    [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+                }
+                // 写入
+                if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
+                    // 写入
+                    self.writeCharacteristic2 = characteristic;
+                }
+            }
         }
-        // 写入
-        if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
-            NSLog(@"Properties is Write");
+    }else{
+        // 特征
+        for (CBCharacteristic *characteristic in service.characteristics){
+            //发现特征 注意：uuid 分为可读，可写，区别对待
+            // 通知
+            if ((characteristic.properties & CBCharacteristicPropertyNotify) || (characteristic.properties & CBCharacteristicPropertyIndicate)) {
+                // 订阅通知监听
+                self.characteristic = characteristic;
+                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            }
             // 写入
-            self.writeCharacteristic = characteristic;
-            
+            if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
+                // 写入
+                self.writeCharacteristic = characteristic;
+            }
         }
     }
 }
@@ -440,8 +527,8 @@
                 NSLog(@"已订阅特征通知.");
                 return;
             }else if (characteristic.properties == CBCharacteristicPropertyRead){
-                 //从外围设备读取新值,调用此方法会触发代理方法：-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-                [peripheral readValueForCharacteristic:characteristic];
+
+//                [peripheral readValueForCharacteristic:characteristic];
             }else{
                 
             }
@@ -461,10 +548,17 @@
         NSLog(@"更新特征值时发生错误，错误信息：%@",error.localizedDescription);
         return;
     }
+    if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+        
+    }else{
+        
+    }
     if (characteristic.value) {
         NSString *value = characteristic.value.description;
         NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
         NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
+        NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
+        
         if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
             NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
             NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
@@ -709,6 +803,16 @@
     NSString *sendDataStr = [NSString stringWithFormat:@"AA%@%@0000000055",flagStr,temperatureStr];
     [self writeDataWithHexStr:sendDataStr];
 }
+#pragma mark -
+#pragma mark -- bottomLeftBluetoothButtonAction
+- (void)bottomLeftBluetoothButtonAction{
+    
+}
+#pragma mark -
+#pragma mark -- bottomRightBluetoothButtonAction
+- (void)bottomRightBluetoothButtonAction{
+    
+}
 //懒加载
 - (UIPickerView *)pickerView{
     if (!_pickerView) {
@@ -741,16 +845,18 @@
 - (UIImageView *)bottomLeftIconImageView{
     if (!_bottomLeftIconImageView) {
         _bottomLeftIconImageView = [[UIImageView alloc] init];
-        _bottomLeftIconImageView.image = [UIImage imageNamed:@"device_list_icon_normal"];
+        _bottomLeftIconImageView.image = [UIImage imageNamed:@"battery_icon_1"];
     }
     return _bottomLeftIconImageView;
 }
-- (UIImageView *)bottomLeftBluetoothIconImageView{
-    if (!_bottomLeftBluetoothIconImageView) {
-        _bottomLeftBluetoothIconImageView = [[UIImageView alloc] init];
-        _bottomLeftBluetoothIconImageView.image = [UIImage imageNamed:@"device_list_bottom_icon"];
+- (UIButton *)bottomLeftBluetoothButton{
+    if (!_bottomLeftBluetoothButton) {
+        _bottomLeftBluetoothButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
+        [_bottomLeftBluetoothButton addTarget:self action:@selector(bottomLeftBluetoothButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        
     }
-    return _bottomLeftBluetoothIconImageView;
+    return _bottomLeftBluetoothButton;
 }
 - (UILabel *)bottomRightTipsLabel{
     if (!_bottomRightTipsLabel) {
@@ -762,17 +868,20 @@
     }
     return _bottomRightTipsLabel;
 }
-- (UIImageView *)bottomRightBluetoothIconImageView{
-    if (!_bottomRightBluetoothIconImageView) {
-        _bottomRightBluetoothIconImageView = [[UIImageView alloc] init];
-        _bottomRightBluetoothIconImageView.image = [UIImage imageNamed:@"device_list_bottom_icon"];
+
+- (UIButton *)bottomRightBluetoothButton{
+    if (!_bottomRightBluetoothButton) {
+        _bottomRightBluetoothButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
+        [_bottomRightBluetoothButton addTarget:self action:@selector(bottomRightBluetoothButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        
     }
-    return _bottomRightBluetoothIconImageView;
+    return _bottomRightBluetoothButton;
 }
 - (UIImageView *)bottomRightIconImageView{
     if (!_bottomRightIconImageView) {
         _bottomRightIconImageView = [[UIImageView alloc] init];
-        _bottomRightIconImageView.image = [UIImage imageNamed:@"device_list_heatingpad_icon"];
+        _bottomRightIconImageView.image = [UIImage imageNamed:@"battery_icon_1"];
     }
     return _bottomRightIconImageView;
 }

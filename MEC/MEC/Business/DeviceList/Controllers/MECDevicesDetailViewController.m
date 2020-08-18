@@ -580,6 +580,8 @@
         if(result.error) {
             [hud showText:result.error.localizedDescription];
             // 添加失败移到下面列表
+            weakSelf.currentDeviceDetailInfoModel.positionTpye = @"0";
+            weakSelf.currentDeviceDetailInfoModel.isLoading = NO;
             [weakSelf.matchBluDataMuArr removeObject:weakSelf.currentDeviceDetailInfoModel];
             [weakSelf.searchBluDataMuArr addObject:weakSelf.currentDeviceDetailInfoModel];
             [weakSelf.tableView reloadData];

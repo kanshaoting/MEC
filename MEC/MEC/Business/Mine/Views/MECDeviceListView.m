@@ -132,7 +132,8 @@
             }
         };
         cell.arrowsBtnTapBlock = ^{
-            [weakSelf pushMECSetTemperatureViewControllerWithDeviceMac:@"" position:PositionTypeFootRight];
+            
+            [weakSelf pushMECSetTemperatureViewControllerWithDeviceMac:weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac position:PositionTypeFootRight];
             MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
             vc.positionType = PositionTypeFootRight;
             // 获取当前cell的视图控制器

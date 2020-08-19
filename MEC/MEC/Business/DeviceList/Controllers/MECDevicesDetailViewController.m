@@ -367,7 +367,7 @@
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     NSLog(@"连接外围设备失败！");
     [MBProgressHUD showError:@"Device Connection  failed"];
-    self.bluetoothState = BluetoothStateConnected;
+    self.bluetoothState = BluetoothStateDisconnect;
     [self.tableView reloadData];
 }
 
@@ -407,7 +407,7 @@
         NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
         
     }
-    return;
+    
     NSLog(@"服务：%@",service.UUID);
     // 特征
     for (CBCharacteristic *characteristic in service.characteristics)
@@ -588,6 +588,23 @@
         }else {
             [hud showText:@"Add Success"];
             // 左、右腿部位需同时绑定才可以设置温度
+            MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
+            model.dmac = dmac;
+            model.positionTpye = [NSString stringWithFormat:@"%ld",(long)weakSelf.positionType];
+            model.dname = dbtname;
+            if (PositionTypeFootLeft == weakSelf.positionType) {
+                weakSelf.bindDeviceListInfoModel.leftDeviceModel = model;
+            }else if (PositionTypeFootRight == weakSelf.positionType){
+                weakSelf.bindDeviceListInfoModel.rightDeviceModel = model;
+            }else if (PositionTypeFootTop == weakSelf.positionType){
+                weakSelf.bindDeviceListInfoModel.topDeviceModel = model;
+            }else if (PositionTypeFootBottom == weakSelf.positionType){
+                weakSelf.bindDeviceListInfoModel.bottomDeviceModel = model;
+            }else if (PositionTypeFootHeatingPad == weakSelf.positionType){
+                weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel = model;
+            }else{
+                
+            }
             if (PositionTypeFootLeft == weakSelf.positionType) {
                 if (weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
                     //跳转到温度设置页面
@@ -672,6 +689,8 @@
     if (!_tryBtn) {
         _tryBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Try Again" font:MEC_Helvetica_Regular_Font(14) target:self selector:@selector(tryBtnAction:)];
         [_tryBtn setTitleColor:kColorHex(0xC71F1E) forState:UIControlStateNormal];
+        [_tryBtn setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateNormal];
+        [_tryBtn setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateHighlighted];
     }
     return _tryBtn;
 }

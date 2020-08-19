@@ -139,6 +139,8 @@
     if (!_tryBtn) {
         _tryBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Try Again" font:MEC_Helvetica_Regular_Font(20) target:self selector:@selector(tryBtnAction:)];
         [_tryBtn setTitleColor:kColorHex(0xC71F1E) forState:UIControlStateNormal];
+        [_tryBtn setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateNormal];
+        [_tryBtn setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateHighlighted];
     }
     return _tryBtn;
 }

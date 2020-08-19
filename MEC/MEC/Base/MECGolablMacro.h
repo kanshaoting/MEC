@@ -134,6 +134,25 @@ typedef NS_ENUM(NSInteger, PositionType){
 };
 
 
+/// 蓝牙扫描状态
+typedef NS_ENUM(NSInteger, BluetoothState){
+    BluetoothStateDisconnect = 0,
+    BluetoothStateScanSuccess,
+    BluetoothStateScaning,
+    BluetoothStateConnected,
+    BluetoothStateConnecting
+};
+/// 蓝牙链接状态
+typedef NS_ENUM(NSInteger, BluetoothCentralManagerState){
+    BluetoothCentralManagerStateUnExit = 0,
+    BluetoothCentralManagerStateUnKnow,
+    BluetoothCentralManagerStateByHW,
+    BluetoothCentralManagerStateByOff,
+    BluetoothCentralManagerStateUnauthorized,
+    BluetoothCentralManagerStateByTimeout
+};
+
+
 //data
 #define QCErrorCode -1
 #define QCErrorPropmt @"Unknown error"

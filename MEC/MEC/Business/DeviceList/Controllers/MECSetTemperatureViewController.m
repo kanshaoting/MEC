@@ -54,6 +54,9 @@
 /// 部位选择器
 @property (nonatomic, strong) UIPickerView *pickerView;
 
+/// 上次位置
+@property (nonatomic, assign) NSInteger lastRow;
+
 /// 部位选择器中间圆形框
 @property (nonatomic, strong) UIView *middleBgView;
 
@@ -62,6 +65,9 @@
 
 ///中央设备
 @property (nonatomic, strong) CBCentralManager *centralManager;
+
+///蓝牙扫描状态
+@property (nonatomic, assign) BluetoothState bluetoothState;
 
 ///周边设备
 @property (nonatomic, strong) CBPeripheral *discoveredPeripheral;
@@ -123,7 +129,13 @@
         row = 0;
     }else{
         row = self.positionType - 2;
+        // 不显示底线右边模块及左边文案
+        self.bottomRightIconImageView.hidden = YES;
+        self.bottomRightTipsLabel.text = @"";
+        self.bottomRightBluetoothButton.hidden = YES;
+        self.bottomLeftTipsLabel.text = @"";
     }
+    self.lastRow = row;
     [self.pickerView selectRow:row inComponent:0 animated:YES];
 }
 #pragma mark - 初始化数据
@@ -271,7 +283,35 @@
 }
 //用户进行选择
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    
+    if (0 == row) {
+        if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
+            
+        }else{
+            [MBProgressHUD showError:@"Device Connection failed"];
+            [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
+        }
+    }else if (1 == row){
+        if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0) {
+            
+        }else{
+            [MBProgressHUD showError:@"Device Connection failed"];
+            [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
+        }
+    }else if (2 == row){
+        if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0) {
+            
+        }else{
+            [MBProgressHUD showError:@"Device Connection failed"];
+            [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
+        }
+    }else{
+        if (self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0) {
+            
+        }else{
+            [MBProgressHUD showError:@"Device Connection failed"];
+            [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
+        }
+    }
 }
 
 #pragma mark - 检测蓝牙状态
@@ -307,14 +347,16 @@
             break;
     }
 }
-
--(void)startScan{
+#pragma mark - 打开蓝牙开始扫描
+#pragma mark -- startScan
+- (void)startScan{
     //判断状态开始扫瞄周围设备 第一个参数为空则会扫瞄所有的可连接设备  你可以
     //指定一个CBUUID对象 从而只扫瞄注册用指定服务的设备
     //scanForPeripheralsWithServices方法调用完后会调用代理CBCentralManagerDelegate的
     //- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI方法
     [self.centralManager scanForPeripheralsWithServices:nil options:nil];
-   
+    //记录目前是扫描状态
+    self.bluetoothState = BluetoothStateScaning;
     //清空所有外设数组
     [self.searchBluDataMuArr removeAllObjects];
  
@@ -341,6 +383,7 @@
         for(NSInteger i = tempMuStr.length - 2; i > 0; i -=2) {
             [tempMuStr insertString:@":" atIndex:i];
         }
+        
         if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
            // foot
             if (PositionTypeFootLeft == self.positionType) {
@@ -385,7 +428,6 @@
                     }
                 }
             }
-            
         }else{
             // top、bottom、heatingpad
             if ([tempMuStr isEqualToString:self.macAddressStr]) {
@@ -398,6 +440,11 @@
                                                options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
             }
         }
+        // 开始匹配中
+        self.bluetoothState = BluetoothStateConnecting;
+    }else{
+//        [MBProgressHUD showError:@"Device Connection failed"];
+//        [self.centralManager stopScan];
     }
     
     if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
@@ -408,23 +455,39 @@
 #pragma mark - 连接到外围设备成功回调
 #pragma mark -- centralManager
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
+    self.bluetoothState = BluetoothStateConnected;
     // 停止扫描
     [self.centralManager stopScan];
     //设置外围设备的代理为当前视图控制器
     peripheral.delegate = self;
     //外围设备开始寻找服务
     [peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
+    // 链接成功
+    [self.bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_selected"] forState:UIControlStateNormal];
+    if (self.discoveredPeripheral2 == peripheral) {
+        // 右边蓝牙设备
+        self.bottomRightTipsLabel.text = @"Right";
+        [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_selected"] forState:UIControlStateNormal];
+    }
 }
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
-   [MBProgressHUD showError:@"Device Connection  failed"];
+    self.bluetoothState  = BluetoothStateDisconnect;
+    [MBProgressHUD showError:@"Device Connection failed"];
+    // 链接失败
+    [self.bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
+    if (self.discoveredPeripheral2 == peripheral) {
+        // 右边蓝牙设备
+         self.bottomRightTipsLabel.text = @"Right";
+         [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - 获取当前设备服务services
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
     if (error) {
-        NSLog(@"Error discovering services: %@", [error localizedDescription]);
+//        NSLog(@"Error discovering services: %@", [error localizedDescription]);
         return;
     }
     
@@ -434,7 +497,7 @@
     for (CBService *service in peripheral.services)
     {
         
-        NSLog(@"服务%@",service.UUID);
+//        NSLog(@"服务%@",service.UUID);
         
         //找到你需要的servicesuuid
         if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]])
@@ -550,51 +613,66 @@
 //（调用readValueForCharacteristic:方法或者外围设备在订阅后更新特征值都会调用此代理方法）
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     if (error) {
-        NSLog(@"更新特征值时发生错误，错误信息：%@",error.localizedDescription);
+//        NSLog(@"更新特征值时发生错误，错误信息：%@",error.localizedDescription);
         return;
     }
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
-        
-    }else{
-        
-    }
-    if (characteristic.value) {
-        NSString *value = characteristic.value.description;
-        NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
-        NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
-        NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
-        [self handleElectricValueWithElectricValue:electricValue position:1];
-        if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
-            NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
-            NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
-            self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
-            if (self.isFirst) {
-                self.isFirst = NO;
-                if (self.receiveFlag == self.sendFlag) {
-                        
-                    }else{
-                        self.sendFlag = self.receiveFlag;
-                        self.setTemperatureSwitch.on = self.receiveFlag == YES;
-                    }
-                    
-                    self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
-                    
-                    if (self.receiveTemperature == self.sendTemperature) {
-                        
-                    }else{
-                        self.sendTemperature = self.receiveTemperature;
-                        self.temperatureCircleView.temperInter = self.receiveTemperature;
-                        self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
-                    }
-            }else{
-                
-            }
+        if (self.characteristic == characteristic) {
             
         }
-        NSLog(@"读取到特征值：%@",value);
+        if (self.characteristic2 == characteristic) {
+            
+        }
+        
     }else{
-        NSLog(@"未发现特征值.");
+        
     }
+
+    if (characteristic.value) {
+        NSString *value = characteristic.value.description;
+        [self handleCharacteristicValue:value position:1];
+    }else{
+        NSLog(@"未发现特征值");
+    }
+}
+#pragma mark -
+#pragma mark -- handleCharacteristicValue
+- (void)handleCharacteristicValue:(NSString *)value position:(NSInteger)position{
+    NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
+    NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
+    NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
+    [self handleElectricValueWithElectricValue:electricValue position:1];
+    if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
+        NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
+        NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
+        self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
+        
+        if (self.isFirst) {
+            self.isFirst = NO;
+            self.sendFlag = self.receiveFlag;
+            self.setTemperatureSwitch.on = self.receiveFlag == YES;
+            self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
+            self.sendTemperature = self.receiveTemperature;
+            self.temperatureCircleView.temperInter = self.receiveTemperature;
+            self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
+        }else{
+            if (self.sendFlag == self.receiveFlag) {
+                
+            }else{
+                self.sendFlag = self.receiveFlag;
+                self.setTemperatureSwitch.on = self.receiveFlag == YES;
+            }
+            if (self.sendTemperature == self.receiveTemperature) {
+                
+            }else{
+                self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
+                self.temperatureCircleView.temperInter = self.receiveTemperature;
+                self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
+            }
+        }
+     
+    }
+    NSLog(@"读取到特征值：%@",value);
 }
 #pragma mark - 处理电量
 #pragma mark -- handleElectricValueWithElectricValue
@@ -705,10 +783,15 @@
 #pragma mark -- setTemperatureSwitchAction
 - (void)setTemperatureSwitchAction:(UISwitch *)mySwitch {
  
-    self.temperatureCircleView.temperInter = self.currentTemperature;
-    self.temperatureCircleView.isClose = mySwitch.on == NO;
-    
-    [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.currentTemperature];
+    if (BluetoothStateConnected == self.bluetoothState ) {
+        self.temperatureCircleView.temperInter = self.currentTemperature;
+        self.temperatureCircleView.isClose = mySwitch.on == NO;
+        
+        [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.currentTemperature];
+    }else{
+        mySwitch.on = !mySwitch.on;
+        [MBProgressHUD showError:@"Device Connection failed"];
+    }
 }
 
 - (NSInteger )handleReceiveTemperature:(NSString *)receiveTemperature{
@@ -741,7 +824,7 @@
 - (UISwitch *)setTemperatureSwitch {
     if (!_setTemperatureSwitch) {
         _setTemperatureSwitch = [[UISwitch alloc] init];
-        _setTemperatureSwitch.onTintColor = [UIColor redColor];
+        _setTemperatureSwitch.onTintColor = kColorRGB(63, 220, 31);
         // 默认不选中
         _setTemperatureSwitch.on = NO;
 
@@ -836,12 +919,20 @@
 #pragma mark -
 #pragma mark -- bottomLeftBluetoothButtonAction
 - (void)bottomLeftBluetoothButtonAction{
-    
+    if (BluetoothStateConnected == self.bluetoothState ) {
+        [MBProgressHUD showError:@"Device has Connected"];
+    }else{
+        [self startScan];
+    }
 }
 #pragma mark -
 #pragma mark -- bottomRightBluetoothButtonAction
 - (void)bottomRightBluetoothButtonAction{
-    
+    if (BluetoothStateConnected == self.bluetoothState ) {
+        [MBProgressHUD showError:@"Device has connected"];
+    }else{
+        [self startScan];
+    }
 }
 //懒加载
 - (UIPickerView *)pickerView{

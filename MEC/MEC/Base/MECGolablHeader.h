@@ -12,6 +12,7 @@
 
 #import "AppDelegate.h"
 #import "QCUrlConst.h"
+#import "MECTools.h"
 #import <MJExtension/MJExtension.h>
 #import <Masonry/Masonry.h>
 #import "MBProgressHUD+PH.h"

@@ -32,35 +32,22 @@
 
 - (void)configButton {
     self.backgroundColor = [UIColor clearColor];
-    [self setBackgroundImage:[self imageWithColor:kColorHex(0x90C320)] forState:UIControlStateNormal];
-    [self setBackgroundImage:[self imageWithColor:kColorHex(0x90C320)] forState:UIControlStateHighlighted];
-    [self setBackgroundImage:[self imageWithColor:kColorHex(0x999999)] forState:UIControlStateDisabled];
+    [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(200, 200, 200)] forState:UIControlStateNormal];
+    [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(180, 180, 180)] forState:UIControlStateHighlighted];
+    [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(255, 255, 255)] forState:UIControlStateDisabled];
     
-    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateNormal];
-    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateHighlighted];
-    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateDisabled];
-    [self setTitleColor:kColorHex(0x111111) forState:UIControlStateSelected];
+//    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateNormal];
+//    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateHighlighted];
+//    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateDisabled];
+    [self setTitleColor:kColorHex(0x333333) forState:UIControlStateSelected];
     [self setTitleColor:kColorHex(0x999999) forState:UIControlStateDisabled];
-    [self setTitleColor:kColorHex(0x111111) forState:UIControlStateNormal];
-//    self.layer.cornerRadius = 8;
-//    self.layer.masksToBounds = YES;
-    self.titleLabel.font = [UIFont boldSystemFontOfSize:self.titleLabel.font.pointSize];
+    [self setTitleColor:kColorHex(0x333333) forState:UIControlStateNormal];
+    self.layer.cornerRadius = kWidth6(6);
+    self.layer.masksToBounds = YES;
+//    self.titleLabel.font = [UIFont boldSystemFontOfSize:self.titleLabel.font.pointSize];
 }
 
-- (UIImage *)imageWithColor:(UIColor *)color {
-    
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
+
 
 
 @end

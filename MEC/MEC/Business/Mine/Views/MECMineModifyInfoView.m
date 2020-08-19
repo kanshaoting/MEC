@@ -181,13 +181,13 @@
         make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(38));
         make.centerX.equalTo(self);
         make.height.mas_equalTo(kWidth6(36));
-        make.width.mas_equalTo(kWidth6(178));
+        make.width.mas_equalTo(kWidth6(200));
     }];
     [self.logoutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.modifyBtn.mas_bottom).offset(kWidth6(30));
         make.centerX.equalTo(self);
         make.height.mas_equalTo(kWidth6(36));
-        make.width.mas_equalTo(kWidth6(178));
+        make.width.mas_equalTo(kWidth6(200));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.equalTo(self).offset(0);
@@ -404,17 +404,17 @@
 
 - (MECDefaultButton *)modifyBtn{
     if (!_modifyBtn) {
-        _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(modifyBtnAction:)];
-        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
-        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
-        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateSelected];
+        _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(modifyBtnAction:)];
+//        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
+//        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
+//        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateSelected];
             
     }
     return _modifyBtn;
 }
 - (MECDefaultButton *)logoutBtn{
     if (!_logoutBtn) {
-        _logoutBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Logout" font:MEC_Helvetica_Regular_Font(12) target:self selector:@selector(logoutBtnAction:)];
+        _logoutBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Logout" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(logoutBtnAction:)];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateSelected];

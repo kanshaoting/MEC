@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 校验用户名
 + (NSString *)predicateUserName:(NSString *)userName;
 
+///颜色转图片
++ (UIImage *)imageWithColor:(UIColor *)color;
+
 @end
 
 NS_ASSUME_NONNULL_END

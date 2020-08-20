@@ -46,6 +46,16 @@
     [self.progressView removeFromSuperview];
    
 }
+#pragma mark - dealloc
+- (void)dealloc {
+    @try {
+        [self.wkWebView removeObserver:self forKeyPath:@"estimatedProgress"];
+        [self.wkWebView removeObserver:self forKeyPath:@"title"];
+    }
+    @catch (NSException *expection){}
+}
+
+
 -(void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void(^)(WKNavigationActionPolicy))decisionHandler{
     
     decisionHandler(WKNavigationActionPolicyAllow);

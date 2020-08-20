@@ -66,6 +66,10 @@
     [super viewWillAppear:animated];
     [self queryDeviceRequest];
 }
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 #pragma mark - 查询设备绑定信息
 #pragma mark -- queryDeviceRequest
 - (void)queryDeviceRequest{
@@ -229,4 +233,6 @@
     }
     return _bottomView;
 }
+
+
 @end

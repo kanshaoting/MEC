@@ -326,28 +326,28 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (0 == row) {
         if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
-            
+            [self connectDeviceWithPosition:PositionTypeFootLeft];
         }else{
             [MBProgressHUD showError:@"Device Connection failed"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (1 == row){
         if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0) {
-            
+             [self connectDeviceWithPosition:PositionTypeFootTop];
         }else{
             [MBProgressHUD showError:@"Device Connection failed"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (2 == row){
         if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0) {
-            
+             [self connectDeviceWithPosition:PositionTypeFootBottom];
         }else{
             [MBProgressHUD showError:@"Device Connection failed"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else{
         if (self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0) {
-            
+             [self connectDeviceWithPosition:PositionTypeFootHeatingPad];
         }else{
             [MBProgressHUD showError:@"Device Connection failed"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
@@ -376,7 +376,10 @@
         default:
             break;
     }
-    
+    self.macAddressStr = macStr;
+    self.positionType = position;
+    self.isFirst = YES;
+    [self startScan];
 }
 #pragma mark - 检测蓝牙状态
 #pragma mark -- centralManagerDidUpdateState

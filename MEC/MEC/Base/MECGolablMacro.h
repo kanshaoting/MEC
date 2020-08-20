@@ -153,6 +153,9 @@ typedef NS_ENUM(NSInteger, BluetoothCentralManagerState){
 };
 
 
+#define MECMineViewControllerStatusNotification @"MECMineViewControllerStatusNotification"
+
+
 //data
 #define QCErrorCode -1
 #define QCErrorPropmt @"Unknown error"

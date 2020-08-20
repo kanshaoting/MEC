@@ -21,6 +21,9 @@
 #import "MECBindDeviceListInfoModel.h"
 #import "MECBindDeviceDetailInfoModel.h"
 
+#import "MECDevicesDetailViewController.h"
+#import "MECWebViewController.h"
+
 
 @interface MECMineViewController ()
 
@@ -43,7 +46,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mineViewStatusChange:) name:MECMineViewControllerStatusNotification object:nil];
     [self configUI];
+}
+#pragma mark - 视图切换状态改变通知回调
+#pragma mark -- mineViewStatusChange
+- (void)mineViewStatusChange:(NSNotification *)statusChange{
+    NSInteger status = [statusChange.object integerValue];
+    if (1 == status) {
+        self.mineModifyInfoView.hidden = NO;
+        self.deviceListView.hidden = YES;
+    }else{
+        self.mineModifyInfoView.hidden = YES;
+        self.deviceListView.hidden = NO;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -110,6 +126,42 @@
         make.height.mas_equalTo(kTabBarHeight);
         make.leading.trailing.bottom.equalTo(self.view);
     }];
+    kWeakSelf
+    self.menuViewCellTapBlock = ^(NSInteger index) {
+        
+        if (0 == index) {
+            weakSelf.mineModifyInfoView.hidden = NO;
+            weakSelf.deviceListView.hidden = YES;
+        }else if (1 == index){
+            MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
+            vc.bindDeviceListInfoModel = weakSelf.bindDeviceListInfoModel;
+            vc.positionType = 0;
+            NSMutableArray *tempMuArr = [NSMutableArray array];
+            if (weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
+                [tempMuArr addObject:weakSelf.bindDeviceListInfoModel.leftDeviceModel];
+            }
+            if (weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0){
+                [tempMuArr addObject:weakSelf.bindDeviceListInfoModel.rightDeviceModel];
+            }
+            if (weakSelf.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0){
+                [tempMuArr addObject:weakSelf.bindDeviceListInfoModel.topDeviceModel];
+            }
+            if (weakSelf.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0){
+                [tempMuArr addObject:weakSelf.bindDeviceListInfoModel.bottomDeviceModel];
+            }
+            if(weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0){
+                [tempMuArr addObject:weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel];
+            }
+            vc.matchBluDataMuArr = [NSMutableArray arrayWithArray:tempMuArr];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }else if (2 == index){
+            weakSelf.mineModifyInfoView.hidden = YES;
+            weakSelf.deviceListView.hidden = NO;
+        }else{
+            MECWebViewController *vc = [[MECWebViewController alloc] init];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    };
     
 }
 

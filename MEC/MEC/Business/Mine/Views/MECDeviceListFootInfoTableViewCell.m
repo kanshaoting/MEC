@@ -272,7 +272,7 @@
     if (!_arrowsBtn) {
         _arrowsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_arrowsBtn setImage:[UIImage imageNamed:@"device_list_arrows_icon"] forState:UIControlStateNormal];
-        [_arrowsBtn addTarget:self action:@selector(arrowsAddBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [_arrowsBtn addTarget:self action:@selector(arrowsAddBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _arrowsBtn;
 }

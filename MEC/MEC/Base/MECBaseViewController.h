@@ -10,11 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^MECBaseViewControllerMenuViewCellTapBlock)(NSInteger index);
+
 @interface MECBaseViewController : UIViewController
 
 
 /// 返回按钮方法
 - (void)goBackBtnAction;
+
+@property (nonatomic, copy) MECBaseViewControllerMenuViewCellTapBlock menuViewCellTapBlock;
 
 @end
 

@@ -9,6 +9,8 @@
 #import "MECSetTemperatureViewController.h"
 
 #import "MECTemperatureCircleAnimationView.h"
+#import "MECWebViewController.h"
+
 
 #define kServiceName @"USB_521_Addheat"
 #define kServiceUUID @"FFB0"
@@ -135,8 +137,32 @@
         self.bottomRightBluetoothButton.hidden = YES;
         self.bottomLeftTipsLabel.text = @"";
     }
+    [self updateTopIconImageView:self.positionType];
     self.lastRow = row;
     [self.pickerView selectRow:row inComponent:0 animated:YES];
+}
+#pragma mark -  更新左上角图标
+#pragma mark -- updateTopIconImageView
+- (void)updateTopIconImageView:(NSInteger)position{
+    NSString *imageStr;
+    switch (position) {
+        case 1:
+        case 2:
+            imageStr = @"device_list_foot_icon";
+            break;
+        case 3:
+            imageStr = @"device_list_top_icon";
+            break;
+        case 4:
+            imageStr = @"device_list_bottom_icon";
+            break;
+        case 5:
+            imageStr = @"device_list_heatingpad_icon";
+            break;
+        default:
+            break;
+    }
+    self.topIconImageView.image = [UIImage imageNamed:imageStr];
 }
 #pragma mark - 初始化数据
 #pragma mark -- initDatas
@@ -243,6 +269,21 @@
         make.bottom.equalTo(self.bottomLeftIconImageView).offset(-kWidth6(24));
     }];
     
+    kWeakSelf
+    self.menuViewCellTapBlock = ^(NSInteger index) {
+        if (0 == index) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"1"];
+            [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+        }else if (1 == index){
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }else if (2 == index){
+            [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"2"];
+            [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+        }else{
+            MECWebViewController *vc = [[MECWebViewController alloc] init];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    };
 }
 
 #pragma mark --
@@ -314,6 +355,29 @@
     }
 }
 
+- (void)connectDeviceWithPosition:(NSInteger)position{
+    NSString *macStr;
+    switch (position) {
+        case 1:
+            macStr = self.bindDeviceListInfoModel.leftDeviceModel.dmac;
+            break;
+        case 2:
+            macStr = self.bindDeviceListInfoModel.rightDeviceModel.dmac;
+            break;
+        case 3:
+            macStr = self.bindDeviceListInfoModel.topDeviceModel.dmac;
+            break;
+        case 4:
+            macStr = self.bindDeviceListInfoModel.bottomDeviceModel.dmac;
+            break;
+        case 5:
+            macStr = self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac;
+            break;
+        default:
+            break;
+    }
+    
+}
 #pragma mark - 检测蓝牙状态
 #pragma mark -- centralManagerDidUpdateState
 /**
@@ -368,6 +432,10 @@
         return;
     }
 
+    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
+        [self.searchBluDataMuArr addObject:peripheral];
+    }
+    
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
     if([peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
         
@@ -447,9 +515,6 @@
 //        [self.centralManager stopScan];
     }
     
-    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
-        [self.searchBluDataMuArr addObject:peripheral];
-    }
 }
 
 #pragma mark - 连接到外围设备成功回调
@@ -516,10 +581,10 @@
     
     if (error)
     {
-        NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
+//        NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
         return;
     }
-    NSLog(@"服务：%@",service.UUID);
+
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
         if (self.discoveredPeripheral.identifier == service.peripheral.identifier) {
             // 特征
@@ -805,6 +870,10 @@
     }
     return tempTemperature;
 }
+
+
+#pragma mark - 懒加载
+#pragma mark -- lazy
 - (UIImageView *)topIconImageView{
     if (!_topIconImageView) {
         _topIconImageView = [[UIImageView alloc] init];

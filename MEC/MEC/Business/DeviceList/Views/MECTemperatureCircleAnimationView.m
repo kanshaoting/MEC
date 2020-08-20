@@ -15,8 +15,6 @@
 @property(strong,nonatomic) MECCircleAnimationView *circleAnimationView;
 
 
-
-
 @end
 
 @implementation MECTemperatureCircleAnimationView

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		11C69E0B485F3BEF954C9D7E /* Pods_MEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E5648184B16A5A9F5A4322 /* Pods_MEC.framework */; };
+		520B5D3824EE66B6004F84C7 /* MECWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520B5D3724EE66B6004F84C7 /* MECWebViewController.m */; };
 		521EF1A724CE780800455497 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 521EF1A624CE780800455497 /* AppDelegate.m */; };
 		521EF1B024CE780800455497 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1AE24CE780800455497 /* Main.storyboard */; };
 		521EF1B224CE780A00455497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 521EF1B124CE780A00455497 /* Assets.xcassets */; };
@@ -57,6 +58,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		520B5D3624EE66B6004F84C7 /* MECWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECWebViewController.h; sourceTree = "<group>"; };
+		520B5D3724EE66B6004F84C7 /* MECWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECWebViewController.m; sourceTree = "<group>"; };
 		521EF1A224CE780800455497 /* MEC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		521EF1A524CE780800455497 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		521EF1A624CE780800455497 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -231,6 +234,8 @@
 				52D57B9424CEC12800745720 /* MECPrefix.pch */,
 				52D57B9124CEC12800745720 /* MECGolablMacro.h */,
 				52D57BAB24CEC74200745720 /* MECGolablHeader.h */,
+				520B5D3624EE66B6004F84C7 /* MECWebViewController.h */,
+				520B5D3724EE66B6004F84C7 /* MECWebViewController.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -603,6 +608,7 @@
 				52DD0F5124D3EBEC00426629 /* MECUserModel.m in Sources */,
 				52DD0F3C24D3B3E200426629 /* UIView+QCExtension.m in Sources */,
 				527EB96524D94AE100627E57 /* MECSetTemperatureViewController.m in Sources */,
+				520B5D3824EE66B6004F84C7 /* MECWebViewController.m in Sources */,
 				52DD0F4224D3B3E200426629 /* NSString+QCExtension.m in Sources */,
 				52DD0F2624D3B37000426629 /* QCNetWorkResult.m in Sources */,
 				52DD0F3F24D3B3E200426629 /* NSObject+QCExtension.m in Sources */,

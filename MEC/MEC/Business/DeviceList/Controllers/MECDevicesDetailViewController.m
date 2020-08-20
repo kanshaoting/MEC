@@ -15,6 +15,7 @@
 
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "MECSetTemperatureViewController.h"
+#import "MECWebViewController.h"
 
 
 // 0000ffb0-0000-1000-8000-00805f9b34fb
@@ -125,7 +126,21 @@
         make.width.mas_equalTo(kWidth6(120));
         make.top.equalTo(self.bottomTipsLabel.mas_bottom).offset(kWidth6(10));
     }];
-    
+    kWeakSelf
+    self.menuViewCellTapBlock = ^(NSInteger index) {
+        if (0 == index) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"1"];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }else if (1 == index){
+            
+        }else if (2 == index){
+            [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"2"];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }else{
+            MECWebViewController *vc = [[MECWebViewController alloc] init];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    };
 }
 
 #pragma mark UITableViewDelegate,UITableViewDataSource
@@ -211,9 +226,9 @@
     
     if ( 0 == indexPath.section) {
         if (PositionTypeFootLeft == model.positionTpye.integerValue || PositionTypeFootRight == model.positionTpye.integerValue) {
-            
-        }else{
-            
+            if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length <= 0 || self.bindDeviceListInfoModel.rightDeviceModel.dmac.length <= 0) {
+                return;
+            }
         }
         //跳转到温度设置页面
         MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
@@ -223,6 +238,10 @@
         [self.navigationController pushViewController:vc  animated:YES];
     }else{
         //设定周边设备，指定代理者
+        // 传入绑定类型才可以继续操作
+        if (self.positionType < 1) {
+            return;
+        }
         self.discoveredPeripheral = model.discoveredPeripheral;
         model.isLoading = YES;
         model.positionTpye = [NSString stringWithFormat:@"%ld",(long)self.positionType];
@@ -407,7 +426,7 @@
         NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
         
     }
-    
+    return;
     NSLog(@"服务：%@",service.UUID);
     // 特征
     for (CBCharacteristic *characteristic in service.characteristics)

@@ -192,7 +192,7 @@
                 if ((self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.did.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length == 0)) {
                     [weakSelf pushMECDevicesDetailViewControllerWithType:type];
                 }else{
-                    [MBProgressHUD showError:@"Please select foot"];
+                    [MBProgressHUD showError:@"Please select feet first"];
                 }
             }
         };
@@ -210,19 +210,19 @@
     vc.positionType = type;
     vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
     NSMutableArray *tempMuArr = [NSMutableArray array];
-    if (self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
+    if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
         [tempMuArr addObject:self.bindDeviceListInfoModel.leftDeviceModel];
     }
-    if (self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0){
+    if (self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0){
          [tempMuArr addObject:self.bindDeviceListInfoModel.rightDeviceModel];
     }
-    if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0){
+    if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0){
          [tempMuArr addObject:self.bindDeviceListInfoModel.topDeviceModel];
     }
-    if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0){
+    if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0){
          [tempMuArr addObject:self.bindDeviceListInfoModel.bottomDeviceModel];
     }
-    if(self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0){
+    if(self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0){
         [tempMuArr addObject:self.bindDeviceListInfoModel.heatingPadDeviceModel];
     }
     
@@ -284,18 +284,24 @@
         if (self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) {
             [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.leftDeviceModel.dmac position:PositionTypeFootRight];
         }
-    }else if (1 == indexPath.row){
-        if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 ) {
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.topDeviceModel.dmac position:PositionTypeFootTop];
-        }
-    }else if (2 == indexPath.row){
-        if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 ) {
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.bottomDeviceModel.dmac position:PositionTypeFootBottom];
-        }
-        
     }else {
-        if (self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 ) {
-            [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac position:PositionTypeFootHeatingPad];
+        // push搜索蓝牙页面 左边、右边同时设置或者同时没有设置，则可以设置其它部位
+        if ((self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.did.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length == 0)) {
+            if (1 == indexPath.row){
+                if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 ) {
+                    [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.topDeviceModel.dmac position:PositionTypeFootTop];
+                }
+            }else if (2 == indexPath.row){
+                if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 ) {
+                    [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.bottomDeviceModel.dmac position:PositionTypeFootBottom];
+                }
+            }else {
+                if (self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 ) {
+                    [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac position:PositionTypeFootHeatingPad];
+                }
+            }
+        }else{
+            [MBProgressHUD showError:@"Please select feet first"];
         }
     }
 }

@@ -37,8 +37,11 @@ static const CGFloat kAnimationTime = 0.5;
 
 @property (nonatomic, strong) UIImageView *typeImageView; // 模式图片
 
+/// 中间文案
+@property(strong,nonatomic) UILabel *medLabel;
+/// low文案
 @property(strong,nonatomic) UILabel *lowLabel;
-
+/// high文案
 @property(strong,nonatomic) UILabel *highLabel;
 
 
@@ -175,6 +178,7 @@ static const CGFloat kAnimationTime = 0.5;
     [self createAnimationWithStartAngle:degreesToRadians(self.stareAngle)
                                endAngle:degreesToRadians(self.stareAngle + 270 * 0)];
     
+    [self addSubview:self.medLabel];
     [self addSubview:self.lowLabel];
     [self addSubview:self.highLabel];
     
@@ -457,6 +461,17 @@ static const CGFloat kAnimationTime = 0.5;
     return acos(((a * c) + (b * d)) / ((sqrt(a * a + b * b)) * (sqrt(c * c + d * d))));
 }
 
+
+- (UILabel *)medLabel{
+    if (!_medLabel) {
+        _medLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - kWidth6(60)/2, kWidth6(50), kWidth6(60), kWidth6(20))];
+        _medLabel.text = @"Med.";
+        _medLabel.font = MEC_Helvetica_Regular_Font(12);
+        _medLabel.textColor = kColorHex(0x717071);
+        _medLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _medLabel;
+}
 
 - (UILabel *)lowLabel{
     if (!_lowLabel) {

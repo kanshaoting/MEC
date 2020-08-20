@@ -780,6 +780,7 @@
     }else{
         
     }
+    NSLog(@"发现特征值1 is %@",characteristic.value.description);
 
     if (characteristic.value) {
         NSString *value = characteristic.value.description;
@@ -825,6 +826,7 @@
         }
      
     }
+     
 //    NSLog(@"读取到特征值：%@",value);
 }
 #pragma mark - 处理电量

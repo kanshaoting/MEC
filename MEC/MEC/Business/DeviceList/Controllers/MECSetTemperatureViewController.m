@@ -20,6 +20,7 @@
 
 #define kCharacteristicUUID @"0000ffb2-0000-1000-8000-00805f9b34fb"
 
+
 @interface MECSetTemperatureViewController ()<UIPickerViewDelegate,UIPickerViewDataSource,CBCentralManagerDelegate,CBPeripheralDelegate>
 
 /// 顶部左上角图标
@@ -116,6 +117,12 @@
 /// 右边电量数值
 @property (nonatomic, assign) NSInteger rightElectricValue;
 
+/// 定时器
+@property (nonatomic, strong) NSTimer *timer1;
+
+
+/// 定时器时间 秒
+@property (nonatomic, assign) NSInteger secondCount;
 
 @end
 
@@ -140,6 +147,63 @@
     [self updateTopIconImageView:self.positionType];
     self.lastRow = row;
     [self.pickerView selectRow:row inComponent:0 animated:YES];
+}
+#pragma mark - 开启定时器
+#pragma mark -- startTimer
+- (void)startTimer{
+    self.timer1 = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(monitorCharacteristicValue) userInfo:nil repeats:YES];
+    // 加入RunLoop中
+    [[NSRunLoop mainRunLoop] addTimer:self.timer1 forMode:NSDefaultRunLoopMode];
+}
+#pragma mark - 关闭定时器
+#pragma mark -- invalidateTimer
+- (void)invalidateTimer {
+    [self.timer1 invalidate];
+    self.timer1 = nil;
+}
+
+#pragma mark - 监听设备值变化
+#pragma mark -- monitorCharacteristicValue
+- (void)monitorCharacteristicValue{
+    self.secondCount += 1;
+    if (self.secondCount % 3 == 0) {
+        [self checkBlueStatus];
+    }
+}
+#pragma mark -  检查蓝牙状态
+#pragma mark -- checkBlueStatus
+- (void)checkBlueStatus{
+     switch (self.centralManager.state) {
+           case CBManagerStateUnknown:
+               break;
+           case CBManagerStateResetting:
+               break;
+           case CBManagerStateUnsupported:
+               [MBProgressHUD showError:@"The current mobile phone is not supported, please replace it"];
+               break;
+           case CBManagerStateUnauthorized:
+               [self alertMessageController];
+               break;
+           case CBManagerStatePoweredOff:
+                [self resetTemperatureViewControllerView];
+                [self alertMessageController];
+               break;
+           case CBManagerStatePoweredOn:
+           {
+//               // 开始扫描周围的外设。
+//               [self startScan];
+           }
+               break;
+           default:
+               break;
+       }
+}
+#pragma mark - 重置页面
+#pragma mark -- resetTemperatureViewControllerView
+- (void)resetTemperatureViewControllerView{
+    self.bluetoothState = BluetoothStateDisconnect;
+    [self.bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
+    [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
 }
 #pragma mark -  更新左上角图标
 #pragma mark -- updateTopIconImageView
@@ -172,7 +236,10 @@
     self.currentTemperature = 10;
     self.sendFlag = NO;
     self.sendTemperature = -1;
+    self.secondCount = 0;
+    [self startTimer];
 }
+
 #pragma mark - 返回根视图控制器
 #pragma mark -- goBackBtnAction
 - (void)goBackBtnAction{
@@ -182,6 +249,7 @@
     [super viewWillDisappear:animated];
     // 关闭蓝牙，下个页面会重启蓝牙
     [self closeBluetooth];
+    [self invalidateTimer];
 }
 
 #pragma mark -
@@ -456,17 +524,30 @@
         }
         
         if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+            if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.leftDeviceModel.dmac]) {
+
+                //设定周边设备，指定代理者
+                self.discoveredPeripheral = peripheral;
+                self.discoveredPeripheral.delegate = self;
+                //连接设备
+                [self.centralManager connectPeripheral:peripheral
+                                               options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+            }
+            if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
+                // 判断如果是之前绑定的，则自动链接
+                //设定周边设备，指定代理者
+                self.discoveredPeripheral2 = peripheral;
+                self.discoveredPeripheral2.delegate = self;
+                //连接设备
+                [self.centralManager connectPeripheral:peripheral
+                                               options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+            }
+            /*
            // foot
             if (PositionTypeFootLeft == self.positionType) {
                 // top、bottom、heatingpad
                 if ([tempMuStr isEqualToString:self.macAddressStr]) {
                     // 判断如果是之前绑定的，则自动链接
-                    //设定周边设备，指定代理者
-                    self.discoveredPeripheral = peripheral;
-                    self.discoveredPeripheral.delegate = self;
-                    //连接设备
-                    [self.centralManager connectPeripheral:peripheral
-                                                   options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
                 }else{
                     if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
                         // 判断如果是之前绑定的，则自动链接
@@ -480,13 +561,7 @@
                 }
             }else{
                 if ([tempMuStr isEqualToString:self.macAddressStr]) {
-                    // 判断如果是之前绑定的，则自动链接
-                    //设定周边设备，指定代理者
-                    self.discoveredPeripheral2 = peripheral;
-                    self.discoveredPeripheral2.delegate = self;
-                    //连接设备
-                    [self.centralManager connectPeripheral:peripheral
-                                                   options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+                    
                 }else{
                     if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.leftDeviceModel.dmac]) {
                         // 判断如果是之前绑定的，则自动链接
@@ -499,6 +574,8 @@
                     }
                 }
             }
+             */
+            
         }else{
             // top、bottom、heatingpad
             if ([tempMuStr isEqualToString:self.macAddressStr]) {
@@ -685,11 +762,19 @@
         return;
     }
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
-        if (self.characteristic == characteristic) {
-            
+        if (self.secondCount %2 == 0) {
+            if (peripheral == self.discoveredPeripheral ) {
+                if (characteristic == self.characteristic) {
+                    NSLog(@"发现特征值1 is %@",characteristic.value.description);
+                }
+            }
         }
-        if (self.characteristic2 == characteristic) {
-            
+        if (self.secondCount %3 == 0) {
+            if (peripheral == self.discoveredPeripheral2) {
+                if (characteristic == self.characteristic2) {
+                    NSLog(@"发现特征值2 is %@",characteristic.value.description);
+                }
+            }
         }
         
     }else{
@@ -714,12 +799,12 @@
         NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
         NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
         self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
-        
+        self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
         if (self.isFirst) {
             self.isFirst = NO;
             self.sendFlag = self.receiveFlag;
             self.setTemperatureSwitch.on = self.receiveFlag == YES;
-            self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
+
             self.sendTemperature = self.receiveTemperature;
             self.temperatureCircleView.temperInter = self.receiveTemperature;
             self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
@@ -733,14 +818,14 @@
             if (self.sendTemperature == self.receiveTemperature) {
                 
             }else{
-                self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
+                self.sendTemperature = self.receiveTemperature;
                 self.temperatureCircleView.temperInter = self.receiveTemperature;
                 self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
             }
         }
      
     }
-    NSLog(@"读取到特征值：%@",value);
+//    NSLog(@"读取到特征值：%@",value);
 }
 #pragma mark - 处理电量
 #pragma mark -- handleElectricValueWithElectricValue
@@ -851,14 +936,14 @@
 #pragma mark -- setTemperatureSwitchAction
 - (void)setTemperatureSwitchAction:(UISwitch *)mySwitch {
  
-    if (BluetoothStateConnected == self.bluetoothState ) {
+    if (BluetoothStateConnected == self.bluetoothState) {
         self.temperatureCircleView.temperInter = self.currentTemperature;
         self.temperatureCircleView.isClose = mySwitch.on == NO;
         
         [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.currentTemperature];
     }else{
         mySwitch.on = !mySwitch.on;
-        [MBProgressHUD showError:@"Device Connection failed"];
+        [MBProgressHUD showError:@"Device not Connection"];
     }
 }
 
@@ -933,8 +1018,12 @@
         _temperatureCircleView.isClose = YES;
         kWeakSelf
         _temperatureCircleView.temperatureCircleBlock = ^(NSInteger temperature) {
-            weakSelf.currentTemperature = temperature;
-            [weakSelf writeDataWithStatus:weakSelf.setTemperatureSwitch.on temperature:temperature];
+            
+            if (BluetoothStateConnected == self.bluetoothState) {
+                weakSelf.currentTemperature = temperature;
+                [weakSelf writeDataWithStatus:weakSelf.setTemperatureSwitch.on temperature:temperature];
+            }
+            
         };
     }
     return _temperatureCircleView;

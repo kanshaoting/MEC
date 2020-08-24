@@ -274,7 +274,7 @@
     [super viewWillDisappear:animated];
     // 关闭蓝牙，下个页面会重启蓝牙
     [self closeBluetooth];
-    [self invalidateTimer];
+//    [self invalidateTimer];
 }
 
 #pragma mark -
@@ -418,28 +418,32 @@
 //用户进行选择
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (0 == row) {
-        if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
-            [self connectDeviceWithPosition:PositionTypeFootLeft];
+        if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.leftDeviceModel.dmac] && [self checkDeviceIsExist:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
+                self.lastRow = row;
+                [self connectDeviceWithPosition:PositionTypeFootLeft];
         }else{
             [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (1 == row){
-        if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0) {
+        if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.topDeviceModel.dmac]) {
+             self.lastRow = row;
              [self connectDeviceWithPosition:PositionTypeFootTop];
         }else{
             [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (2 == row){
-        if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0) {
+        if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.bottomDeviceModel.dmac]) {
+             self.lastRow = row;
              [self connectDeviceWithPosition:PositionTypeFootBottom];
         }else{
             [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else{
-        if (self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0) {
+        if (self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac]) {
+             self.lastRow = row;
              [self connectDeviceWithPosition:PositionTypeFootHeatingPad];
         }else{
             [MBProgressHUD showError:@"No Device"];
@@ -448,6 +452,11 @@
     }
 }
 
+#pragma mark - 检查当前搜索设备列表是否包含之前配对的设备
+#pragma mark -- checkDeviceIsExist
+- (BOOL)checkDeviceIsExist:(NSString *)macStr{
+   return YES;
+}
 - (void)connectDeviceWithPosition:(NSInteger)position{
     NSString *macStr;
     switch (position) {
@@ -472,6 +481,7 @@
     self.macAddressStr = macStr;
     self.positionType = position;
     self.isFirst = YES;
+    [self updateTopIconImageView:position];
     [self startScan];
 }
 #pragma mark - 检测蓝牙状态
@@ -529,6 +539,7 @@
     }
 
     if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
+        
         [self.searchBluDataMuArr addObject:peripheral];
     }
     
@@ -1085,12 +1096,12 @@
 #pragma mark -
 #pragma mark -- bottomLeftBluetoothButtonAction
 - (void)bottomLeftBluetoothButtonAction{
-     if (CBPeripheralStateConnected == self.discoveredPeripheral.state ) {
-           [MBProgressHUD showError:@"Device has connected"];
-       }else{
-           self.isShowConnectionError = NO;
-           [self startScan];
-       }
+    if (CBPeripheralStateConnected == self.discoveredPeripheral.state ) {
+        [MBProgressHUD showError:@"Device has connected"];
+    }else{
+        self.isShowConnectionError = NO;
+        [self startScan];
+    }
 }
 #pragma mark -
 #pragma mark -- bottomRightBluetoothButtonAction

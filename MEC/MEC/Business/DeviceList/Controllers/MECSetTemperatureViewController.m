@@ -120,9 +120,19 @@
 /// 定时器
 @property (nonatomic, strong) NSTimer *timer1;
 
-
 /// 定时器时间 秒
 @property (nonatomic, assign) NSInteger secondCount;
+
+/// 是否是首次读取数据
+@property (nonatomic, assign) BOOL isFirstReadData;
+
+
+/// 是否显示链接失败
+@property (nonatomic, assign) BOOL isShowConnectionError;
+
+
+/// 是否显示链接失败
+@property (nonatomic, assign) BOOL isad;
 
 @end
 
@@ -166,9 +176,23 @@
 #pragma mark -- monitorCharacteristicValue
 - (void)monitorCharacteristicValue{
     self.secondCount += 1;
-    if (self.secondCount % 3 == 0) {
+    if (self.secondCount % 2 == 0) {
         [self checkBlueStatus];
     }
+    if (self.secondCount % 2 == 0) {
+        [self checkDevicePeripheralStateConnected];
+    }
+}
+#pragma mark - 检查设备连接状态
+#pragma mark -- checkDevicePeripheralStateConnected
+- (void)checkDevicePeripheralStateConnected{
+    NSString *leftBluIconStr;
+    leftBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
+    [self.bottomLeftBluetoothButton setImage: [UIImage imageNamed:leftBluIconStr] forState:UIControlStateNormal];
+    
+    NSString *rightBluIconStr;
+    rightBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral2.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
+    [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:leftBluIconStr] forState:UIControlStateNormal];
 }
 #pragma mark -  检查蓝牙状态
 #pragma mark -- checkBlueStatus
@@ -231,6 +255,7 @@
 #pragma mark - 初始化数据
 #pragma mark -- initDatas
 - (void)initDatas{
+    self.isShowConnectionError = YES;
     self.isFirst = YES;
     // 初始化的温度值
     self.currentTemperature = 10;
@@ -396,28 +421,28 @@
         if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
             [self connectDeviceWithPosition:PositionTypeFootLeft];
         }else{
-            [MBProgressHUD showError:@"Device Connection failed"];
+            [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (1 == row){
         if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0) {
              [self connectDeviceWithPosition:PositionTypeFootTop];
         }else{
-            [MBProgressHUD showError:@"Device Connection failed"];
+            [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (2 == row){
         if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0) {
              [self connectDeviceWithPosition:PositionTypeFootBottom];
         }else{
-            [MBProgressHUD showError:@"Device Connection failed"];
+            [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else{
         if (self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0) {
              [self connectDeviceWithPosition:PositionTypeFootHeatingPad];
         }else{
-            [MBProgressHUD showError:@"Device Connection failed"];
+            [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }
@@ -526,12 +551,7 @@
         if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
             if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.leftDeviceModel.dmac]) {
 
-                //设定周边设备，指定代理者
-                self.discoveredPeripheral = peripheral;
-                self.discoveredPeripheral.delegate = self;
-                //连接设备
-                [self.centralManager connectPeripheral:peripheral
-                                               options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+                 [self connectDevicePeripheral:peripheral];
             }
             if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
                 // 判断如果是之前绑定的，则自动链接
@@ -542,64 +562,48 @@
                 [self.centralManager connectPeripheral:peripheral
                                                options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
             }
-            /*
-           // foot
-            if (PositionTypeFootLeft == self.positionType) {
-                // top、bottom、heatingpad
-                if ([tempMuStr isEqualToString:self.macAddressStr]) {
-                    // 判断如果是之前绑定的，则自动链接
-                }else{
-                    if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
-                        // 判断如果是之前绑定的，则自动链接
-                        //设定周边设备，指定代理者 右边的
-                        self.discoveredPeripheral2 = peripheral;
-                        self.discoveredPeripheral2.delegate = self;
-                        //连接设备
-                        [self.centralManager connectPeripheral:peripheral
-                                                       options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
-                    }
-                }
-            }else{
-                if ([tempMuStr isEqualToString:self.macAddressStr]) {
-                    
-                }else{
-                    if ([tempMuStr isEqualToString:self.bindDeviceListInfoModel.leftDeviceModel.dmac]) {
-                        // 判断如果是之前绑定的，则自动链接
-                        //设定周边设备，指定代理者 右边的
-                        self.discoveredPeripheral = peripheral;
-                        self.discoveredPeripheral.delegate = self;
-                        //连接设备
-                        [self.centralManager connectPeripheral:peripheral
-                                                       options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
-                    }
-                }
-            }
-             */
-            
+    
         }else{
             // top、bottom、heatingpad
             if ([tempMuStr isEqualToString:self.macAddressStr]) {
-                // 判断如果是之前绑定的，则自动链接
-                //设定周边设备，指定代理者
-                self.discoveredPeripheral = peripheral;
-                self.discoveredPeripheral.delegate = self;
-                //连接设备
-                [self.centralManager connectPeripheral:peripheral
-                                               options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+                // 取消之前的链接
+                if (self.discoveredPeripheral) {
+                    [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
+                    self.discoveredPeripheral = nil;
+                    self.characteristic = nil;
+                }else{
+                    
+                }
+                [self connectDevicePeripheral:peripheral];
+                
             }
         }
         // 开始匹配中
         self.bluetoothState = BluetoothStateConnecting;
     }else{
-//        [MBProgressHUD showError:@"Device Connection failed"];
-//        [self.centralManager stopScan];
+        if (self.isShowConnectionError) {
+            
+        }else{
+            self.isShowConnectionError = YES;
+            [MBProgressHUD showError:@"Device Connection failed"];
+        }
     }
-    
 }
-
+#pragma mark - 链接设备
+#pragma mark -- connectPeripheral
+- (void)connectDevicePeripheral:(CBPeripheral *)peripheral{
+    [MBProgressHUD showLoadingMessage:@"Connecting"];
+    //设定周边设备，指定代理者
+    self.discoveredPeripheral = peripheral;
+    self.discoveredPeripheral.delegate = self;
+    //连接设备
+    [self.centralManager connectPeripheral:peripheral
+                                   options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+}
 #pragma mark - 连接到外围设备成功回调
 #pragma mark -- centralManager
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
+    [MBProgressHUD hideHUD];
     self.bluetoothState = BluetoothStateConnected;
     // 停止扫描
     [self.centralManager stopScan];
@@ -618,6 +622,7 @@
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     self.bluetoothState  = BluetoothStateDisconnect;
+    [MBProgressHUD hideHUD];
     [MBProgressHUD showError:@"Device Connection failed"];
     // 链接失败
     [self.bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
@@ -632,17 +637,12 @@
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
     if (error) {
-//        NSLog(@"Error discovering services: %@", [error localizedDescription]);
         return;
     }
-    
-    NSLog(@"所有的servicesUUID%@",peripheral.services);
- 
+
     //遍历所有service
     for (CBService *service in peripheral.services)
     {
-        
-//        NSLog(@"服务%@",service.UUID);
         
         //找到你需要的servicesuuid
         if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]])
@@ -778,20 +778,24 @@
         }
         
     }else{
-        
-    }
-    NSLog(@"发现特征值1 is %@",characteristic.value.description);
-
-    if (characteristic.value) {
-        NSString *value = characteristic.value.description;
-        [self handleCharacteristicValue:value position:1];
-    }else{
-        NSLog(@"未发现特征值");
+        // top、bottom、heating pad
+        if (characteristic.value) {
+            
+            if (self.secondCount %2 == 0) {
+                
+            }
+            NSLog(@"发现特征值1 is %@",characteristic.value.description);
+            NSString *value = characteristic.value.description;
+            [self handleCharacteristicValue:value position:1];
+        }else{
+            NSLog(@"未发现特征值");
+        }
     }
 }
 #pragma mark -
 #pragma mark -- handleCharacteristicValue
 - (void)handleCharacteristicValue:(NSString *)value position:(NSInteger)position{
+    
     NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
     NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
     NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
@@ -814,17 +818,16 @@
                 
             }else{
                 self.sendFlag = self.receiveFlag;
-                self.setTemperatureSwitch.on = self.receiveFlag == YES;
+//                self.setTemperatureSwitch.on = self.receiveFlag == YES;
             }
             if (self.sendTemperature == self.receiveTemperature) {
                 
             }else{
                 self.sendTemperature = self.receiveTemperature;
-                self.temperatureCircleView.temperInter = self.receiveTemperature;
-                self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
+//                self.temperatureCircleView.temperInter = self.receiveTemperature;
+//                self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
             }
         }
-     
     }
      
 //    NSLog(@"读取到特征值：%@",value);
@@ -1082,18 +1085,20 @@
 #pragma mark -
 #pragma mark -- bottomLeftBluetoothButtonAction
 - (void)bottomLeftBluetoothButtonAction{
-    if (BluetoothStateConnected == self.bluetoothState ) {
-        [MBProgressHUD showError:@"Device has Connected"];
-    }else{
-        [self startScan];
-    }
+     if (CBPeripheralStateConnected == self.discoveredPeripheral.state ) {
+           [MBProgressHUD showError:@"Device has connected"];
+       }else{
+           self.isShowConnectionError = NO;
+           [self startScan];
+       }
 }
 #pragma mark -
 #pragma mark -- bottomRightBluetoothButtonAction
 - (void)bottomRightBluetoothButtonAction{
-    if (BluetoothStateConnected == self.bluetoothState ) {
+    if (CBPeripheralStateConnected == self.discoveredPeripheral2.state ) {
         [MBProgressHUD showError:@"Device has connected"];
     }else{
+        self.isShowConnectionError = NO;
         [self startScan];
     }
 }

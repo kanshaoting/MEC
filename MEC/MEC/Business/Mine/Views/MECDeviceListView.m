@@ -259,7 +259,7 @@
 #pragma 删除设备
 #pragma mark -- deleteDeviceRequestWithDeviceMac
 - (void)deleteDeviceRequestWithDeviceMac:(NSString *)deviceMac{
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading"];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:deviceMac.length > 0 ? deviceMac:@"" forKey:@"dmac"];
     kWeakSelf

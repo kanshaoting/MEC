@@ -10,13 +10,12 @@
 
 #import <WebKit/WebKit.h>
 
-#define kUrlStr @"https://www.baidu.com"
+#define kUrlStr @"https://www.ventureheat.com/pages/bluetooth"
 
 @interface MECWebViewController ()<WKNavigationDelegate>
 
 
 @property (strong, nonatomic) UIProgressView *progressView;
-
 
 @property (strong, nonatomic) WKWebView *wkWebView;
 

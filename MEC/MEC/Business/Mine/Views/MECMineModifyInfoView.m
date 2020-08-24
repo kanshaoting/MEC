@@ -243,7 +243,7 @@
     }
 }
 - (void)startModify {
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@""];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading"];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:self.userNameTf.text forKey:@"mname"];
     [parm setObject:self.emailTf.text forKey:@"memail"];

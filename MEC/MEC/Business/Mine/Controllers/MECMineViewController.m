@@ -39,6 +39,7 @@
 /// 绑定设备信息model
 @property (nonatomic,strong) MECBindDeviceListInfoModel *bindDeviceListInfoModel;
 
+@property (nonatomic, assign) BOOL isFirstLoad;
 
 @end
 
@@ -46,6 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isFirstLoad = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mineViewStatusChange:) name:MECMineViewControllerStatusNotification object:nil];
     [self configUI];
 }
@@ -73,8 +75,13 @@
 #pragma mark - 查询设备绑定信息
 #pragma mark -- queryDeviceRequest
 - (void)queryDeviceRequest{
+    if (self.isFirstLoad) {
+        self.isFirstLoad = NO;
+        [MBProgressHUD showLoadingMessage:@"Loading"];
+    }
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [QCNetWorkManager getRequestWithUrlPath:QCUrlQueryDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        [MBProgressHUD hideHUD];
         if(result.error) {
             [MBProgressHUD showError:result.error.localizedDescription];
         }else {

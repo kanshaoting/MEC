@@ -125,7 +125,7 @@
 }
 
 - (void)startLogin {
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading"];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self.view];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     
     [parm setObject:self.userNameTf.text forKey:@"memail"];

@@ -589,7 +589,7 @@
 #pragma mark -  添加设备
 #pragma mark -- addDeviceRequest
 - (void)addDeviceRequestWithDeviceBluname:(NSString *)dbtname deviceMacname:(NSString *)dmac type:(NSString *)type{
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading"];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self.view];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:dbtname ? dbtname:@"" forKey:@"dbtname"];
     [parm setObject:dmac?dmac:@"" forKey:@"dmac"];

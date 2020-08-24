@@ -225,7 +225,7 @@
 
 
 - (void)startRegistration {
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading"];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self.view];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:self.userNameTf.text forKey:@"mname"];
     [parm setObject:self.emailTf.text forKey:@"memail"];

@@ -179,7 +179,7 @@
     if (self.secondCount % 2 == 0) {
         [self checkBlueStatus];
     }
-    if (self.secondCount % 2 == 0) {
+    if (self.secondCount % 1 == 0) {
         [self checkDevicePeripheralStateConnected];
     }
 }

@@ -90,8 +90,8 @@
     [self.view addSubview:self.emailLabel];
     [self.view addSubview:self.emailLine];
     
-    [self.view addSubview:self.passwordLabel];
-    [self.view addSubview:self.passwordLine];
+//    [self.view addSubview:self.passwordLabel];
+//    [self.view addSubview:self.passwordLine];
     
     [self.view addSubview:self.countryLabel];
     [self.view addSubview:self.countryLine];
@@ -104,7 +104,7 @@
 
     [self.view addSubview:self.userNameTf];
     [self.view addSubview:self.emailTf];
-    [self.view addSubview:self.passwordTf];
+//    [self.view addSubview:self.passwordTf];
     [self.view addSubview:self.countryTf];
     [self.view addSubview:self.postalCodeTf];
     
@@ -152,25 +152,25 @@
         make.leading.trailing.equalTo(self.view);
     }];
     
-    [self.passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
-        make.leading.height.equalTo(self.userNameLabel);
-        make.width.mas_equalTo(kWidth6(100));
-    }];
-    [self.passwordTf mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.passwordLabel);
-        make.height.mas_equalTo(kWidth6(30));
-        make.leading.equalTo(self.passwordLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self.view).offset(-kWidth6(22));
-    }];
-    [self.passwordLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.passwordLabel.mas_bottom).offset(kWidth6(1));
-        make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self.view);
-    }];
+//    [self.passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
+//        make.leading.height.equalTo(self.userNameLabel);
+//        make.width.mas_equalTo(kWidth6(100));
+//    }];
+//    [self.passwordTf mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(self.passwordLabel);
+//        make.height.mas_equalTo(kWidth6(30));
+//        make.leading.equalTo(self.passwordLabel.mas_trailing).offset(kWidth6(5));
+//        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+//    }];
+//    [self.passwordLine mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.passwordLabel.mas_bottom).offset(kWidth6(1));
+//        make.height.mas_equalTo(kWidth6(0.5));
+//        make.leading.trailing.equalTo(self.view);
+//    }];
     
     [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.passwordLine.mas_bottom).offset(kWidth6(5));
+        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(22));
         make.width.mas_equalTo(kWidth6(75));
@@ -229,7 +229,7 @@
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:self.userNameTf.text forKey:@"mname"];
     [parm setObject:self.emailTf.text forKey:@"memail"];
-    [parm setObject:self.passwordTf.text forKey:@"mpassword"];
+    [parm setObject:@"" forKey:@"mpassword"];
     [parm setObject:self.countryTf.text.length > 0 ? self.countryTf.text : @"" forKey:@"mcounty"];
     [parm setObject:self.postalCodeTf.text.length > 0 ? self.postalCodeTf.text : @"" forKey:@"mpostcode"];
     [QCNetWorkManager postRequestWithUrlPath:QCUrlRegistration parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
@@ -258,12 +258,12 @@
         [MBProgressHUD showError:@"Please enter correct e-mail"];
         return;
     }
-    if (self.passwordTf.text.length > 0) {
-        
-    }else{
-        [MBProgressHUD showError:@"Please enter correct password"];
-        return;
-    }
+//    if (self.passwordTf.text.length > 0) {
+//
+//    }else{
+//        [MBProgressHUD showError:@"Please enter correct password"];
+//        return;
+//    }
 //    if (self.countryTf.text.length > 0) {
 //
 //    }else{

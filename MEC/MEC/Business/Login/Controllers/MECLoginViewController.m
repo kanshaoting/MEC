@@ -52,8 +52,8 @@
     [self.view addSubview:self.tipsLabel];
     [self.view addSubview:self.loginIconImageView];
     [self.view addSubview:self.userNameTf];
-    [self.view addSubview:self.passwordIconImageView];
-    [self.view addSubview:self.passwordTf];
+//    [self.view addSubview:self.passwordIconImageView];
+//    [self.view addSubview:self.passwordTf];
     
     [self.view addSubview:self.signInBtn];
     [self.view addSubview:self.registrationBtn];
@@ -77,24 +77,24 @@
         make.height.mas_equalTo(kWidth6(19));
         make.width.mas_equalTo(kWidth6(17));
     }];
-    [self.passwordTf mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.userNameTf.mas_bottom).offset(kWidth6(20));
-        make.height.mas_equalTo(kWidth6(36));
-        make.width.mas_equalTo(tfWidth);
-        make.centerX.equalTo(self.view);
-    }];
-    
-    [self.passwordIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.passwordTf.mas_leading).offset(-kWidth6(5));
-        make.centerY.equalTo(self.passwordTf);
-        make.height.mas_equalTo(kWidth6(19));
-        make.width.mas_equalTo(kWidth6(17));
-    }];
+//    [self.passwordTf mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.userNameTf.mas_bottom).offset(kWidth6(20));
+//        make.height.mas_equalTo(kWidth6(36));
+//        make.width.mas_equalTo(tfWidth);
+//        make.centerX.equalTo(self.view);
+//    }];
+//
+//    [self.passwordIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.trailing.equalTo(self.passwordTf.mas_leading).offset(-kWidth6(5));
+//        make.centerY.equalTo(self.passwordTf);
+//        make.height.mas_equalTo(kWidth6(19));
+//        make.width.mas_equalTo(kWidth6(17));
+//    }];
     
     
     [self.signInBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.passwordTf.mas_bottom).offset(kWidth6(26));
-        make.centerX.equalTo(self.passwordTf);
+        make.top.equalTo(self.userNameTf.mas_bottom).offset(kWidth6(26));
+        make.centerX.equalTo(self.userNameTf);
         make.height.mas_equalTo(kWidth6(36));
         make.width.mas_equalTo(tfWidth + 5);
     }];
@@ -129,7 +129,7 @@
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     
     [parm setObject:self.userNameTf.text forKey:@"memail"];
-    [parm setObject:self.passwordTf.text forKey:@"mpassword"];
+    [parm setObject:@"" forKey:@"mpassword"];
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         if(result.error) {
             [hud showText:result.error.localizedDescription];
@@ -157,12 +157,12 @@
         [MBProgressHUD showError:@"Please enter correct username"];
         return;
     }
-    if (self.passwordTf.text.length > 0) {
-        
-    }else{
-        [MBProgressHUD showError:@"Please enter correct password"];
-        return;
-    }
+//    if (self.passwordTf.text.length > 0) {
+//
+//    }else{
+//        [MBProgressHUD showError:@"Please enter correct password"];
+//        return;
+//    }
     [self startLogin];
     
 }

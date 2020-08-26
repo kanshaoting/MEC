@@ -192,7 +192,7 @@
     
     NSString *rightBluIconStr;
     rightBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral2.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
-    [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:leftBluIconStr] forState:UIControlStateNormal];
+    [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:rightBluIconStr] forState:UIControlStateNormal];
 }
 #pragma mark -  检查蓝牙状态
 #pragma mark -- checkBlueStatus
@@ -1002,7 +1002,8 @@
 #pragma mark -- setTemperatureSwitchAction
 - (void)setTemperatureSwitchAction:(UISwitch *)mySwitch {
  
-    if (BluetoothStateConnected == self.bluetoothState) {
+    
+    if (CBPeripheralStateConnected == self.discoveredPeripheral.state || CBPeripheralStateConnected == self.discoveredPeripheral2.state) {
         self.temperatureCircleView.temperInter = self.currentTemperature;
         self.temperatureCircleView.isClose = mySwitch.on == NO;
         

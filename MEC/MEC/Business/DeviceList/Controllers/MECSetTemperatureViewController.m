@@ -773,21 +773,27 @@
         return;
     }
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
-        if (self.secondCount %2 == 0) {
+        NSString *value1;
+        NSString *value2;
+        if (self.secondCount %1 == 0) {
             if (peripheral == self.discoveredPeripheral ) {
                 if (characteristic == self.characteristic) {
                     NSLog(@"发现特征值1 is %@",characteristic.value.description);
+                    value1 = characteristic.value.description;
                 }
             }
         }
-        if (self.secondCount %3 == 0) {
+        if (self.secondCount %2 == 0) {
             if (peripheral == self.discoveredPeripheral2) {
                 if (characteristic == self.characteristic2) {
                     NSLog(@"发现特征值2 is %@",characteristic.value.description);
+                    value2 = characteristic.value.description;
                 }
             }
         }
-        
+        if (self.secondCount %2 == 0) {
+            [self handleFeetCharacteristicValue:value1 characteristicValue2:value2];
+        }
     }else{
         // top、bottom、heating pad
         if (characteristic.value) {
@@ -802,6 +808,45 @@
             NSLog(@"未发现特征值");
         }
     }
+}
+
+#pragma mark -
+#pragma mark -- handleFeetCharacteristicValue
+- (void)handleFeetCharacteristicValue:(NSString *)value1 characteristicValue2:(NSString *)value2{
+    NSString *startFlag1 = [value1 substringWithRange:NSMakeRange(1, 2)];
+    NSString *endFlag1 = [value1 substringWithRange:NSMakeRange(value1.length - 3, 2)];
+    NSString *electricValue1 = [value1 substringWithRange:NSMakeRange(7, 2)];
+    [self handleElectricValueWithElectricValue:electricValue1 position:1];
+    
+    NSString *startFlag2 = [value2 substringWithRange:NSMakeRange(1, 2)];
+    NSString *endFlag2 = [value2 substringWithRange:NSMakeRange(value2.length - 3, 2)];
+    NSString *electricValue2 = [value2 substringWithRange:NSMakeRange(7, 2)];
+    [self handleElectricValueWithElectricValue:electricValue2 position:2];
+    if ([startFlag1 isEqualToString:@"cc"] && [endFlag1 isEqualToString:@"66"]) {
+        NSString *receiveFlagStr1 = [value1 substringWithRange:NSMakeRange(3, 2)];
+        NSString *receiveTemperature1 = [value1 substringWithRange:NSMakeRange(5, 2)];
+        BOOL receiveFlag1 = [receiveFlagStr1 isEqualToString:@"01"] ? YES:NO;
+        NSInteger receiveTemperatureInt1 = [self handleReceiveTemperature:receiveTemperature1];
+        
+        
+        NSString *receiveFlagStr2 = [value2 substringWithRange:NSMakeRange(3, 2)];
+        NSString *receiveTemperature2 = [value2 substringWithRange:NSMakeRange(5, 2)];
+        BOOL receiveFlag2 = [receiveFlagStr2 isEqualToString:@"01"] ? YES:NO;
+        NSInteger receiveTemperatureInt2 = [self handleReceiveTemperature:receiveTemperature2];
+        
+        if (self.isFirst) {
+            self.isFirst = NO;
+            self.sendFlag = receiveFlag1 | receiveFlag2;
+            self.setTemperatureSwitch.on = self.sendFlag == YES;
+            
+            self.sendTemperature = MAX(receiveTemperatureInt1, receiveTemperatureInt2);
+            
+            self.temperatureCircleView.temperInter = self.sendTemperature;
+            self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
+            
+        }
+    }
+    
 }
 #pragma mark -
 #pragma mark -- handleCharacteristicValue
@@ -882,6 +927,11 @@
 //    unsigned char send[8] = {0xAA, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00,0x055};
 //    NSData *sendData = [NSData dataWithBytes:send length:8];
     [self.discoveredPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
+    if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+        if (self.writeCharacteristic2 && self.discoveredPeripheral2) {
+             [self.discoveredPeripheral2 writeValue:data forCharacteristic:self.writeCharacteristic2 type:CBCharacteristicWriteWithoutResponse];
+        }
+    }
 }
 #pragma mark - 16进制转NSData
 #pragma mark --

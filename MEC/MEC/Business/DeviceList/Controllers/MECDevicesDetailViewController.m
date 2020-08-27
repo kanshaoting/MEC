@@ -321,6 +321,7 @@
     {
         return;
     }
+    
 
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
     if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
@@ -329,7 +330,18 @@
         manufacturerDataStr = [manufacturerDataStr uppercaseString];
         // 替换空格
         manufacturerDataStr = [manufacturerDataStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-        manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+        if (@available(iOS 13.0, *)) {
+            // 13.0 系统及以上获取格式为： kCBAdvDataManufacturerData = {length = 6, bytes = 0x615e084d23dc};
+            manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+            if (manufacturerDataStr.length >= 12) {
+                manufacturerDataStr = [manufacturerDataStr substringFromIndex:manufacturerDataStr.length - 12];
+            }
+            
+        } else {
+            // 13.0 系统及以下获取格式为： kCBAdvDataManufacturerData = <605e084d 23dc>;
+            manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+        }
+    
         NSMutableString *tempMacMuStr = [NSMutableString stringWithString:manufacturerDataStr];
 
         // 每个2位插入冒号，和安卓统一蓝牙mac地址格式

@@ -50,6 +50,9 @@
     self.isFirstLoad = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mineViewStatusChange:) name:MECMineViewControllerStatusNotification object:nil];
     [self configUI];
+    // 默认显示列表
+    self.mineModifyInfoView.hidden = YES;
+    self.deviceListView.hidden = NO;
 }
 #pragma mark - 视图切换状态改变通知回调
 #pragma mark -- mineViewStatusChange

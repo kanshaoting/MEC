@@ -556,13 +556,24 @@
     
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
     if([peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
-        
-        NSLog(@"advertisementData is %@,peripheral is %@",advertisementData,peripheral);
+    
         // 英文字母转大写
         manufacturerDataStr = [manufacturerDataStr uppercaseString];
         // 替换空格
         manufacturerDataStr = [manufacturerDataStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-        manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+        
+        if (@available(iOS 13.0, *)) {
+            // 13.0 系统及以上获取格式为： kCBAdvDataManufacturerData = {length = 6, bytes = 0x615e084d23dc};
+            manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+            if (manufacturerDataStr.length >= 12) {
+                manufacturerDataStr = [manufacturerDataStr substringFromIndex:manufacturerDataStr.length - 12];
+            }
+            
+        } else {
+            // 13.0 系统及以下获取格式为： kCBAdvDataManufacturerData = <605e084d 23dc>;
+            manufacturerDataStr = [manufacturerDataStr substringWithRange:NSMakeRange(1, manufacturerDataStr.length - 2)];
+        }
+        
         NSMutableString *tempMuStr = [NSMutableString stringWithString:manufacturerDataStr];
         
         // 每个2位插入冒号，和安卓统一蓝牙mac地址格式
@@ -790,7 +801,8 @@
             if (peripheral == self.discoveredPeripheral ) {
                 if (characteristic == self.characteristic) {
                     NSLog(@"发现特征值1 is %@",characteristic.value.description);
-                    value1 = characteristic.value.description;
+                    value1 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                    
                 }
             }
         }
@@ -798,7 +810,7 @@
             if (peripheral == self.discoveredPeripheral2) {
                 if (characteristic == self.characteristic2) {
                     NSLog(@"发现特征值2 is %@",characteristic.value.description);
-                    value2 = characteristic.value.description;
+                    value2 = [self handelOriginalCharacteristicValue:characteristic.value.description];
                 }
             }
         }
@@ -813,14 +825,29 @@
                 
             }
             NSLog(@"发现特征值1 is %@",characteristic.value.description);
-            NSString *value = characteristic.value.description;
+            NSString *value = [self handelOriginalCharacteristicValue:characteristic.value.description];
             [self handleCharacteristicValue:value position:1];
         }else{
             NSLog(@"未发现特征值");
         }
     }
 }
-
+#pragma mark - 处理原始特征值
+#pragma mark -- handelOriginalCharacteristicValue
+- (NSString *)handelOriginalCharacteristicValue:(NSString *)value{
+    NSString *valueStr;
+    if (@available(iOS 13.0, *)) {
+        // 13.0 系统及以上获取格式为：{length = 8, bytes = 0xcc00000000020066}
+        valueStr = [valueStr substringWithRange:NSMakeRange(1, valueStr.length - 2)];
+        if (valueStr.length >= 16) {
+            valueStr = [valueStr substringFromIndex:valueStr.length - 16];
+        }
+        
+    } else {
+        valueStr = value;
+    }
+    return valueStr;
+}
 #pragma mark -
 #pragma mark -- handleFeetCharacteristicValue
 - (void)handleFeetCharacteristicValue:(NSString *)value1 characteristicValue2:(NSString *)value2{

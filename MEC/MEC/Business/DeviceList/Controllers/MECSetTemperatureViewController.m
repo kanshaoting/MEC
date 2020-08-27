@@ -419,10 +419,10 @@
     label.text = tempStr;
     // 去掉上下横线
     if (pickerView.subviews.count >= 2) {
-        ((UIView *)[pickerView.subviews objectAtIndex:2]).backgroundColor = [UIColor clearColor];
+        ((UIView *)[pickerView.subviews objectAtIndex:1]).backgroundColor = [UIColor clearColor];
     }
     if (pickerView.subviews.count >= 3) {
-        ((UIView *)[pickerView.subviews objectAtIndex:3]).backgroundColor = [UIColor clearColor];
+        ((UIView *)[pickerView.subviews objectAtIndex:2]).backgroundColor = [UIColor clearColor];
     }
     return label;
 }

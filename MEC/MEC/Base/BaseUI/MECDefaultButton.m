@@ -32,8 +32,8 @@
 
 - (void)configButton {
     self.backgroundColor = [UIColor clearColor];
-    [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(200, 200, 200)] forState:UIControlStateNormal];
-    [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(180, 180, 180)] forState:UIControlStateHighlighted];
+    [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(210, 210, 210)] forState:UIControlStateNormal];
+    [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(190, 190, 190)] forState:UIControlStateHighlighted];
     [self setBackgroundImage:[MECTools imageWithColor:kColorRGB(255, 255, 255)] forState:UIControlStateDisabled];
     
 //    [self setBackgroundImage:[UIImage imageNamed:@"login_button_normal_bg"] forState:UIControlStateNormal];

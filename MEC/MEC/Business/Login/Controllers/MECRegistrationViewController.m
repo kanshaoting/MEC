@@ -214,7 +214,7 @@
         make.top.equalTo(self.noteLabel.mas_bottom).offset(kWidth6(20));
         make.centerX.equalTo(self.view);
         make.height.mas_equalTo(kWidth6(36));
-        make.width.mas_equalTo(kWidth6(178));
+        make.width.mas_equalTo(kWidth6(220));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.bottom.equalTo(self.view).offset(0);

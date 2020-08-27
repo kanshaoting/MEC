@@ -181,13 +181,13 @@
         make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(38));
         make.centerX.equalTo(self);
         make.height.mas_equalTo(kWidth6(36));
-        make.width.mas_equalTo(kWidth6(200));
+        make.width.mas_equalTo(kWidth6(220));
     }];
     [self.logoutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.modifyBtn.mas_bottom).offset(kWidth6(30));
         make.centerX.equalTo(self);
         make.height.mas_equalTo(kWidth6(36));
-        make.width.mas_equalTo(kWidth6(200));
+        make.width.mas_equalTo(kWidth6(220));
     }];
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.equalTo(self).offset(0);

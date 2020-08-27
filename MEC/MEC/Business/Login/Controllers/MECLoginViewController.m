@@ -58,7 +58,7 @@
     [self.view addSubview:self.signInBtn];
     [self.view addSubview:self.registrationBtn];
     [self.view addSubview:self.bottomImageView];
-    CGFloat tfWidth = kWidth6(200);
+    CGFloat tfWidth = kWidth6(220);
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(kWidth6(160));
         make.centerX.equalTo(self.view);
@@ -72,7 +72,7 @@
     }];
     
     [self.loginIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.userNameTf.mas_leading).offset(-kWidth6(5));
+        make.trailing.equalTo(self.userNameTf.mas_leading).offset(-kWidth6(10));
         make.centerY.equalTo(self.userNameTf);
         make.height.mas_equalTo(kWidth6(19));
         make.width.mas_equalTo(kWidth6(17));

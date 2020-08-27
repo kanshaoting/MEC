@@ -8,6 +8,7 @@
 
 #import "MECNoDeviceFoundViewController.h"
 #import "MECDefaultButton.h"
+#import "MECWebViewController.h"
 
 
 @interface MECNoDeviceFoundViewController ()
@@ -70,9 +71,26 @@
     }];
     
     [self.bottmoTipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.bottom.equalTo(self.view).offset(-kWidth6(60));
-           make.centerX.equalTo(self.view);
-       }];
+        make.bottom.equalTo(self.view).offset(-kWidth6(60));
+        make.centerX.equalTo(self.view);
+    }];
+    
+    
+    kWeakSelf
+    self.menuViewCellTapBlock = ^(NSInteger index) {
+        if (0 == index) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"1"];
+            [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+        }else if (1 == index){
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }else if (2 == index){
+            [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"2"];
+            [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+        }else{
+            MECWebViewController *vc = [[MECWebViewController alloc] init];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    };
     
 }
 

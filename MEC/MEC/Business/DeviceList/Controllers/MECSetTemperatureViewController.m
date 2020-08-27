@@ -23,6 +23,8 @@
 
 @interface MECSetTemperatureViewController ()<UIPickerViewDelegate,UIPickerViewDataSource,CBCentralManagerDelegate,CBPeripheralDelegate>
 
+/// 顶部左上角图标背景视图
+@property (nonatomic, strong) UIView *topIconBgView;
 /// 顶部左上角图标
 @property (nonatomic, strong) UIImageView *topIconImageView;
 /// OFF提示
@@ -236,16 +238,16 @@
     switch (position) {
         case 1:
         case 2:
-            imageStr = @"device_list_foot_icon";
+            imageStr = @"device_list_foot_big_icon";
             break;
         case 3:
-            imageStr = @"device_list_top_icon";
+            imageStr = @"device_list_top_big_icon";
             break;
         case 4:
-            imageStr = @"device_list_bottom_icon";
+            imageStr = @"device_list_bottom_big_icon";
             break;
         case 5:
-            imageStr = @"device_list_heatingpad_icon";
+            imageStr = @"device_list_heatingpad_big_icon";
             break;
         default:
             break;
@@ -280,7 +282,9 @@
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
-    [self.view addSubview:self.topIconImageView];
+    
+    [self.view addSubview:self.topIconBgView];
+    [self.topIconBgView addSubview:self.topIconImageView];
     
     [self.view addSubview:self.setTemperatureSwitch];
     [self.view addSubview:self.leftTipsLabel];
@@ -300,9 +304,16 @@
     [self.view addSubview:self.bottomRightIconImageView];
        
     
-    [self.topIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.topIconBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.view).offset(kMargin);
+        make.width.height.mas_equalTo(kWidth6(60));
         make.top.equalTo(self.view).offset(kMargin);
+    }];
+    
+    [self.topIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.leading.equalTo(self.view).offset(kMargin);
+//        make.top.equalTo(self.view).offset(kMargin);
+        make.center.equalTo(self.topIconBgView);
     }];
    
     [self.setTemperatureSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1029,6 +1040,15 @@
 
 #pragma mark - 懒加载
 #pragma mark -- lazy
+- (UIView *)topIconBgView{
+    if (!_topIconBgView) {
+        _topIconBgView = [[UIView alloc] init];
+        _topIconBgView.backgroundColor = kColorRGB(230, 230, 230);
+        _topIconBgView.layer.cornerRadius = kWidth6(30);
+        _topIconBgView.layer.masksToBounds = YES;
+    }
+    return _topIconBgView;
+}
 - (UIImageView *)topIconImageView{
     if (!_topIconImageView) {
         _topIconImageView = [[UIImageView alloc] init];

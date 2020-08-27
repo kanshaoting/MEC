@@ -217,7 +217,7 @@
 - (UILabel *)leftDeviceNameLabel{
     if (!_leftDeviceNameLabel) {
         _leftDeviceNameLabel = [[UILabel alloc] init];
-        _leftDeviceNameLabel.font = MEC_Helvetica_Regular_Font(8);
+        _leftDeviceNameLabel.font = [UIFont systemFontOfSize:12];
         _leftDeviceNameLabel.text = @"";
         _leftDeviceNameLabel.textColor = kColorHex(0x9FA0A0);
     }
@@ -244,7 +244,7 @@
 - (UILabel *)rightDeviceNameLabel{
     if (!_rightDeviceNameLabel) {
         _rightDeviceNameLabel = [[UILabel alloc] init];
-        _rightDeviceNameLabel.font = MEC_Helvetica_Regular_Font(8);
+        _rightDeviceNameLabel.font = [UIFont systemFontOfSize:12];
         _rightDeviceNameLabel.text = @"";
         _rightDeviceNameLabel.textColor = kColorHex(0x9FA0A0);
     }

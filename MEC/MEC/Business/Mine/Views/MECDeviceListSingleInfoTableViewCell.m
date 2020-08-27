@@ -182,7 +182,7 @@
 - (UILabel *)deviceNameLabel{
     if (!_deviceNameLabel) {
         _deviceNameLabel = [[UILabel alloc] init];
-        _deviceNameLabel.font = MEC_Helvetica_Regular_Font(8);
+        _deviceNameLabel.font = [UIFont systemFontOfSize:12];
         _deviceNameLabel.text = @"Me";
         _deviceNameLabel.textColor = kColorHex(0x9FA0A0);
     }

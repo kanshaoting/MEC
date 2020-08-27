@@ -233,6 +233,7 @@
 //        [MBProgressHUD showError:@"Please enter correct postalCode"];
 //        return;
 //    }
+    [self endEditing:YES];
     [self startModify];
 }
 #pragma mark -

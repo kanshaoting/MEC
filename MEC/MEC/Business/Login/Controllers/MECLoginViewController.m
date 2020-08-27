@@ -163,6 +163,7 @@
 //        [MBProgressHUD showError:@"Please enter correct password"];
 //        return;
 //    }
+    [self.view endEditing:YES];
     [self startLogin];
     
 }

@@ -276,6 +276,7 @@
 //        [MBProgressHUD showError:@"Please enter correct postalCode"];
 //        return;
 //    }
+    [self.view endEditing:YES];
     [self startRegistration];
     
     

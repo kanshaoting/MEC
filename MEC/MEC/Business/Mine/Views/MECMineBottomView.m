@@ -132,7 +132,7 @@
 - (UIImageView *)mineIconImageView{
     if (!_mineIconImageView) {
         _mineIconImageView = [[UIImageView alloc] init];
-        _mineIconImageView.image = [UIImage imageNamed:@"mine_icon_select"];
+        _mineIconImageView.image = [UIImage imageNamed:@"mine_icon_normal"];
         _mineIconImageView.userInteractionEnabled = YES;
     }
     return _mineIconImageView;
@@ -144,7 +144,7 @@
         _mineLabel.font = MEC_Helvetica_Regular_Font(12);
         _mineLabel.text = @"Me";
         _mineLabel.textAlignment = NSTextAlignmentCenter;
-        _mineLabel.textColor = kColorHex(0xE60012);
+        _mineLabel.textColor = kColorHex(0x221815);
     }
     return _mineLabel;
 }
@@ -152,7 +152,7 @@
 - (UIImageView *)deviceListIconImageView{
     if (!_deviceListIconImageView) {
         _deviceListIconImageView = [[UIImageView alloc] init];
-        _deviceListIconImageView.image = [UIImage imageNamed:@"device_list_icon_normal"];
+        _deviceListIconImageView.image = [UIImage imageNamed:@"device_list_icon_select"];
         _deviceListIconImageView.userInteractionEnabled = YES;
     }
     return _deviceListIconImageView;
@@ -164,7 +164,7 @@
         _deviceListLabel.font = MEC_Helvetica_Regular_Font(12);
         _deviceListLabel.text = @"Device list";
         _deviceListLabel.textAlignment = NSTextAlignmentCenter;
-        _deviceListLabel.textColor = kColorHex(0x221815);
+        _deviceListLabel.textColor = kColorHex(0xE60012);
         
     }
     return _deviceListLabel;

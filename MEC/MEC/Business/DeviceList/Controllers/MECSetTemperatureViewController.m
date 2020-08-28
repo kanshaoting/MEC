@@ -801,8 +801,9 @@
             if (peripheral == self.discoveredPeripheral ) {
                 if (characteristic == self.characteristic) {
                     NSLog(@"发现特征值1 is %@",characteristic.value.description);
-                    value1 = [self handelOriginalCharacteristicValue:characteristic.value.description];
-                    
+                    if (characteristic.value) {
+                        value1 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                    }
                 }
             }
         }
@@ -810,7 +811,9 @@
             if (peripheral == self.discoveredPeripheral2) {
                 if (characteristic == self.characteristic2) {
                     NSLog(@"发现特征值2 is %@",characteristic.value.description);
-                    value2 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                    if (characteristic.value) {
+                        value2 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                    }
                 }
             }
         }
@@ -851,6 +854,7 @@
 #pragma mark -
 #pragma mark -- handleFeetCharacteristicValue
 - (void)handleFeetCharacteristicValue:(NSString *)value1 characteristicValue2:(NSString *)value2{
+    
     NSString *startFlag1 = [value1 substringWithRange:NSMakeRange(1, 2)];
     NSString *endFlag1 = [value1 substringWithRange:NSMakeRange(value1.length - 3, 2)];
     NSString *electricValue1 = [value1 substringWithRange:NSMakeRange(7, 2)];

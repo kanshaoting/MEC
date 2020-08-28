@@ -61,10 +61,12 @@
     if (1 == status) {
         self.mineModifyInfoView.hidden = NO;
         self.deviceListView.hidden = YES;
+        
     }else{
         self.mineModifyInfoView.hidden = YES;
         self.deviceListView.hidden = NO;
     }
+    self.bottomView.status = status;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -147,6 +149,7 @@
         if (0 == index) {
             weakSelf.mineModifyInfoView.hidden = NO;
             weakSelf.deviceListView.hidden = YES;
+            weakSelf.bottomView.status = 1;
         }else if (1 == index){
             MECDevicesDetailViewController *vc = [[MECDevicesDetailViewController alloc] init];
             vc.bindDeviceListInfoModel = weakSelf.bindDeviceListInfoModel;
@@ -172,6 +175,7 @@
         }else if (2 == index){
             weakSelf.mineModifyInfoView.hidden = YES;
             weakSelf.deviceListView.hidden = NO;
+            weakSelf.bottomView.status = 2;
         }else{
             MECWebViewController *vc = [[MECWebViewController alloc] init];
             [weakSelf.navigationController pushViewController:vc animated:YES];

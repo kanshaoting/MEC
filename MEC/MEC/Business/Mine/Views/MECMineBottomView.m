@@ -87,6 +87,22 @@
     }];
     
 }
+
+- (void)setStatus:(NSInteger)status{
+    _status = status;
+    if ( 1 == _status) {
+        self.mineIconImageView.image = [UIImage imageNamed:@"mine_icon_select"];
+        self.mineLabel.textColor = kColorHex(0xE60012);
+        self.deviceListIconImageView.image = [UIImage imageNamed:@"device_list_icon_normal"];
+        self.deviceListLabel.textColor = kColorHex(0x221815);
+    }else{
+        self.mineIconImageView.image = [UIImage imageNamed:@"mine_icon_normal"];
+        self.mineLabel.textColor = kColorHex(0x221815);
+        self.deviceListIconImageView.image = [UIImage imageNamed:@"device_list_icon_select"];
+        self.deviceListLabel.textColor = kColorHex(0xE60012);
+    }
+}
+
 #pragma mark -
 #pragma mark -- leftViewTap
 - (void)leftViewTap{

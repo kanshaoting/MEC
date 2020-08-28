@@ -17,6 +17,10 @@ typedef void(^MECMineBottomViewTapBlock)(void);
 @property (nonatomic ,copy) MECMineBottomViewTapBlock mineTapBlock;
 @property (nonatomic ,copy) MECMineBottomViewTapBlock deviceListTapBlock;
 
+/// 按钮选中状态 1 代表 Me。2 代表 Device List
+@property (nonatomic ,assign) NSInteger status;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

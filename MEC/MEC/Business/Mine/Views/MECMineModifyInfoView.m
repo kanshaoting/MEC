@@ -244,7 +244,7 @@
     }
 }
 - (void)startModify {
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading"];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:self.userNameTf.text forKey:@"mname"];
     [parm setObject:self.emailTf.text forKey:@"memail"];
@@ -255,6 +255,7 @@
     [parm setObject:user.mid forKey:@"mid"];
     kWeakSelf
     [QCNetWorkManager putRequestWithUrlPath:QCUrlModify parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        [hud hideAnimated:YES];
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {

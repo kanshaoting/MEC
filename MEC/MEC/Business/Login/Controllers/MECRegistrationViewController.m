@@ -233,6 +233,7 @@
     [parm setObject:self.countryTf.text.length > 0 ? self.countryTf.text : @"" forKey:@"mcounty"];
     [parm setObject:self.postalCodeTf.text.length > 0 ? self.postalCodeTf.text : @"" forKey:@"mpostcode"];
     [QCNetWorkManager postRequestWithUrlPath:QCUrlRegistration parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        [hud hideAnimated:YES];
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {

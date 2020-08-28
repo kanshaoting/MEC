@@ -311,8 +311,6 @@
     }];
     
     [self.topIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.leading.equalTo(self.view).offset(kMargin);
-//        make.top.equalTo(self.view).offset(kMargin);
         make.center.equalTo(self.topIconBgView);
     }];
    
@@ -346,6 +344,8 @@
     [self.bottomLeftIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.view).offset(kMargin * 2);
         make.bottom.equalTo(self.view).offset(-kWidth6(60));
+        make.height.mas_equalTo(kWidth6(20));
+        make.width.mas_equalTo(kWidth6(36));
     }];
     
     [self.bottomLeftBluetoothButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -360,7 +360,7 @@
  
     [self.bottomRightIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self.view).offset(-kMargin*2);
-        make.centerY.equalTo(self.bottomLeftIconImageView);
+        make.centerY.height.width.equalTo(self.bottomLeftIconImageView);
     }];
     [self.bottomRightBluetoothButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self.bottomRightIconImageView.mas_leading).offset(-kWidth6(15));
@@ -406,7 +406,7 @@
     return kWidth6(20);
 }
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view{
-
+    
     UILabel *label;
     if (!label) {
         label = [[UILabel alloc] init];
@@ -417,13 +417,16 @@
     }
     NSString *tempStr = [self.positionArr objectAtIndex:row];
     label.text = tempStr;
-    // 去掉上下横线
-    if (pickerView.subviews.count >= 2) {
-        ((UIView *)[pickerView.subviews objectAtIndex:1]).backgroundColor = [UIColor clearColor];
-    }
-    if (pickerView.subviews.count >= 3) {
+   
+    // 去掉上下横线 pickerView 上面添加了一个背景视图，椭圆框，所以这边下标加1，正常是 3个子视图
+    if (pickerView.subviews.count == 3) {
+      ((UIView *)[pickerView.subviews objectAtIndex:1]).backgroundColor = [UIColor clearColor];
+      ((UIView *)[pickerView.subviews objectAtIndex:2]).backgroundColor = [UIColor clearColor];
+    }else if (pickerView.subviews.count == 4){
         ((UIView *)[pickerView.subviews objectAtIndex:2]).backgroundColor = [UIColor clearColor];
+        ((UIView *)[pickerView.subviews objectAtIndex:3]).backgroundColor = [UIColor clearColor];
     }
+ 
     return label;
 }
 //用户进行选择
@@ -625,7 +628,7 @@
 #pragma mark - 链接设备
 #pragma mark -- connectPeripheral
 - (void)connectDevicePeripheral:(CBPeripheral *)peripheral{
-    [MBProgressHUD showLoadingMessage:@"Connecting"];
+    [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
     //设定周边设备，指定代理者
     self.discoveredPeripheral = peripheral;
     self.discoveredPeripheral.delegate = self;
@@ -636,7 +639,7 @@
 #pragma mark - 连接到外围设备成功回调
 #pragma mark -- centralManager
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
-    [MBProgressHUD hideHUD];
+    [MBProgressHUD hideHUDForView:self.view];
     self.bluetoothState = BluetoothStateConnected;
     // 停止扫描
     [self.centralManager stopScan];
@@ -655,7 +658,7 @@
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     self.bluetoothState  = BluetoothStateDisconnect;
-    [MBProgressHUD hideHUD];
+     [MBProgressHUD hideHUDForView:self.view];
     [MBProgressHUD showError:@"Device Connection failed"];
     // 链接失败
     [self.bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
@@ -841,7 +844,7 @@
     NSString *valueStr;
     if (@available(iOS 13.0, *)) {
         // 13.0 系统及以上获取格式为：{length = 8, bytes = 0xcc00000000020066}
-        valueStr = [valueStr substringWithRange:NSMakeRange(1, valueStr.length - 2)];
+        valueStr = [value substringWithRange:NSMakeRange(1, value.length - 2)];
         if (valueStr.length >= 16) {
             valueStr = [valueStr substringFromIndex:valueStr.length - 16];
         }
@@ -946,7 +949,7 @@
         tempInt = 4;
     }
     // 默认为1格电量
-    tempInt = 1;
+//    tempInt = 1;
     NSString *imageStr = [NSString stringWithFormat:@"battery_icon_%ld",(long)tempInt];
     if (1 == position) {
          self.bottomLeftIconImageView.image = [UIImage imageNamed:imageStr];
@@ -1221,6 +1224,7 @@
         _pickerView = [[UIPickerView alloc] init];
         _pickerView.delegate = self;
         _pickerView.dataSource = self;
+        _pickerView.backgroundColor = [UIColor whiteColor];
     }
     return _pickerView;
 }
@@ -1228,6 +1232,7 @@
     if (!_middleBgView) {
         _middleBgView = [[UIView alloc] init];
         _middleBgView.layer.masksToBounds = YES;
+        _middleBgView.backgroundColor = [UIColor clearColor];
         _middleBgView.layer.cornerRadius = kWidth6(13);
         _middleBgView.layer.borderColor = kColorHex(0x717071).CGColor;
         _middleBgView.layer.borderWidth = kWidth6(1);

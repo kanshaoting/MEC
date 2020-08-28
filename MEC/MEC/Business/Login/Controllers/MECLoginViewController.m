@@ -131,6 +131,7 @@
     [parm setObject:self.userNameTf.text forKey:@"memail"];
     [parm setObject:@"" forKey:@"mpassword"];
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        [hud hideAnimated:YES];
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {

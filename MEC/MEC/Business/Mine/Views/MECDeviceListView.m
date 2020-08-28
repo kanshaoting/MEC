@@ -259,11 +259,12 @@
 #pragma 删除设备
 #pragma mark -- deleteDeviceRequestWithDeviceMac
 - (void)deleteDeviceRequestWithDeviceMac:(NSString *)deviceMac{
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading"];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     [parm setObject:deviceMac.length > 0 ? deviceMac:@"" forKey:@"dmac"];
     kWeakSelf
     [QCNetWorkManager deleteRequestWithUrlPath:QCUrlDeleteDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        [hud hideAnimated:YES];
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {

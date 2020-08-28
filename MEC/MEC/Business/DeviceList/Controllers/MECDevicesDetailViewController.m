@@ -608,6 +608,7 @@
     [parm setObject:type?type:@"" forKey:@"type"];
     kWeakSelf
     [QCNetWorkManager postRequestWithUrlPath:QCUrlAddDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        
         if(result.error) {
             [hud showText:result.error.localizedDescription];
             // 添加失败移到下面列表

@@ -317,7 +317,7 @@
     [self.topIconBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.view).offset(kMargin);
         make.width.height.mas_equalTo(kWidth6(60));
-        make.top.equalTo(self.view).offset(kMargin);
+        make.top.equalTo(self.view).offset(kWidth6(6));
     }];
     
     [self.topIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -325,8 +325,8 @@
     }];
    
     [self.setTemperatureSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(kWidth6(70));
-        make.height.mas_equalTo(kWidth6(30));
+        make.top.equalTo(self.view).offset(kWidth6(56));
+        make.height.mas_equalTo(kWidth6(26));
         make.width.mas_equalTo(kWidth6(50));
         make.centerX.equalTo(self.view);
     }];
@@ -341,7 +341,7 @@
     
     [self.pickerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.temperatureCircleView.mas_bottom).offset(kWidth6(10));
+        make.top.equalTo(self.temperatureCircleView.mas_bottom).offset(kWidth6(2));
         make.height.mas_offset(kWidth6(70));
         make.width.mas_offset(kWidth6(100));
     }];
@@ -1142,7 +1142,7 @@
 
 - (MECTemperatureCircleAnimationView *)temperatureCircleView{
     if (!_temperatureCircleView) {
-        _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(130), kWidth6(280), kWidth6(280))];
+        _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(140), kWidth6(280), kWidth6(280))];
         _temperatureCircleView.temperInter = self.currentTemperature;
         _temperatureCircleView.isClose = YES;
         kWeakSelf

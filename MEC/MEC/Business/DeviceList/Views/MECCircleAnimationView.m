@@ -57,12 +57,12 @@ static const CGFloat kAnimationTime = 0.5;
         self.bgImageView.image = [UIImage imageNamed:@"set_temperature_bg"];
         
         self.circelRadius = self.frame.size.width - kWidth6(10);
-        self.lineWidth = kWidth6(20);
+        self.lineWidth = kWidth6(25);
         self.stareAngle = -240.f;
         self.endAngle = 60.f;
         
         // 尺寸需根据图片进行调整
-        self.bgImageView.frame = CGRectMake(- kWidth6(20), - kWidth6(20), kWidth6(320) , kWidth6(240));
+        self.bgImageView.frame = CGRectMake(- kWidth6(16), - kWidth6(16), 2 *kWidth6(16) + kWidth6(280) , kWidth6(240));
         
         [self addSubview:self.bgImageView];
         
@@ -96,7 +96,7 @@ static const CGFloat kAnimationTime = 0.5;
     self.bottomLayer = [CAShapeLayer layer];
     self.bottomLayer.frame = self.bounds;
     self.bottomLayer.fillColor = [[UIColor clearColor] CGColor];
-    self.bottomLayer.strokeColor = [[UIColor  colorWithRed:206.f / 256.f green:241.f / 256.f blue:227.f alpha:1.f] CGColor];
+    self.bottomLayer.strokeColor = kColorHex(0x666666).CGColor;
     self.bottomLayer.opacity = 0.5;
     self.bottomLayer.lineCap = kCALineCapRound;
     self.bottomLayer.lineWidth = self.lineWidth;
@@ -155,16 +155,16 @@ static const CGFloat kAnimationTime = 0.5;
     
     for (NSInteger i = 0; i <= kCount; i ++) {
         CGFloat angle = degreesToRadians(120) + M_PI/6*i;
-        CGFloat lineX = cos(angle) * (self.circelRadius/2 - kWidth6(25));
-        CGFloat lineY = sin(angle) * (self.circelRadius/2 - kWidth6(25));
+        CGFloat lineX = cos(angle) * (self.circelRadius/2 - self.lineWidth - kWidth6(5));
+        CGFloat lineY = sin(angle) * (self.circelRadius/2 - self.lineWidth - kWidth6(5));
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth6(2), kWidth6(5))];
         lineView.backgroundColor = [UIColor lightGrayColor];
         lineView.center = CGPointMake(self.bounds.size.width/2 + lineX, self.bounds.size.width/2 + lineY);
         lineView.transform = CGAffineTransformMakeRotation(angle + M_PI/2);
         [self addSubview:lineView];
         
-        CGFloat textX = cos(angle) * (self.circelRadius/2 - kWidth6(35));
-        CGFloat textY = sin(angle) * (self.circelRadius/2 - kWidth6(35));
+        CGFloat textX = cos(angle) * (self.circelRadius/2 - self.lineWidth - kWidth6(15));
+        CGFloat textY = sin(angle) * (self.circelRadius/2 - self.lineWidth - kWidth6(15));
         
         UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kWidth6(15), kWidth6(15))];
         textLabel.textColor = [UIColor lightGrayColor];
@@ -475,7 +475,7 @@ static const CGFloat kAnimationTime = 0.5;
 
 - (UILabel *)lowLabel{
     if (!_lowLabel) {
-        _lowLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - kWidth6(60) - kWidth6(30), self.bounds.size.height - kWidth6(20), kWidth6(60), kWidth6(20))];
+        _lowLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - kWidth6(60) - kWidth6(40), self.bounds.size.height - kWidth6(20), kWidth6(60), kWidth6(20))];
         _lowLabel.text = @"Low";
         _lowLabel.font = MEC_Helvetica_Regular_Font(10);
         _lowLabel.textColor = kColorHex(0x717071);

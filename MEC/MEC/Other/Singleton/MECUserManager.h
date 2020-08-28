@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL isLogin;
 
+/** 上一次登录信息 */
+@property (nonatomic, copy) NSString *lastLoginName;
+
 - (void)showLoginVC;
 
 /** 保存登录信息 */

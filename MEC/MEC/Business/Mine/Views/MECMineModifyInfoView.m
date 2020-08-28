@@ -209,6 +209,7 @@
 #pragma mark -
 #pragma mark -- modifyBtnAction
 - (void)modifyBtnAction:(UIButton *)button{
+    [self endEditing:YES];
     if (self.userNameTf.text.length > 0) {
         
     }else{
@@ -233,7 +234,7 @@
 //        [MBProgressHUD showError:@"Please enter correct postalCode"];
 //        return;
 //    }
-    [self endEditing:YES];
+    
     [self startModify];
 }
 #pragma mark -
@@ -255,7 +256,7 @@
     [parm setObject:user.mid forKey:@"mid"];
     kWeakSelf
     [QCNetWorkManager putRequestWithUrlPath:QCUrlModify parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
-        [hud hideAnimated:YES];
+
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {

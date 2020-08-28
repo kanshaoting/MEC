@@ -112,12 +112,12 @@
     [self.view addSubview:self.bottomImageView];
     
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(kWidth6(30));
+        make.top.equalTo(self.view).offset(kWidth6(20));
         make.centerX.equalTo(self.view);
     }];
     
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(40));
+        make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(20));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(13));
         make.width.mas_equalTo(kWidth6(110));
@@ -233,7 +233,7 @@
     [parm setObject:self.countryTf.text.length > 0 ? self.countryTf.text : @"" forKey:@"mcounty"];
     [parm setObject:self.postalCodeTf.text.length > 0 ? self.postalCodeTf.text : @"" forKey:@"mpostcode"];
     [QCNetWorkManager postRequestWithUrlPath:QCUrlRegistration parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
-        [hud hideAnimated:YES];
+       
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {
@@ -247,6 +247,7 @@
 #pragma mark -- registrationBtnAction
 - (void)registrationBtnAction:(UIButton *)button{
 
+    [self.view endEditing:YES];
     if (self.userNameTf.text.length > 0) {
         
     }else{
@@ -277,7 +278,7 @@
 //        [MBProgressHUD showError:@"Please enter correct postalCode"];
 //        return;
 //    }
-    [self.view endEditing:YES];
+    
     [self startRegistration];
     
     

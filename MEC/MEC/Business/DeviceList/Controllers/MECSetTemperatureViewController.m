@@ -276,9 +276,12 @@
     [super viewWillDisappear:animated];
     // 关闭蓝牙，下个页面会重启蓝牙
     [self closeBluetooth];
-//    [self invalidateTimer];
-}
 
+}
+- (void)dealloc{
+    // 关闭定时器
+    [self invalidateTimer];
+}
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
@@ -863,8 +866,8 @@
     NSString *electricValue1 = [value1 substringWithRange:NSMakeRange(7, 2)];
     [self handleElectricValueWithElectricValue:electricValue1 position:1];
     
-    NSString *startFlag2 = [value2 substringWithRange:NSMakeRange(1, 2)];
-    NSString *endFlag2 = [value2 substringWithRange:NSMakeRange(value2.length - 3, 2)];
+//    NSString *startFlag2 = [value2 substringWithRange:NSMakeRange(1, 2)];
+//    NSString *endFlag2 = [value2 substringWithRange:NSMakeRange(value2.length - 3, 2)];
     NSString *electricValue2 = [value2 substringWithRange:NSMakeRange(7, 2)];
     [self handleElectricValueWithElectricValue:electricValue2 position:2];
     if ([startFlag1 isEqualToString:@"cc"] && [endFlag1 isEqualToString:@"66"]) {

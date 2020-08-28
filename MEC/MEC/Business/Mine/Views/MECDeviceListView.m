@@ -264,7 +264,7 @@
     [parm setObject:deviceMac.length > 0 ? deviceMac:@"" forKey:@"dmac"];
     kWeakSelf
     [QCNetWorkManager deleteRequestWithUrlPath:QCUrlDeleteDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
-        [hud hideAnimated:YES];
+    
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {

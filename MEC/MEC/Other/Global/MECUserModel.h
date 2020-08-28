@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** 编码 */
 @property (nonatomic, copy) NSString *mpostcode;
 
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

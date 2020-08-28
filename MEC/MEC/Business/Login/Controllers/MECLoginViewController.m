@@ -44,7 +44,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configUI];
+    MECUserManager *manager = [MECUserManager shareManager];
+    if (manager.lastLoginName) {
+        self.userNameTf.text = manager.lastLoginName;
+    } 
 }
+
 
 #pragma mark -
 #pragma mark -- configUI
@@ -118,8 +123,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.userNameTf.text = nil;
-    self.passwordTf.text = nil;
+//    self.userNameTf.text = nil;
+//    self.passwordTf.text = nil;
     [self.view endEditing:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
@@ -130,13 +135,15 @@
     
     [parm setObject:self.userNameTf.text forKey:@"memail"];
     [parm setObject:@"" forKey:@"mpassword"];
+    kWeakSelf
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
-        [hud hideAnimated:YES];
+
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {
             [hud showText:@"Sign in Success"];
             MECUserManager *manager = [MECUserManager shareManager];
+            manager.lastLoginName = weakSelf.userNameTf.text;
             manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
             [manager saveUserInfo];
             
@@ -152,10 +159,11 @@
 - (void)signInBtnAction:(UIButton *)button{
 //    self.userNameTf.text = @"1122@qq.com";
 //    self.passwordTf.text = @"43";
-    if (self.userNameTf.text.length > 0 && [self.userNameTf.text containsString:@"@"] ) {
+    [self.view endEditing:YES];
+    if (self.userNameTf.text.length > 0) {
         
     }else{
-        [MBProgressHUD showError:@"Please enter correct username"];
+        [MBProgressHUD showError:@"Please enter correct username/Email"];
         return;
     }
 //    if (self.passwordTf.text.length > 0) {
@@ -164,7 +172,7 @@
 //        [MBProgressHUD showError:@"Please enter correct password"];
 //        return;
 //    }
-    [self.view endEditing:YES];
+ 
     [self startLogin];
     
 }

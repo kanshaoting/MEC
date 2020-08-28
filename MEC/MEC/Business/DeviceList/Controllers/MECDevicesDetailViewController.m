@@ -324,9 +324,11 @@
     
 
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
+    // 增加过滤条件，只显示当前蓝牙服务的设备
+//    if([peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
+//    }
     
-    if([peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
-        
+    if(peripheral.name.length > 0 && peripheral.name != nil && manufacturerDataStr.length > 12 && manufacturerDataStr != nil){
         // 英文字母转大写
         manufacturerDataStr = [manufacturerDataStr uppercaseString];
         // 替换空格
@@ -367,18 +369,18 @@
         }else{
             NSMutableArray *tempMuArr = [NSMutableArray arrayWithArray:self.searchBluDataMuArr];
             if (tempMuArr.count > 0) {
+                NSMutableArray *tempMacMuArr = [NSMutableArray array];
                 for (MECBindDeviceDetailInfoModel *tempModel in tempMuArr) {
-                    if ([tempModel.dmac isEqualToString:tempMacMuStr]) {
-                        
-                    }else{
-                        MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
-                        model.dmac = tempMacMuStr;
-                        model.dbtname = peripheral.name;
-                        model.dname = peripheral.name;
-                        model.discoveredPeripheral = peripheral;
-                        model.positionTpye = @"0";
-                        [self.searchBluDataMuArr addObject:model];
-                    }
+                    [tempMacMuArr addObject:tempModel.dmac];
+                }
+                if(![tempMacMuArr containsObject:tempMacMuStr]){
+                    MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
+                    model.dmac = tempMacMuStr;
+                    model.dbtname = peripheral.name;
+                    model.dname = peripheral.name;
+                    model.discoveredPeripheral = peripheral;
+                    model.positionTpye = @"0";
+                    [self.searchBluDataMuArr addObject:model];
                 }
             }else{
                 MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];

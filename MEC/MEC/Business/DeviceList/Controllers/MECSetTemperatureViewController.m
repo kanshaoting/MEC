@@ -136,6 +136,13 @@
 /// 是否显示链接失败
 @property (nonatomic, assign) BOOL isad;
 
+
+/// 左边设备数值
+@property (nonatomic, copy) NSString *valueStr1;
+
+/// 右边设备数值
+@property (nonatomic, copy) NSString *valueStr2;
+
 @end
 
 @implementation MECSetTemperatureViewController
@@ -561,7 +568,7 @@
     }
     
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
-    if([peripheral.name isEqualToString:kServiceName] && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
+    if(peripheral.name.length > 0 && peripheral.name != nil && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
     
         // 英文字母转大写
         manufacturerDataStr = [manufacturerDataStr uppercaseString];
@@ -801,39 +808,37 @@
         return;
     }
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
-        NSString *value1;
-        NSString *value2;
+     
         if (self.secondCount %1 == 0) {
+           
             if (peripheral == self.discoveredPeripheral ) {
                 if (characteristic == self.characteristic) {
-                    NSLog(@"发现特征值1 is %@",characteristic.value.description);
+                   
                     if (characteristic.value) {
-                        value1 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                        self.valueStr1 = [self handelOriginalCharacteristicValue:characteristic.value.description];
                     }
                 }
             }
         }
         if (self.secondCount %2 == 0) {
+            
             if (peripheral == self.discoveredPeripheral2) {
                 if (characteristic == self.characteristic2) {
-                    NSLog(@"发现特征值2 is %@",characteristic.value.description);
+                    
                     if (characteristic.value) {
-                        value2 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                        self.valueStr2 = [self handelOriginalCharacteristicValue:characteristic.value.description];
                     }
                 }
             }
         }
         if (self.secondCount %2 == 0) {
-            [self handleFeetCharacteristicValue:value1 characteristicValue2:value2];
+
+            [self handleFeetCharacteristicValue:self.valueStr1 characteristicValue2:self.valueStr2];
         }
     }else{
         // top、bottom、heating pad
         if (characteristic.value) {
-            
-            if (self.secondCount %2 == 0) {
-                
-            }
-            NSLog(@"发现特征值1 is %@",characteristic.value.description);
+        
             NSString *value = [self handelOriginalCharacteristicValue:characteristic.value.description];
             [self handleCharacteristicValue:value position:1];
         }else{
@@ -864,13 +869,15 @@
     NSString *startFlag1 = [value1 substringWithRange:NSMakeRange(1, 2)];
     NSString *endFlag1 = [value1 substringWithRange:NSMakeRange(value1.length - 3, 2)];
     NSString *electricValue1 = [value1 substringWithRange:NSMakeRange(7, 2)];
-    [self handleElectricValueWithElectricValue:electricValue1 position:1];
-    
-//    NSString *startFlag2 = [value2 substringWithRange:NSMakeRange(1, 2)];
-//    NSString *endFlag2 = [value2 substringWithRange:NSMakeRange(value2.length - 3, 2)];
+   
+    NSString *startFlag2 = [value2 substringWithRange:NSMakeRange(1, 2)];
+    NSString *endFlag2 = [value2 substringWithRange:NSMakeRange(value2.length - 3, 2)];
     NSString *electricValue2 = [value2 substringWithRange:NSMakeRange(7, 2)];
-    [self handleElectricValueWithElectricValue:electricValue2 position:2];
-    if ([startFlag1 isEqualToString:@"cc"] && [endFlag1 isEqualToString:@"66"]) {
+   
+    if (([startFlag1 isEqualToString:@"cc"] && [endFlag1 isEqualToString:@"66"]) || ([startFlag2 isEqualToString:@"cc"] && [endFlag2 isEqualToString:@"66"])) {
+        self.bottomLeftIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue1]];
+        self.bottomRightIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue2]];
+        
         NSString *receiveFlagStr1 = [value1 substringWithRange:NSMakeRange(3, 2)];
         NSString *receiveTemperature1 = [value1 substringWithRange:NSMakeRange(5, 2)];
         BOOL receiveFlag1 = [receiveFlagStr1 isEqualToString:@"01"] ? YES:NO;
@@ -903,7 +910,9 @@
     NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
     NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
     NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
-    [self handleElectricValueWithElectricValue:electricValue position:1];
+    
+    self.bottomLeftIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue]];
+   
     if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
         NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
         NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
@@ -938,7 +947,8 @@
 }
 #pragma mark - 处理电量
 #pragma mark -- handleElectricValueWithElectricValue
-- (void)handleElectricValueWithElectricValue:(NSString *)electricValue position:(NSInteger)position{
+- (NSString *)handleElectricValueWithElectricValue:(NSString *)electricValue {
+    // 默认为1格电量
     NSInteger tempInt = 1;
     if ([electricValue isEqualToString:@"00"]) {
         tempInt = 0;
@@ -951,14 +961,9 @@
     }else if ([electricValue isEqualToString:@"14"]){
         tempInt = 4;
     }
-    // 默认为1格电量
-//    tempInt = 1;
+ 
     NSString *imageStr = [NSString stringWithFormat:@"battery_icon_%ld",(long)tempInt];
-    if (1 == position) {
-         self.bottomLeftIconImageView.image = [UIImage imageNamed:imageStr];
-    }else{
-         self.bottomRightIconImageView.image = [UIImage imageNamed:imageStr];
-    }
+    return imageStr;
 }
 
 #pragma mark -  处理开关及温度值

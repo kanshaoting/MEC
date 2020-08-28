@@ -152,8 +152,11 @@ typedef NS_ENUM(NSInteger, BluetoothCentralManagerState){
     BluetoothCentralManagerStateByTimeout
 };
 
-
+// 我的页面 Me 和 Device List 按钮状态监听
 #define MECMineViewControllerStatusNotification @"MECMineViewControllerStatusNotification"
+
+// 上一次登录用户名
+#define kLastLoginName @"LastLoginName"
 
 
 //data

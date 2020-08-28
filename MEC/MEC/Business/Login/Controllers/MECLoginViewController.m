@@ -44,10 +44,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configUI];
-    MECUserManager *manager = [MECUserManager shareManager];
-    if (manager.lastLoginName) {
-        self.userNameTf.text = manager.lastLoginName;
-    } 
+    // 读取上一次登录成功的用户名
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:kLastLoginName]) {
+        self.userNameTf.text = [defaults objectForKey:kLastLoginName];
+    }
 }
 
 
@@ -135,7 +136,7 @@
     
     [parm setObject:self.userNameTf.text forKey:@"memail"];
     [parm setObject:@"" forKey:@"mpassword"];
-    kWeakSelf
+    
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
 
         if(result.error) {
@@ -143,7 +144,11 @@
         }else {
             [hud showText:@"Sign in Success"];
             MECUserManager *manager = [MECUserManager shareManager];
-            manager.lastLoginName = weakSelf.userNameTf.text;
+            // 保存上一次登录成功的用户名
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:self.userNameTf.text forKey:kLastLoginName];
+            [defaults synchronize];
+            
             manager.user = [MECUserModel mj_objectWithKeyValues:result.resultData];
             [manager saveUserInfo];
             

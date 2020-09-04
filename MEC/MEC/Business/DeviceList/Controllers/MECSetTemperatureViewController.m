@@ -959,15 +959,23 @@
     // 默认为1格电量
     NSInteger tempInt = 1;
     if ([electricValue isEqualToString:@"00"]) {
+        // 不显示电池图标
         tempInt = 0;
     }else if ([electricValue isEqualToString:@"11"]){
+        // 显示1格电池图标
         tempInt = 1;
     }else if ([electricValue isEqualToString:@"12"]){
+        // 显示2格电池图标
         tempInt = 2;
     }else if ([electricValue isEqualToString:@"13"]){
+        // 显示3格电池图标
         tempInt = 3;
     }else if ([electricValue isEqualToString:@"14"]){
+        // 显示4格电池图标
         tempInt = 4;
+    }else if ([electricValue isEqualToString:@"10"]){
+        // 显示空电池图标 新增
+        tempInt = 5;
     }
  
     NSString *imageStr = [NSString stringWithFormat:@"battery_icon_%ld",(long)tempInt];
@@ -1162,13 +1170,11 @@
         _temperatureCircleView.isClose = YES;
         kWeakSelf
         _temperatureCircleView.temperatureCircleBlock = ^(NSInteger temperature) {
-            NSLog(@"1111---------+++++++++++");
-            if (BluetoothStateConnected == self.bluetoothState) {
-                 NSLog(@"2222---------+++++++++++");
+
+            if (CBPeripheralStateConnected == weakSelf.discoveredPeripheral.state || CBPeripheralStateConnected == weakSelf.discoveredPeripheral2.state) {
                 weakSelf.currentTemperature = temperature;
                 [weakSelf writeDataWithStatus:weakSelf.setTemperatureSwitch.on temperature:temperature];
             }
-            
         };
     }
     return _temperatureCircleView;

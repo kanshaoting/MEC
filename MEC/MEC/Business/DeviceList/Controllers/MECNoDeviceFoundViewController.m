@@ -35,8 +35,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // 隐藏导航栏右边按钮
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] init];
     [self configUI];
-    
 }
 
 #pragma mark -

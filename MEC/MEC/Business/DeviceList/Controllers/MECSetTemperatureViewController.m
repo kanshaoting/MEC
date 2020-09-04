@@ -11,6 +11,8 @@
 #import "MECTemperatureCircleAnimationView.h"
 #import "MECWebViewController.h"
 
+#import "MECNoDeviceFoundViewController.h"
+
 
 #define kServiceName @"USB_521_Addheat"
 #define kServiceUUID @"FFB0"
@@ -278,12 +280,16 @@
 #pragma mark -- goBackBtnAction
 - (void)goBackBtnAction{
     [self.navigationController popToRootViewControllerAnimated:YES];
-}
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
     // 关闭蓝牙，下个页面会重启蓝牙
     [self closeBluetooth];
+}
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.pickerView reloadAllComponents];
 }
 - (void)dealloc{
     // 关闭定时器
@@ -621,17 +627,18 @@
                     
                 }
                 [self connectDevicePeripheral:peripheral];
-                
+                // 开始匹配中
+                       self.bluetoothState = BluetoothStateConnecting;
             }
         }
-        // 开始匹配中
-        self.bluetoothState = BluetoothStateConnecting;
+       
     }else{
         if (self.isShowConnectionError) {
             
         }else{
             self.isShowConnectionError = YES;
-            [MBProgressHUD showError:@"Device Connection failed"];
+//            [MBProgressHUD showError:@"Device Connection failed"];
+            [self pushNODeviceVC];
         }
     }
 }
@@ -966,6 +973,12 @@
     return imageStr;
 }
 
+#pragma mark -  push到链接失败提示页面
+#pragma mark -- pushNODeviceVC
+- (void)pushNODeviceVC{
+    MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 #pragma mark -  处理开关及温度值
 #pragma mark -- handleTemperatureSwitchAndTemperatureView
 - (void)handleTemperatureSwitchAndTemperatureView{

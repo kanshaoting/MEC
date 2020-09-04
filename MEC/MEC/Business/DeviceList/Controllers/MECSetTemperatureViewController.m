@@ -1162,8 +1162,9 @@
         _temperatureCircleView.isClose = YES;
         kWeakSelf
         _temperatureCircleView.temperatureCircleBlock = ^(NSInteger temperature) {
-            
+            NSLog(@"1111---------+++++++++++");
             if (BluetoothStateConnected == self.bluetoothState) {
+                 NSLog(@"2222---------+++++++++++");
                 weakSelf.currentTemperature = temperature;
                 [weakSelf writeDataWithStatus:weakSelf.setTemperatureSwitch.on temperature:temperature];
             }

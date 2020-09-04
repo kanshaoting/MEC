@@ -383,14 +383,14 @@ static const CGFloat kAnimationTime = 0.5;
         //  1/10 为 0
         [self chooseWithPresent:floata/floatb];
         
-        if (self.didTouchBlock) {
-            
-            self.didTouchBlock([choose integerValue]+kStartValue);
+        // 手指松开则回调数据
+        if (recognizer.state == UIGestureRecognizerStateEnded) {
+            if (self.didTouchBlock) {
+                self.didTouchBlock([choose integerValue]+kStartValue);
+            }
         }
-        
     }
-    
-    
+
 }
  
 - (void)setIsClose:(BOOL)isClose{

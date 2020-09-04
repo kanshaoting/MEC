@@ -280,7 +280,7 @@
 #pragma mark -- goBackBtnAction
 - (void)goBackBtnAction{
     [self.navigationController popToRootViewControllerAnimated:YES];
-    // 关闭蓝牙，下个页面会重启蓝牙
+    // 关闭蓝牙
     [self closeBluetooth];
 }
 
@@ -299,8 +299,8 @@
 #pragma mark -- configUI
 - (void)configUI{
     
-    [self.view addSubview:self.topIconBgView];
-    [self.topIconBgView addSubview:self.topIconImageView];
+//    [self.view addSubview:self.topIconBgView];
+    [self.view addSubview:self.topIconImageView];
     
     [self.view addSubview:self.setTemperatureSwitch];
     [self.view addSubview:self.leftTipsLabel];
@@ -320,14 +320,15 @@
     [self.view addSubview:self.bottomRightIconImageView];
        
     
-    [self.topIconBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.view).offset(kMargin);
-        make.width.height.mas_equalTo(kWidth6(60));
-        make.top.equalTo(self.view).offset(kWidth6(6));
-    }];
+//    [self.topIconBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.leading.equalTo(self.view).offset(kMargin);
+//        make.width.height.mas_equalTo(kWidth6(60));
+//        make.top.equalTo(self.view).offset(kWidth6(6));
+//    }];
     
     [self.topIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.topIconBgView);
+        make.leading.equalTo(self.view).offset(kMargin);
+        make.top.equalTo(self.view).offset(kWidth6(8));
     }];
    
     [self.setTemperatureSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -976,6 +977,7 @@
 #pragma mark -  push到链接失败提示页面
 #pragma mark -- pushNODeviceVC
 - (void)pushNODeviceVC{
+    [MBProgressHUD hideHUDForView:self.view];
     MECNoDeviceFoundViewController *vc = [[MECNoDeviceFoundViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -1214,6 +1216,12 @@
         default:
             break;
     }
+    // 关闭则默认给最大值
+    if (!self.setTemperatureSwitch.on) {
+        temperatureStr = @"0a";
+        temperature = 10;
+        self.currentTemperature = 10;
+    }
     self.sendFlag = self.setTemperatureSwitch.on;
     self.sendTemperature = temperature;
     NSString *sendDataStr = [NSString stringWithFormat:@"AA%@%@0000000055",flagStr,temperatureStr];
@@ -1226,6 +1234,7 @@
         [MBProgressHUD showError:@"Device has connected"];
     }else{
         self.isShowConnectionError = NO;
+        [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
         [self startScan];
     }
 }
@@ -1236,6 +1245,7 @@
         [MBProgressHUD showError:@"Device has connected"];
     }else{
         self.isShowConnectionError = NO;
+        [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
         [self startScan];
     }
 }

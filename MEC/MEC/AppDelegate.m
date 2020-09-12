@@ -32,6 +32,7 @@
     [self setupAppearance];
     // 注册第三方
     [self registerThirdpart];
+    
     [NSThread sleepForTimeInterval:1.0];
     MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
     [[MECUserManager shareManager] readUserInfo];

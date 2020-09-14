@@ -64,6 +64,9 @@
 /// 上次位置
 @property (nonatomic, assign) NSInteger lastRow;
 
+/// 当前位置
+@property (nonatomic, assign) NSInteger currentRow;
+
 /// 部位选择器中间圆形框
 @property (nonatomic, strong) UIView *middleBgView;
 
@@ -145,6 +148,25 @@
 /// 右边设备数值
 @property (nonatomic, copy) NSString *valueStr2;
 
+
+/// 上个设备数值
+@property (nonatomic, copy) NSString *lastValueStr;
+
+/// 是否切换链接
+@property (nonatomic, assign) BOOL isPickerConnect;
+
+
+/// 是否尝试链接
+@property (nonatomic, assign) BOOL isTryConnect;
+
+
+/// 上个设备mac地址
+@property (nonatomic, copy) NSString *lastMacAddressStr;
+
+/// 上个设备部位类型
+@property (nonatomic, assign) PositionType lastPositionType;
+
+
 @end
 
 @implementation MECSetTemperatureViewController
@@ -166,7 +188,10 @@
         self.bottomLeftTipsLabel.text = @"";
     }
     [self updateTopIconImageView:self.positionType];
-    self.lastRow = row;
+    self.currentRow = row;
+    self.lastRow = self.currentRow;
+    self.lastMacAddressStr = self.macAddressStr;
+    self.lastPositionType = self.positionType;
     [self.pickerView selectRow:row inComponent:0 animated:YES];
 }
 #pragma mark - 开启定时器
@@ -176,13 +201,13 @@
     // 加入RunLoop中
     [[NSRunLoop mainRunLoop] addTimer:self.timer1 forMode:NSDefaultRunLoopMode];
 }
+
 #pragma mark - 关闭定时器
 #pragma mark -- invalidateTimer
 - (void)invalidateTimer {
     [self.timer1 invalidate];
     self.timer1 = nil;
 }
-
 #pragma mark - 监听设备值变化
 #pragma mark -- monitorCharacteristicValue
 - (void)monitorCharacteristicValue{
@@ -194,6 +219,7 @@
         [self checkDevicePeripheralStateConnected];
     }
 }
+
 #pragma mark - 检查设备连接状态
 #pragma mark -- checkDevicePeripheralStateConnected
 - (void)checkDevicePeripheralStateConnected{
@@ -448,17 +474,18 @@
 }
 //用户进行选择
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    self.currentRow = row;
     if (0 == row) {
         if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.leftDeviceModel.dmac] && [self checkDeviceIsExist:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
-                self.lastRow = row;
-                [self connectDeviceWithPosition:PositionTypeFootLeft];
+            
+            [self connectDeviceWithPosition:PositionTypeFootLeft];
         }else{
             [MBProgressHUD showError:@"No Device"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (1 == row){
         if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.topDeviceModel.dmac]) {
-             self.lastRow = row;
+            
              [self connectDeviceWithPosition:PositionTypeFootTop];
         }else{
             [MBProgressHUD showError:@"No Device"];
@@ -466,7 +493,7 @@
         }
     }else if (2 == row){
         if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.bottomDeviceModel.dmac]) {
-             self.lastRow = row;
+             
              [self connectDeviceWithPosition:PositionTypeFootBottom];
         }else{
             [MBProgressHUD showError:@"No Device"];
@@ -474,7 +501,7 @@
         }
     }else{
         if (self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac]) {
-             self.lastRow = row;
+             
              [self connectDeviceWithPosition:PositionTypeFootHeatingPad];
         }else{
             [MBProgressHUD showError:@"No Device"];
@@ -512,8 +539,38 @@
     self.macAddressStr = macStr;
     self.positionType = position;
     self.isFirst = YES;
-    [self updateTopIconImageView:position];
+    self.lastValueStr = @"";
+    self.isPickerConnect = YES;
+    self.isTryConnect = NO;
+    [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
     [self startScan];
+
+    /// 延迟2秒检查状态
+    kWeakSelf
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [MBProgressHUD hideHUDForView:weakSelf.view];
+        if (weakSelf.isTryConnect) {
+            if (CBPeripheralStateConnected == weakSelf.discoveredPeripheral.state ) {
+                weakSelf.lastRow = weakSelf.currentRow;
+            }else{
+                if (weakSelf.isPickerConnect) {
+                    weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
+                    weakSelf.positionType = weakSelf.lastPositionType;
+                    [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
+                    [weakSelf.pickerView selectRow:weakSelf.lastRow inComponent:0 animated:YES];
+                }
+            }
+        }else{
+            // 尝试链接其它绑定设备失败则给出提示并切换回去
+            weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
+            weakSelf.positionType = weakSelf.lastPositionType;
+            [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
+            [weakSelf.pickerView selectRow:weakSelf.lastRow inComponent:0 animated:YES];
+        }
+    });
+    
+
 }
 #pragma mark - 检测蓝牙状态
 #pragma mark -- centralManagerDidUpdateState
@@ -638,7 +695,6 @@
             
         }else{
             self.isShowConnectionError = YES;
-//            [MBProgressHUD showError:@"Device Connection failed"];
             [self pushNODeviceVC];
         }
     }
@@ -646,18 +702,36 @@
 #pragma mark - 链接设备
 #pragma mark -- connectPeripheral
 - (void)connectDevicePeripheral:(CBPeripheral *)peripheral{
-    [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+    // 是否切换链接
+    if (self.isPickerConnect) {
+        // 是否尝试链接
+        self.isTryConnect = YES;
+    }else{
+        [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+    }
+    
     //设定周边设备，指定代理者
     self.discoveredPeripheral = peripheral;
     self.discoveredPeripheral.delegate = self;
     //连接设备
     [self.centralManager connectPeripheral:peripheral
                                    options:@{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES}];
+    
 }
 #pragma mark - 连接到外围设备成功回调
 #pragma mark -- centralManager
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
-    [MBProgressHUD hideHUDForView:self.view];
+    if (self.isPickerConnect) {
+        
+    }else{
+        [MBProgressHUD hideHUDForView:self.view];
+    }
+   
+    // 链接成功切换左上角按钮图标
+    self.lastRow = self.currentRow;
+    [self updateTopIconImageView:self.positionType];
+    self.lastMacAddressStr = self.macAddressStr;
+    self.lastPositionType = self.positionType;
     self.bluetoothState = BluetoothStateConnected;
     // 停止扫描
     [self.centralManager stopScan];
@@ -676,8 +750,14 @@
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     self.bluetoothState  = BluetoothStateDisconnect;
-     [MBProgressHUD hideHUDForView:self.view];
+    if (self.isPickerConnect) {
+        
+    }else{
+        [MBProgressHUD hideHUDForView:self.view];
+    }
+    
     [MBProgressHUD showError:@"Device Connection failed"];
+    
     // 链接失败
     [self.bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
     if (self.discoveredPeripheral2 == peripheral) {
@@ -847,8 +927,21 @@
         // top、bottom、heating pad
         if (characteristic.value) {
         
-            NSString *value = [self handelOriginalCharacteristicValue:characteristic.value.description];
-            [self handleCharacteristicValue:value position:1];
+            if (peripheral == self.discoveredPeripheral) {
+                if (characteristic == self.characteristic ) {
+                    NSString *value = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                    if ([self.lastValueStr isEqualToString:value]) {
+                        
+                    }else{
+                        self.lastValueStr = value;
+                        [self handleCharacteristicValue:value position:1];
+                        NSLog(@"characteristic is %@",characteristic);
+                        NSLog(@"self.characteristic is %@",self.characteristic);
+                        NSLog(@"发现特征值 is %@",value);
+                    }
+                }
+            }
+            
         }else{
             NSLog(@"未发现特征值");
         }

@@ -372,16 +372,20 @@ static const CGFloat kAnimationTime = 0.5;
         
 //        NSLog(@"点击了正确范围 大概是多少的百分比 %f  %f  %f",floata,floatb,floata/floatb);
         
-        NSString * choose = [self decimalwithFormat:@"0" floatV:floata/floatb*kCount];
+        NSString *choose = [self decimalwithFormat:@"0" floatV:floata/floatb*kCount];
         
 //        NSLog(@"重新计算后的 角度 %f",[choose floatValue]/kCount*100);
         
         //[self setPercent:[choose floatValue]/12*100] ;
+        CGFloat chooseFloat = MAX(1, [choose floatValue]);
+        [self setTemperInter:chooseFloat + kStartValue];
         
-        [self setTemperInter:[choose floatValue]+kStartValue];
-        
-        //  1/10 为 0
-        [self chooseWithPresent:floata/floatb];
+        //  最小值为 1
+        CGFloat presentFloat = floata/floatb;
+        if (presentFloat<= 0.1) {
+            presentFloat = 0.1;
+        }
+        [self chooseWithPresent:presentFloat];
         NSLog(@"recognizer.state is %ld",(long)recognizer.state);
         // 手指松开则回调数据
         if (recognizer.state == UIGestureRecognizerStateEnded) {

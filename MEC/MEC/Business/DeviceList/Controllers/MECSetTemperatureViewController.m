@@ -311,6 +311,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
+    [MBProgressHUD hideHUDForView:self.view];
     [super viewWillDisappear:animated];
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -543,8 +544,19 @@
     self.isPickerConnect = YES;
     self.isTryConnect = NO;
     [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+    
+    // 取消之前的链接
+    if (self.discoveredPeripheral) {
+        [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
+        self.discoveredPeripheral = nil;
+        self.characteristic = nil;
+    }else{
+        
+    }
+    
     [self startScan];
 
+   
     /// 延迟2秒检查状态
     kWeakSelf
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -554,17 +566,20 @@
             if (CBPeripheralStateConnected == weakSelf.discoveredPeripheral.state ) {
                 weakSelf.lastRow = weakSelf.currentRow;
             }else{
+                //  失败重新链接
                 if (weakSelf.isPickerConnect) {
                     weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
                     weakSelf.positionType = weakSelf.lastPositionType;
+                    [weakSelf startScan];
                     [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
                     [weakSelf.pickerView selectRow:weakSelf.lastRow inComponent:0 animated:YES];
                 }
             }
         }else{
-            // 尝试链接其它绑定设备失败则给出提示并切换回去
+            // 尝试链接其它绑定设备失败则给出提示并切换回去 重新链接
             weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
             weakSelf.positionType = weakSelf.lastPositionType;
+             [weakSelf startScan];
             [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
             [weakSelf.pickerView selectRow:weakSelf.lastRow inComponent:0 animated:YES];
         }
@@ -724,7 +739,7 @@
     if (self.isPickerConnect) {
         
     }else{
-        [MBProgressHUD hideHUDForView:self.view];
+        
     }
    
     // 链接成功切换左上角按钮图标
@@ -1003,6 +1018,11 @@
         }
     }
     
+    if (self.isPickerConnect) {
+        
+    }else{
+         [MBProgressHUD hideHUDForView:self.view];
+    }
 }
 #pragma mark -
 #pragma mark -- handleCharacteristicValue
@@ -1043,7 +1063,13 @@
             }
         }
     }
-     
+    if (self.isPickerConnect) {
+        
+    }else{
+         [MBProgressHUD hideHUDForView:self.view];
+    }
+   
+    
 //    NSLog(@"读取到特征值：%@",value);
 }
 #pragma mark - 处理电量
@@ -1095,6 +1121,8 @@
     // 方法w二 字节数组转NSData
 //    unsigned char send[8] = {0xAA, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00,0x055};
 //    NSData *sendData = [NSData dataWithBytes:send length:8];
+//    self.isFirst = YES;
+    self.lastValueStr = @"";
     [self.discoveredPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
         if (self.writeCharacteristic2 && self.discoveredPeripheral2) {
@@ -1173,10 +1201,15 @@
  
     
     if (CBPeripheralStateConnected == self.discoveredPeripheral.state || CBPeripheralStateConnected == self.discoveredPeripheral2.state) {
-        self.temperatureCircleView.temperInter = self.currentTemperature;
+        
+        if (mySwitch.on) {
+            self.currentTemperature = 10;
+            self.temperatureCircleView.temperInter = 10;
+        }
+        
         self.temperatureCircleView.isClose = mySwitch.on == NO;
         
-        [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.currentTemperature];
+        [self writeDataWithStatus:self.setTemperatureSwitch.on temperature:self.temperatureCircleView.temperInter];
     }else{
         mySwitch.on = !mySwitch.on;
         [MBProgressHUD showError:@"Device not Connection"];

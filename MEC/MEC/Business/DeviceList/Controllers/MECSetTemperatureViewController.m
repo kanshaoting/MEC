@@ -182,9 +182,9 @@
     }else{
         row = self.positionType - 2;
         // 不显示底线右边模块及左边文案
-        self.bottomRightIconImageView.hidden = YES;
+        self.bottomRightIconImageView.image = [UIImage imageNamed:@""];
         self.bottomRightTipsLabel.text = @"";
-        self.bottomRightBluetoothButton.hidden = YES;
+        [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
         self.bottomLeftTipsLabel.text = @"";
     }
     [self updateTopIconImageView:self.positionType];
@@ -226,10 +226,14 @@
     NSString *leftBluIconStr;
     leftBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
     [self.bottomLeftBluetoothButton setImage: [UIImage imageNamed:leftBluIconStr] forState:UIControlStateNormal];
-    
-    NSString *rightBluIconStr;
-    rightBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral2.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
-    [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:rightBluIconStr] forState:UIControlStateNormal];
+    if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+        NSString *rightBluIconStr;
+          rightBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral2.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
+          [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:rightBluIconStr] forState:UIControlStateNormal];
+    }else{
+        [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@""] forState:UIControlStateNormal];
+    }
+
 }
 #pragma mark -  检查蓝牙状态
 #pragma mark -- checkBlueStatus
@@ -550,8 +554,11 @@
         [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
         self.discoveredPeripheral = nil;
         self.characteristic = nil;
-    }else{
-        
+    }
+    if (self.discoveredPeripheral2) {
+        [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral2];
+        self.discoveredPeripheral2 = nil;
+        self.characteristic2 = nil;
     }
     
     [self startScan];
@@ -560,29 +567,51 @@
     /// 延迟2秒检查状态
     kWeakSelf
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
+
         [MBProgressHUD hideHUDForView:weakSelf.view];
-        if (weakSelf.isTryConnect) {
-            if (CBPeripheralStateConnected == weakSelf.discoveredPeripheral.state ) {
-                weakSelf.lastRow = weakSelf.currentRow;
-            }else{
-                //  失败重新链接
-                if (weakSelf.isPickerConnect) {
-                    weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
-                    weakSelf.positionType = weakSelf.lastPositionType;
-                    [weakSelf startScan];
-                    [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
-                    [weakSelf.pickerView selectRow:weakSelf.lastRow inComponent:0 animated:YES];
+        // foot
+        if (PositionTypeFootLeft == weakSelf.positionType || PositionTypeFootRight == weakSelf.positionType) {
+            if (weakSelf.isTryConnect) {
+                // 链接成功
+                if (CBPeripheralStateConnected == weakSelf.discoveredPeripheral.state || CBPeripheralStateConnected == weakSelf.discoveredPeripheral2.state ) {
+                    weakSelf.lastRow = weakSelf.currentRow;
+                    weakSelf.bottomLeftTipsLabel.text = @"Left";
+                    weakSelf.bottomRightTipsLabel.text = @"Right";
+                    return ;
                 }
             }
+        
         }else{
-            // 尝试链接其它绑定设备失败则给出提示并切换回去 重新链接
-            weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
-            weakSelf.positionType = weakSelf.lastPositionType;
-             [weakSelf startScan];
-            [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
-            [weakSelf.pickerView selectRow:weakSelf.lastRow inComponent:0 animated:YES];
+            // top、 bottom、heatingpad
+            weakSelf.bottomLeftTipsLabel.text = @"";
+            weakSelf.bottomRightTipsLabel.text = @"";
+            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@""];
+            [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+            if (weakSelf.isTryConnect) {
+                if (CBPeripheralStateConnected == weakSelf.discoveredPeripheral.state ) {
+                    // 链接成功
+                    weakSelf.lastRow = weakSelf.currentRow;
+                    return;
+                }
+            }
         }
+        // 尝试链接其它绑定设备失败则给出提示并切换回去 重新链接
+        weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
+        weakSelf.positionType = weakSelf.lastPositionType;
+        if (PositionTypeFootLeft == weakSelf.positionType || PositionTypeFootRight == weakSelf.positionType) {
+            weakSelf.bottomLeftTipsLabel.text = @"Left";
+            weakSelf.bottomRightTipsLabel.text = @"Right";
+            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@"battery_icon_1"];
+            [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
+        }else{
+            weakSelf.bottomLeftTipsLabel.text = @"";
+            weakSelf.bottomRightTipsLabel.text = @"";
+            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@""];
+            [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        }
+        [weakSelf startScan];
+        [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
+        [weakSelf.pickerView selectRow:weakSelf.lastRow inComponent:0 animated:YES];
     });
     
 
@@ -1033,7 +1062,8 @@
     NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
     
     self.bottomLeftIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue]];
-   
+    self.bottomRightIconImageView.image = [UIImage imageNamed:@""];
+    [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@""] forState:UIControlStateNormal];
     if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
         NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
         NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];

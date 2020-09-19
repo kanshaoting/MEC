@@ -60,7 +60,7 @@
 /* Begin PBXFileReference section */
 		520B5D3624EE66B6004F84C7 /* MECWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECWebViewController.h; sourceTree = "<group>"; };
 		520B5D3724EE66B6004F84C7 /* MECWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECWebViewController.m; sourceTree = "<group>"; };
-		521EF1A224CE780800455497 /* MEC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		521EF1A224CE780800455497 /* Venture Heat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Venture Heat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		521EF1A524CE780800455497 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		521EF1A624CE780800455497 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		521EF1AF24CE780800455497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 		521EF1A324CE780800455497 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				521EF1A224CE780800455497 /* MEC.app */,
+				521EF1A224CE780800455497 /* Venture Heat.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -507,7 +507,7 @@
 			);
 			name = MEC;
 			productName = MEC;
-			productReference = 521EF1A224CE780800455497 /* MEC.app */;
+			productReference = 521EF1A224CE780800455497 /* Venture Heat.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -789,7 +789,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = C7HBXG9Y85;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MEC/Base/MECPrefix.pch";
@@ -801,7 +801,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MATSUM.MEC;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Venture Heat";
 				PROVISIONING_PROFILE_SPECIFIER = MECDevProProfile;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -814,7 +814,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = C7HBXG9Y85;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MEC/Base/MECPrefix.pch";
@@ -826,7 +826,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MATSUM.MEC;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Venture Heat";
 				PROVISIONING_PROFILE_SPECIFIER = MECDevProProfile;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

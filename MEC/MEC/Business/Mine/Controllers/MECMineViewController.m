@@ -89,7 +89,7 @@
     [QCNetWorkManager getRequestWithUrlPath:QCUrlQueryDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
         [MBProgressHUD hideHUDForView:weakSelf.view];
         if(result.error) {
-            [MBProgressHUD showError:result.error.localizedDescription];
+//            [MBProgressHUD showError:result.error.localizedDescription];
         }else {
         
             if ([[result.resultObject objectForKey:@"data"] isKindOfClass:[NSDictionary class]]) {

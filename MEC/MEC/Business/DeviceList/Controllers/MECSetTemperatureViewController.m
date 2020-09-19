@@ -547,7 +547,7 @@
     self.lastValueStr = @"";
     self.isPickerConnect = YES;
     self.isTryConnect = NO;
-    [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+   
     
     // 取消之前的链接
     if (self.discoveredPeripheral) {
@@ -601,7 +601,7 @@
         if (PositionTypeFootLeft == weakSelf.positionType || PositionTypeFootRight == weakSelf.positionType) {
             weakSelf.bottomLeftTipsLabel.text = @"Left";
             weakSelf.bottomRightTipsLabel.text = @"Right";
-            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@"battery_icon_1"];
+            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@"battery_icon_4"];
             [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
         }else{
             weakSelf.bottomLeftTipsLabel.text = @"";
@@ -662,6 +662,14 @@
     //清空所有外设数组
     [self.searchBluDataMuArr removeAllObjects];
  
+    [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+    
+    /// 注释
+    kWeakSelf
+    // 延迟3秒隐藏
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:weakSelf.view];
+    });
 }
 #pragma mark 发现外设
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
@@ -751,7 +759,7 @@
         // 是否尝试链接
         self.isTryConnect = YES;
     }else{
-        [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+//        [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
     }
     
     //设定周边设备，指定代理者
@@ -948,6 +956,7 @@
                    
                     if (characteristic.value) {
                         self.valueStr1 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                        self.valueStr1 = [self handelBlueCharacteristicValueFormat:self.valueStr1];
                     }
                 }
             }
@@ -959,6 +968,7 @@
                     
                     if (characteristic.value) {
                         self.valueStr2 = [self handelOriginalCharacteristicValue:characteristic.value.description];
+                        self.valueStr2 = [self handelBlueCharacteristicValueFormat:self.valueStr2];
                     }
                 }
             }
@@ -978,6 +988,7 @@
                         
                     }else{
                         self.lastValueStr = value;
+                        value = [self handelBlueCharacteristicValueFormat:value];
                         [self handleCharacteristicValue:value position:1];
                         NSLog(@"characteristic is %@",characteristic);
                         NSLog(@"self.characteristic is %@",self.characteristic);
@@ -1007,30 +1018,46 @@
     }
     return valueStr;
 }
+#pragma mark -  处理蓝牙监听格式
+#pragma mark -- handelBlueCharacteristicValueFormat
+- (NSString *)handelBlueCharacteristicValueFormat:(NSString *)valueStr{
+    NSString *tempStr;
+    tempStr = valueStr;
+    //iOS 13 之前返回数值 <cc000000 00020066> ；13之后返回 cc00000000020066
+    if (@available(iOS 13.0, *)) {
+        
+    }else{
+        // 替换空格 并去掉首尾 "<>" 符号
+        tempStr = [tempStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        tempStr = [tempStr substringWithRange:NSMakeRange(1, tempStr.length - 2)];
+    }
+    return tempStr;
+}
+      
 #pragma mark -
 #pragma mark -- handleFeetCharacteristicValue
 - (void)handleFeetCharacteristicValue:(NSString *)value1 characteristicValue2:(NSString *)value2{
     
-    NSString *startFlag1 = [value1 substringWithRange:NSMakeRange(1, 2)];
-    NSString *endFlag1 = [value1 substringWithRange:NSMakeRange(value1.length - 3, 2)];
-    NSString *electricValue1 = [value1 substringWithRange:NSMakeRange(7, 2)];
+    NSString *startFlag1 = [value1 substringWithRange:NSMakeRange(0, 2)];
+    NSString *endFlag1 = [value1 substringWithRange:NSMakeRange(value1.length - 2, 2)];
+    NSString *electricValue1 = [value1 substringWithRange:NSMakeRange(6, 2)];
    
-    NSString *startFlag2 = [value2 substringWithRange:NSMakeRange(1, 2)];
-    NSString *endFlag2 = [value2 substringWithRange:NSMakeRange(value2.length - 3, 2)];
-    NSString *electricValue2 = [value2 substringWithRange:NSMakeRange(7, 2)];
+    NSString *startFlag2 = [value2 substringWithRange:NSMakeRange(0, 2)];
+    NSString *endFlag2 = [value2 substringWithRange:NSMakeRange(value2.length - 2, 2)];
+    NSString *electricValue2 = [value2 substringWithRange:NSMakeRange(6, 2)];
    
     if (([startFlag1 isEqualToString:@"cc"] && [endFlag1 isEqualToString:@"66"]) || ([startFlag2 isEqualToString:@"cc"] && [endFlag2 isEqualToString:@"66"])) {
         self.bottomLeftIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue1]];
         self.bottomRightIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue2]];
         
-        NSString *receiveFlagStr1 = [value1 substringWithRange:NSMakeRange(3, 2)];
-        NSString *receiveTemperature1 = [value1 substringWithRange:NSMakeRange(5, 2)];
+        NSString *receiveFlagStr1 = [value1 substringWithRange:NSMakeRange(2, 2)];
+        NSString *receiveTemperature1 = [value1 substringWithRange:NSMakeRange(4, 2)];
         BOOL receiveFlag1 = [receiveFlagStr1 isEqualToString:@"01"] ? YES:NO;
         NSInteger receiveTemperatureInt1 = [self handleReceiveTemperature:receiveTemperature1];
         
         
-        NSString *receiveFlagStr2 = [value2 substringWithRange:NSMakeRange(3, 2)];
-        NSString *receiveTemperature2 = [value2 substringWithRange:NSMakeRange(5, 2)];
+        NSString *receiveFlagStr2 = [value2 substringWithRange:NSMakeRange(2, 2)];
+        NSString *receiveTemperature2 = [value2 substringWithRange:NSMakeRange(4, 2)];
         BOOL receiveFlag2 = [receiveFlagStr2 isEqualToString:@"01"] ? YES:NO;
         NSInteger receiveTemperatureInt2 = [self handleReceiveTemperature:receiveTemperature2];
         
@@ -1053,20 +1080,23 @@
          [MBProgressHUD hideHUDForView:self.view];
     }
 }
+
+//
 #pragma mark -
 #pragma mark -- handleCharacteristicValue
 - (void)handleCharacteristicValue:(NSString *)value position:(NSInteger)position{
     
-    NSString *startFlag = [value substringWithRange:NSMakeRange(1, 2)];
-    NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 3, 2)];
-    NSString *electricValue = [value substringWithRange:NSMakeRange(7, 2)];
+    NSString *startFlag = [value substringWithRange:NSMakeRange(0, 2)];
+    NSString *endFlag = [value substringWithRange:NSMakeRange(value.length - 2, 2)];
+    NSString *electricValue = [value substringWithRange:NSMakeRange(6, 2)];
+    
     
     self.bottomLeftIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue]];
     self.bottomRightIconImageView.image = [UIImage imageNamed:@""];
     [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@""] forState:UIControlStateNormal];
     if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
-        NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(3, 2)];
-        NSString *receiveTemperature = [value substringWithRange:NSMakeRange(5, 2)];
+        NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(2, 2)];
+        NSString *receiveTemperature = [value substringWithRange:NSMakeRange(4, 2)];
         self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
         self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
         if (self.isFirst) {
@@ -1105,8 +1135,8 @@
 #pragma mark - 处理电量
 #pragma mark -- handleElectricValueWithElectricValue
 - (NSString *)handleElectricValueWithElectricValue:(NSString *)electricValue {
-    // 默认为1格电量
-    NSInteger tempInt = 1;
+    // 默认为4格电量
+    NSInteger tempInt = 4;
     if ([electricValue isEqualToString:@"00"]) {
         // 不显示电池图标
         tempInt = 0;
@@ -1397,7 +1427,7 @@
         [MBProgressHUD showError:@"Device has connected"];
     }else{
         self.isShowConnectionError = NO;
-        [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+       
         [self startScan];
     }
 }
@@ -1408,7 +1438,7 @@
         [MBProgressHUD showError:@"Device has connected"];
     }else{
         self.isShowConnectionError = NO;
-        [MBProgressHUD showLoadingMessage:@"Connecting" toView:self.view];
+        
         [self startScan];
     }
 }
@@ -1446,7 +1476,7 @@
 - (UIImageView *)bottomLeftIconImageView{
     if (!_bottomLeftIconImageView) {
         _bottomLeftIconImageView = [[UIImageView alloc] init];
-        _bottomLeftIconImageView.image = [UIImage imageNamed:@"battery_icon_1"];
+        _bottomLeftIconImageView.image = [UIImage imageNamed:@"battery_icon_4"];
     }
     return _bottomLeftIconImageView;
 }
@@ -1482,7 +1512,7 @@
 - (UIImageView *)bottomRightIconImageView{
     if (!_bottomRightIconImageView) {
         _bottomRightIconImageView = [[UIImageView alloc] init];
-        _bottomRightIconImageView.image = [UIImage imageNamed:@"battery_icon_1"];
+        _bottomRightIconImageView.image = [UIImage imageNamed:@"battery_icon_4"];
     }
     return _bottomRightIconImageView;
 }

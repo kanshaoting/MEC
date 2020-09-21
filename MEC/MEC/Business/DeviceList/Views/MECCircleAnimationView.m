@@ -383,25 +383,34 @@ static const CGFloat kAnimationTime = 0.5;
         // 最小值为0.1
         presentFloat = floata/floatb;
         
-        if (presentFloat<= 0.1) {
+        if (presentFloat <= 0.1) {
             presentFloat = 0.1;
         }
 
     }else{
         
         if (tapfloat < degreesToRadians(30) && self.isClose == NO) {
+            // 点击超过最小区域直接返回
+            if ([recognizer isKindOfClass: [UITapGestureRecognizer class]]) {
+                return;
+            }
             //温度最小值为 1
             chooseTemperInterFloat = 1;
             //最小值为占比 0.1
             presentFloat = 0.1;
         
+            
         }
         if (tapfloat > degreesToRadians(330) && self.isClose == NO) {
-             
+             // 点击超过最大区域直接返回
+             if ([recognizer isKindOfClass: [UITapGestureRecognizer class]]) {
+                 return;
+             }
             //温度最大值为 10
             chooseTemperInterFloat = 10;
-            // 最大值为占比 1
+            //最大值为占比 1
             presentFloat = 1;
+            
         }
     }
     

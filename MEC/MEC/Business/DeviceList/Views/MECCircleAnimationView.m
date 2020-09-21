@@ -361,78 +361,62 @@ static const CGFloat kAnimationTime = 0.5;
     
     CGPoint point = [recognizer locationInView:self];
     
-    CGFloat  tapfloat = [self angleFromStartToPoint:point];
+    CGFloat tapfloat = [self angleFromStartToPoint:point];
     
-    NSLog(@"tapfloat is %f",tapfloat);
+    // 选择温度值 默认为10
+    CGFloat chooseTemperInterFloat = 10;
+    // 滑块占比 默认为1
+    CGFloat presentFloat = 1;
     
-    if (tapfloat>=degreesToRadians(30)&&tapfloat<=degreesToRadians(330) && self.isClose == NO) {
-        
-        NSLog(@" +++++ tapfloat is %f",tapfloat);
+    if (tapfloat >= degreesToRadians(30) && tapfloat <= degreesToRadians(330) && self.isClose == NO) {
         
         CGFloat floata = tapfloat-degreesToRadians(30) ;
         
-        CGFloat floatb =  degreesToRadians(330)-degreesToRadians(30) ;
-        
-        
-        
-//        NSLog(@"点击了正确范围 大概是多少的百分比 %f  %f  %f",floata,floatb,floata/floatb);
-        
+        CGFloat floatb =  degreesToRadians(330) - degreesToRadians(30) ;
+    
         NSString *choose = [self decimalwithFormat:@"0" floatV:floata/floatb*kCount];
-        
-//        NSLog(@"重新计算后的 角度 %f",[choose floatValue]/kCount*100);
-        
+    
         //[self setPercent:[choose floatValue]/12*100] ;
-        CGFloat chooseFloat = MAX(1, [choose floatValue]);
-        [self setTemperInter:chooseFloat + kStartValue];
+        // 最小值为 1
+        chooseTemperInterFloat = MAX(1, [choose floatValue]);
         
-        //  最小值为 1
-        CGFloat presentFloat = floata/floatb;
+        // 最小值为0.1
+        presentFloat = floata/floatb;
+        
         if (presentFloat<= 0.1) {
             presentFloat = 0.1;
         }
-        [self chooseWithPresent:presentFloat];
-        NSLog(@"recognizer.state is %ld",(long)recognizer.state);
-        
-        // 手指松开则回调数据
-        if (recognizer.state == UIGestureRecognizerStateEnded) {
-            if (self.didTouchBlock) {
-                self.didTouchBlock(chooseFloat);
-            }
-        }
+
     }else{
         
-        if (tapfloat<=degreesToRadians(30) && self.isClose == NO) {
-             //  温度最小值为 1
-            CGFloat chooseFloat = 1;
-            [self setTemperInter:chooseFloat + kStartValue];
-            
-            //  最小值为占比 0.1
-            [self chooseWithPresent:0.1];
-
-            // 手指松开则回调数据
-            if (recognizer.state == UIGestureRecognizerStateEnded) {
-                if (self.didTouchBlock) {
-                    self.didTouchBlock(chooseFloat);
-                }
-            }
+        if (tapfloat < degreesToRadians(30) && self.isClose == NO) {
+            //温度最小值为 1
+            chooseTemperInterFloat = 1;
+            //最小值为占比 0.1
+            presentFloat = 0.1;
+        
         }
-        if (tapfloat>=degreesToRadians(330) && self.isClose == NO) {
-             //  温度最大值为 1
-            CGFloat chooseFloat = 10;
-            [self setTemperInter:chooseFloat + kStartValue];
-            
-            //  最大值为占比 1
-            [self chooseWithPresent:1];
-           
-            // 手指松开则回调数据
-            if (recognizer.state == UIGestureRecognizerStateEnded) {
-                if (self.didTouchBlock) {
-                    self.didTouchBlock(chooseFloat);
-                }
-            }
+        if (tapfloat > degreesToRadians(330) && self.isClose == NO) {
+             
+            //温度最大值为 10
+            chooseTemperInterFloat = 10;
+            // 最大值为占比 1
+            presentFloat = 1;
         }
     }
-
+    
+    // 设置温度值
+    [self setTemperInter:chooseTemperInterFloat + kStartValue];
+    // 设置滑块
+    [self chooseWithPresent:presentFloat];
+    
+    // 手指松开则回调数据
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        if (self.didTouchBlock) {
+            self.didTouchBlock(chooseTemperInterFloat);
+        }
+    }
+    
 }
  
 - (void)setIsClose:(BOOL)isClose{

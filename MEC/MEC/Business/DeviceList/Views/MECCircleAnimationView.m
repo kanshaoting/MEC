@@ -77,14 +77,6 @@ static const CGFloat kAnimationTime = 0.5;
 
 - (void)initSubView {
     
-    self.userInteractionEnabled = YES ;
-    UIPanGestureRecognizer *tapGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-    [self addGestureRecognizer:tapGesture];
-    
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-    
-    [self addGestureRecognizer:tap];
-    
     // 圆形路径
     UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.width / 2, self.height / 2)
                                                         radius:(self.circelRadius - self.lineWidth) / 2
@@ -175,12 +167,21 @@ static const CGFloat kAnimationTime = 0.5;
         [self addSubview:textLabel];
     }
     
-    [self createAnimationWithStartAngle:degreesToRadians(self.stareAngle)
-                               endAngle:degreesToRadians(self.stareAngle + 270 * 0)];
+//    [self createAnimationWithStartAngle:degreesToRadians(self.stareAngle)
+//                               endAngle:degreesToRadians(self.stareAngle + 270 * 0)];
     
     [self addSubview:self.medLabel];
     [self addSubview:self.lowLabel];
     [self addSubview:self.highLabel];
+    
+    
+    self.userInteractionEnabled = YES ;
+    UIPanGestureRecognizer *tapGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    [self addGestureRecognizer:tapGesture];
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    
+    [self addGestureRecognizer:tap];
     
 }
 
@@ -324,7 +325,7 @@ static const CGFloat kAnimationTime = 0.5;
     
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] init];
-        _bgImageView.userInteractionEnabled = NO ;
+        _bgImageView.userInteractionEnabled = YES;
     }
     return _bgImageView;
 }
@@ -334,10 +335,10 @@ static const CGFloat kAnimationTime = 0.5;
     if (!_typeImageView) {
         
         _typeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.circelRadius/2 - kWidth6(25), self.height-kWidth6(100), kWidth6(50), kWidth6(50))];
-        
+        _typeImageView.userInteractionEnabled = YES;
         [self addSubview:_typeImageView];
         
-        //_typeImageView.backgroundColor = [UIColor redColor];
+//        _typeImageView.backgroundColor = [UIColor redColor];
     }
     
     return _typeImageView ;
@@ -362,11 +363,15 @@ static const CGFloat kAnimationTime = 0.5;
     
     CGFloat  tapfloat = [self angleFromStartToPoint:point];
     
-    if (tapfloat>=degreesToRadians(45)&&tapfloat<=degreesToRadians(315) && self.isClose == NO) {
+    NSLog(@"tapfloat is %f",tapfloat);
+    
+    if (tapfloat>=degreesToRadians(30)&&tapfloat<=degreesToRadians(330) && self.isClose == NO) {
         
-        CGFloat floata = tapfloat-degreesToRadians(45) ;
+        NSLog(@" +++++ tapfloat is %f",tapfloat);
         
-        CGFloat floatb =  degreesToRadians(315)-degreesToRadians(45) ;
+        CGFloat floata = tapfloat-degreesToRadians(30) ;
+        
+        CGFloat floatb =  degreesToRadians(330)-degreesToRadians(30) ;
         
         
         
@@ -387,10 +392,43 @@ static const CGFloat kAnimationTime = 0.5;
         }
         [self chooseWithPresent:presentFloat];
         NSLog(@"recognizer.state is %ld",(long)recognizer.state);
+        
         // 手指松开则回调数据
         if (recognizer.state == UIGestureRecognizerStateEnded) {
             if (self.didTouchBlock) {
-                self.didTouchBlock([choose integerValue]+kStartValue);
+                self.didTouchBlock(chooseFloat);
+            }
+        }
+    }else{
+        
+        if (tapfloat<=degreesToRadians(30) && self.isClose == NO) {
+             //  温度最小值为 1
+            CGFloat chooseFloat = 1;
+            [self setTemperInter:chooseFloat + kStartValue];
+            
+            //  最小值为占比 0.1
+            [self chooseWithPresent:0.1];
+
+            // 手指松开则回调数据
+            if (recognizer.state == UIGestureRecognizerStateEnded) {
+                if (self.didTouchBlock) {
+                    self.didTouchBlock(chooseFloat);
+                }
+            }
+        }
+        if (tapfloat>=degreesToRadians(330) && self.isClose == NO) {
+             //  温度最大值为 1
+            CGFloat chooseFloat = 10;
+            [self setTemperInter:chooseFloat + kStartValue];
+            
+            //  最大值为占比 1
+            [self chooseWithPresent:1];
+           
+            // 手指松开则回调数据
+            if (recognizer.state == UIGestureRecognizerStateEnded) {
+                if (self.didTouchBlock) {
+                    self.didTouchBlock(chooseFloat);
+                }
             }
         }
     }
@@ -440,6 +478,7 @@ static const CGFloat kAnimationTime = 0.5;
                                                Line2Start:CGPointMake(CGRectGetWidth(self.bounds) / 2,CGRectGetHeight(self.bounds) / 2)
                      
                                                  Line2End:point];
+    
     if (CGRectContainsPoint(CGRectMake(0, 0, CGRectGetWidth(self.frame) / 2, CGRectGetHeight(self.frame)), point)) {
         
         //以上段为起点

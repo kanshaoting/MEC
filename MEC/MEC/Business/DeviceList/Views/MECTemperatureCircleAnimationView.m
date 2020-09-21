@@ -50,7 +50,7 @@
     
     backview.layer.cornerRadius = (self.width-kWidth6(80))/2 ;
     
-    [self addSubview:backview];
+//    [self addSubview:backview];
    
 }
 

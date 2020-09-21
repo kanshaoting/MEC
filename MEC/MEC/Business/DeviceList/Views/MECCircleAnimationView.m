@@ -259,14 +259,14 @@ static const CGFloat kAnimationTime = 0.5;
         
         
         [self createAnimationWithStartAngle:degreesToRadians(self.stareAngle)
-                                   endAngle:degreesToRadians(self.stareAngle + 270 * percent / 100)];
+                                   endAngle:degreesToRadians(self.stareAngle + 300 * percent / 100)];
     }else{
         [self createAnimationWithStartAngle:self.oldEndAngle
-                                   endAngle:degreesToRadians(self.stareAngle + 270 * percent / 100)];
+                                   endAngle:degreesToRadians(self.stareAngle + 300 * percent / 100)];
         
     }
     
-    self.oldEndAngle = degreesToRadians(self.stareAngle + 270 * percent / 100) ;
+    self.oldEndAngle = degreesToRadians(self.stareAngle + 300 * percent / 100) ;
     
 }
 

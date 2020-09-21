@@ -182,9 +182,9 @@
     }else{
         row = self.positionType - 2;
         // 不显示底线右边模块及左边文案
-        self.bottomRightIconImageView.image = [UIImage imageNamed:@""];
+        self.bottomRightIconImageView.image = [UIImage imageNamed:@"none"];
         self.bottomRightTipsLabel.text = @"";
-        [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"none"] forState:UIControlStateNormal];
         self.bottomLeftTipsLabel.text = @"";
     }
     [self updateTopIconImageView:self.positionType];
@@ -231,7 +231,7 @@
           rightBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral2.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
           [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:rightBluIconStr] forState:UIControlStateNormal];
     }else{
-        [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@""] forState:UIControlStateNormal];
+        [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@"none"] forState:UIControlStateNormal];
     }
 
 }
@@ -585,8 +585,8 @@
             // top、 bottom、heatingpad
             weakSelf.bottomLeftTipsLabel.text = @"";
             weakSelf.bottomRightTipsLabel.text = @"";
-            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@""];
-            [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@"none"];
+            [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"none"] forState:UIControlStateNormal];
             if (weakSelf.isTryConnect) {
                 if (CBPeripheralStateConnected == weakSelf.discoveredPeripheral.state ) {
                     // 链接成功
@@ -606,8 +606,8 @@
         }else{
             weakSelf.bottomLeftTipsLabel.text = @"";
             weakSelf.bottomRightTipsLabel.text = @"";
-            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@""];
-            [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+            weakSelf.bottomRightIconImageView.image = [UIImage imageNamed:@"none"];
+            [weakSelf.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"none"] forState:UIControlStateNormal];
         }
         [weakSelf startScan];
         [MBProgressHUD showError:@"Device Connection failed" toView:weakSelf.view];
@@ -1092,8 +1092,8 @@
     
     
     self.bottomLeftIconImageView.image = [UIImage imageNamed:[self handleElectricValueWithElectricValue:electricValue]];
-    self.bottomRightIconImageView.image = [UIImage imageNamed:@""];
-    [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@""] forState:UIControlStateNormal];
+    self.bottomRightIconImageView.image = [UIImage imageNamed:@"none"];
+    [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@"none"] forState:UIControlStateNormal];
     if ([startFlag isEqualToString:@"cc"] && [endFlag isEqualToString:@"66"]) {
         NSString *receiveFlagStr = [value substringWithRange:NSMakeRange(2, 2)];
         NSString *receiveTemperature = [value substringWithRange:NSMakeRange(4, 2)];

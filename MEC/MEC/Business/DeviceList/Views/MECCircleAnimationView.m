@@ -15,7 +15,7 @@
 #define kCount 10
 #define kStartValue 0
 
-static const CGFloat kAnimationTime = 0.5;
+static const CGFloat kAnimationTime = 0.2;
 
 @interface MECCircleAnimationView ()
 

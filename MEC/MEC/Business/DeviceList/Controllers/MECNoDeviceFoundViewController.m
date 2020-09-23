@@ -93,6 +93,18 @@
         }
     };
     
+    
+    NSString *tempStr = @"1. Connected battery : Please ensure the device is connected to the battery.\n\n2. Turn on Bluetooth : Be sure the Bluetooth function on your phone is turned ON.\n\n3. Please Try Again below to try pairing the device with your smartphone again.";
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:tempStr attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size: 14],NSForegroundColorAttributeName:kColorHex(0x3D3A39)}];
+    [string addAttributes:@{NSForegroundColorAttributeName : kColorHex(0x000000),NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size: 16]} range:[tempStr rangeOfString:@"1. Connected battery :"]];
+    
+    [string addAttributes:@{NSForegroundColorAttributeName : kColorHex(0x000000),NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size: 16]} range:[tempStr rangeOfString:@"2. Turn on Bluetooth :"]];
+
+    [string addAttributes:@{NSForegroundColorAttributeName : kColorHex(0x000000),NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size: 16]} range:[tempStr rangeOfString:@"Try Again"]];
+    [string addAttributes:@{NSForegroundColorAttributeName : kColorHex(0x000000),NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size: 16]} range:[tempStr rangeOfString:@"3."]];
+    
+    self.middleTipsLabel.attributedText = string;
+    
 }
 
 #pragma mark -
@@ -129,15 +141,6 @@
         _middleTipsLabel = [[UILabel alloc] init];
         _middleTipsLabel.font = MEC_Helvetica_Regular_Font(17);
         _middleTipsLabel.numberOfLines = 0;
-        NSString *tempStr = @"1. Connected battery : Please ensure the device is connected to the battery.\n\n2. Turn on Bluetooth : Be sure the Bluetooth function on your phone is turned ON.\n\n3. Please Try Again below to try pairing the device with your smartphone again.";
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:tempStr attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size: 14],NSForegroundColorAttributeName: [UIColor colorWithRed:61/255.0 green:58/255.0 blue:57/255.0 alpha:1.0]}];
-        [string addAttributes:@{NSForegroundColorAttributeName : kColorHex(0x000000),NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size: 22]} range:[tempStr rangeOfString:@"Connected battery :"]];
-        
-        [string addAttributes:@{NSForegroundColorAttributeName : kColorHex(0x000000),NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size: 22]} range:[tempStr rangeOfString:@"Turn on Bluetooth :"]];
-
-        [string addAttributes:@{NSForegroundColorAttributeName : kColorHex(0x000000),NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size: 22]} range:[tempStr rangeOfString:@"Try Again"]];
-
-        _middleTipsLabel.attributedText = string;
     }
     return _middleTipsLabel;
 }

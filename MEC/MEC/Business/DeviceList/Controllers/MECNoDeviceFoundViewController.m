@@ -117,7 +117,7 @@
     if (!_tipsLabel) {
         _tipsLabel = [[UILabel alloc] init];
         _tipsLabel.font = MEC_Helvetica_Regular_Font(18);
-        _tipsLabel.text = @"Please check with:";
+        _tipsLabel.text = @"Please check the followings:";
         _tipsLabel.textAlignment = NSTextAlignmentLeft;
         _tipsLabel.textColor = kColorHex(0x3D3A39);
     }

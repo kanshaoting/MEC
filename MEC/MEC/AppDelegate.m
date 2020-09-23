@@ -60,6 +60,7 @@
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
     [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
+    [[UINavigationBar appearance] setBarTintColor:kColorHex(0xDCDCDC)];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName:kFont(14)} forState:UIControlStateNormal];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName:kFont(14)} forState:UIControlStateHighlighted];
     [[UITabBar appearance] setTranslucent:NO];

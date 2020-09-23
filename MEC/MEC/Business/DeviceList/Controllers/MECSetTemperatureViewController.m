@@ -1303,7 +1303,7 @@
 - (UIImageView *)topIconImageView{
     if (!_topIconImageView) {
         _topIconImageView = [[UIImageView alloc] init];
-        _topIconImageView.image = [UIImage imageNamed:@"device_list_heatingpad_icon"];
+        _topIconImageView.image = [UIImage imageNamed:@"none"];
     }
     return _topIconImageView;
 }

@@ -121,7 +121,7 @@ _Pragma("clang diagnostic pop") \
 //字体
 #pragma mark - font
 
-#define MEC_Helvetica_Bold_Font(value) [UIFont fontWithName:@"Helvetica Bold" size:value]
+#define MEC_Helvetica_Bold_Font(value) [UIFont fontWithName:@"Helvetica-Bold" size:value]
 #define MEC_Helvetica_Regular_Font(value) [UIFont fontWithName:@"Helvetica Regular" size:value]
 
 /// 部位类型

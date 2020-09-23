@@ -359,6 +359,10 @@ static const CGFloat kAnimationTime = 0.2;
 
 - (void)handlePanGesture:(UIGestureRecognizer *)recognizer{
     
+    //如果开关是关闭则直接返回
+    if (self.isClose) {
+        return;
+    }
     CGPoint point = [recognizer locationInView:self];
     
     CGFloat tapfloat = [self angleFromStartToPoint:point];

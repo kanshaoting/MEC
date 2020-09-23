@@ -787,8 +787,8 @@
 			baseConfigurationReference = BCDE00B2B163A0F4068DE7D1 /* Pods-MEC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = C7HBXG9Y85;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -802,7 +802,7 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MATSUM.MEC;
 				PRODUCT_NAME = "Venture Heat";
-				PROVISIONING_PROFILE_SPECIFIER = AdHocProvisioningProfile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -812,8 +812,8 @@
 			baseConfigurationReference = 8BCEA4B1ED64B115BA9D1451 /* Pods-MEC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = C7HBXG9Y85;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -827,7 +827,7 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MATSUM.MEC;
 				PRODUCT_NAME = "Venture Heat";
-				PROVISIONING_PROFILE_SPECIFIER = AdHocProvisioningProfile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

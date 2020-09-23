@@ -148,7 +148,7 @@
         _bottmoTipsLabel.font = MEC_Helvetica_Regular_Font(17);
         _bottmoTipsLabel.text = @"or contect with customer service";
         _bottmoTipsLabel.textAlignment = NSTextAlignmentCenter;
-        _bottmoTipsLabel.textColor = kColorHex(0x221815);
+        _bottmoTipsLabel.textColor = kColorHex(0x004686);
     }
     return _bottmoTipsLabel;
 }

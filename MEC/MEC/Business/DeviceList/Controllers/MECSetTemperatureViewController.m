@@ -837,7 +837,7 @@
             [peripheral discoverCharacteristics:nil forService:service];
         }
     }
-    NSLog(@"此时链接的peripheral：%@",peripheral);
+//    NSLog(@"此时链接的peripheral：%@",peripheral);
     
 }
 
@@ -908,14 +908,14 @@
 #pragma mark - 数据写入成功回调
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    NSLog(@"写入成功");
+//    NSLog(@"写入成功");
 }
 #pragma mark - 特征值被更新后
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     
     if (error) {
-        NSLog(@"更新通知状态时发生错误，错误信息：%@",error.localizedDescription);
+//        NSLog(@"更新通知状态时发生错误，错误信息：%@",error.localizedDescription);
     }
      
     //给特征值设置新的值
@@ -923,7 +923,7 @@
     if ([characteristic.UUID isEqual:characteristicUUID]) {
         if (characteristic.isNotifying) {
             if (characteristic.properties == CBCharacteristicPropertyNotify) {
-                NSLog(@"已订阅特征通知.");
+//                NSLog(@"已订阅特征通知.");
                 return;
             }else if (characteristic.properties == CBCharacteristicPropertyRead){
 
@@ -932,7 +932,7 @@
                 
             }
         }else{
-            NSLog(@"停止已停止.");
+//            NSLog(@"停止已停止.");
             //取消连接
             [self.centralManager cancelPeripheralConnection:peripheral];
         }
@@ -990,15 +990,15 @@
                         self.lastValueStr = value;
                         value = [self handelBlueCharacteristicValueFormat:value];
                         [self handleCharacteristicValue:value position:1];
-                        NSLog(@"characteristic is %@",characteristic);
-                        NSLog(@"self.characteristic is %@",self.characteristic);
-                        NSLog(@"发现特征值 is %@",value);
+//                        NSLog(@"characteristic is %@",characteristic);
+//                        NSLog(@"self.characteristic is %@",self.characteristic);
+//                        NSLog(@"发现特征值 is %@",value);
                     }
                 }
             }
             
         }else{
-            NSLog(@"未发现特征值");
+//            NSLog(@"未发现特征值");
         }
     }
 }

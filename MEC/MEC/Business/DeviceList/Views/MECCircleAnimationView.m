@@ -447,7 +447,7 @@ static const CGFloat kAnimationTime = 0.2;
     
     NSString * choose = [self decimalwithFormat:@"0" floatV:a] ;
     
-    NSLog(@"**  %@",choose);
+//    NSLog(@"**  %@",choose);
     if (self.isClose) {
         self.commentLabel.text = @"0";
     }else{

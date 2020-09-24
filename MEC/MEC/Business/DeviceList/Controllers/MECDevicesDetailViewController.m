@@ -416,7 +416,7 @@
 }
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
-    NSLog(@"连接外围设备失败！");
+//    NSLog(@"连接外围设备失败！");
     [MBProgressHUD showError:@"Device Connection  failed"];
     self.bluetoothState = BluetoothStateDisconnect;
     [self.tableView reloadData];
@@ -426,17 +426,17 @@
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
     if (error) {
-        NSLog(@"Error discovering services: %@", [error localizedDescription]);
+//        NSLog(@"Error discovering services: %@", [error localizedDescription]);
         return;
     }
     
-    NSLog(@"所有的servicesUUID%@",peripheral.services);
+//    NSLog(@"所有的servicesUUID%@",peripheral.services);
  
     //遍历所有service
     for (CBService *service in peripheral.services)
     {
         
-        NSLog(@"服务%@",service.UUID);
+//        NSLog(@"服务%@",service.UUID);
         
         //找到你需要的servicesuuid
         if ([service.UUID isEqual:[CBUUID UUIDWithString:kServiceUUID]])
@@ -445,7 +445,7 @@
             [peripheral discoverCharacteristics:nil forService:service];
         }
     }
-    NSLog(@"此时链接的peripheral：%@",peripheral);
+//    NSLog(@"此时链接的peripheral：%@",peripheral);
     
 }
 
@@ -455,15 +455,15 @@
     
     if (error)
     {
-        NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
+//        NSLog(@"Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
         
     }
     return;
-    NSLog(@"服务：%@",service.UUID);
+//    NSLog(@"服务：%@",service.UUID);
     // 特征
     for (CBCharacteristic *characteristic in service.characteristics)
     {
-        NSLog(@"%@",characteristic.UUID);
+//        NSLog(@"%@",characteristic.UUID);
         //发现特征
         //注意：uuid 分为可读，可写，区别对待
         // 读
@@ -490,21 +490,21 @@
 #pragma mark - 数据写入成功回调
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    NSLog(@"写入成功");
+//    NSLog(@"写入成功");
     
     [self.discoveredPeripheral readValueForCharacteristic:characteristic];
     
     NSString *value = characteristic.value.description;
-    NSLog(@"读取到特征值：%@",value);
+//    NSLog(@"读取到特征值：%@",value);
                 
     
 }
 #pragma mark - 特征值被更新后
 #pragma mark --
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    NSLog(@"收到特征更新通知...");
+//    NSLog(@"收到特征更新通知...");
     if (error) {
-        NSLog(@"更新通知状态时发生错误，错误信息：%@",error.localizedDescription);
+//        NSLog(@"更新通知状态时发生错误，错误信息：%@",error.localizedDescription);
     }
      
     //给特征值设置新的值
@@ -512,7 +512,7 @@
     if ([characteristic.UUID isEqual:characteristicUUID]) {
         if (characteristic.isNotifying) {
             if (characteristic.properties == CBCharacteristicPropertyNotify) {
-                NSLog(@"已订阅特征通知.");
+//                NSLog(@"已订阅特征通知.");
                 return;
             }else if (characteristic.properties == CBCharacteristicPropertyRead){
                  //从外围设备读取新值,调用此方法会触发代理方法：-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
@@ -521,7 +521,7 @@
                 
             }
         }else{
-            NSLog(@"停止已停止.");
+//            NSLog(@"停止已停止.");
              
             //取消连接
 //            [self.centralManager cancelPeripheralConnection:peripheral];
@@ -534,15 +534,15 @@
 //（调用readValueForCharacteristic:方法或者外围设备在订阅后更新特征值都会调用此代理方法）
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     if (error) {
-        NSLog(@"更新特征值时发生错误，错误信息：%@",error.localizedDescription);
+//        NSLog(@"更新特征值时发生错误，错误信息：%@",error.localizedDescription);
         return;
     }
     if (characteristic.value) {
 
          NSString *value = characteristic.value.description;
-        NSLog(@"读取到特征值：%@",value);
+//        NSLog(@"读取到特征值：%@",value);
     }else{
-        NSLog(@"未发现特征值.");
+//        NSLog(@"未发现特征值.");
     }
 }
 #pragma mark - 写入数据

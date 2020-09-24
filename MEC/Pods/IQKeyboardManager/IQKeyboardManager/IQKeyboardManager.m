@@ -600,7 +600,7 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
     //  Getting KeyWindow object.
     UIWindow *keyWindow = [self keyWindow];
     
-    //  We are unable to get textField object while keyboard showing on UIWebView's textField.  (Bug ID: #11)
+    
     if (_hasPendingAdjustRequest == NO ||
         textFieldView == nil ||
         rootController == nil ||
@@ -1315,9 +1315,6 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
     CFTimeInterval startTime = CACurrentMediaTime();
     [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)] indentation:1];
 
-    //Commented due to #56. Added all the conditions below to handle UIWebView's textFields.    (Bug ID: #56)
-    //  We are unable to get textField object while keyboard showing on UIWebView's textField.  (Bug ID: #11)
-//    if (_textFieldView == nil)   return;
 
     //Restoring the contentOffset of the lastScrollView
     __strong typeof(UIScrollView) *strongLastScrollView = _lastScrollView;

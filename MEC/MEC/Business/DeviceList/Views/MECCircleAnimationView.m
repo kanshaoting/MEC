@@ -55,7 +55,7 @@ static const CGFloat kAnimationTime = 0.2;
     if (self) {
         
         self.bgImageView.image = [UIImage imageNamed:@"set_temperature_bg"];
-        
+
         self.circelRadius = self.frame.size.width - kWidth6(10);
         self.lineWidth = kWidth6(25);
         self.stareAngle = -240.f;
@@ -367,6 +367,9 @@ static const CGFloat kAnimationTime = 0.2;
     
     CGFloat tapfloat = [self angleFromStartToPoint:point];
     
+    if (tapfloat == 0) {
+        return;
+    }
     // 选择温度值 默认为10
     CGFloat chooseTemperInterFloat = 10;
     // 滑块占比 默认为1
@@ -425,6 +428,7 @@ static const CGFloat kAnimationTime = 0.2;
     
     // 手指松开则回调数据
     if (recognizer.state == UIGestureRecognizerStateEnded) {
+//        NSLog(@"tapfloat is %f,point is %@,chooseTemperInterFloat is %f",tapfloat,NSStringFromCGPoint(point),chooseTemperInterFloat);
         if (self.didTouchBlock) {
             self.didTouchBlock(chooseTemperInterFloat);
         }
@@ -475,18 +479,20 @@ static const CGFloat kAnimationTime = 0.2;
                                                Line2Start:CGPointMake(CGRectGetWidth(self.bounds) / 2,CGRectGetHeight(self.bounds) / 2)
                      
                                                  Line2End:point];
-    
-    if (CGRectContainsPoint(CGRectMake(0, 0, CGRectGetWidth(self.frame) / 2, CGRectGetHeight(self.frame)), point)) {
-        
-        //以上段为起点
-        //angle = 2 * M_PI - angle;
-        
-        angle =  M_PI - angle;
+    CGFloat a = point.x - CGRectGetWidth(self.bounds) / 2;
+    CGFloat b = point.y - CGRectGetHeight(self.bounds) / 2;
+    CGFloat c = (sqrt(a * a + b * b));
+    // 触摸点在圆环范围内，给了 kWidth6(10) 浮动区域
+    if (CGRectContainsPoint(CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)), point) && c > (self.circelRadius - self.lineWidth - kWidth6(20)) / 2 && c < self.circelRadius/2 + kWidth6(10)){
+        if (point.x <= CGRectGetWidth(self.frame)/2) {
+            angle =  M_PI - angle;
+        }else{
+            angle =  M_PI + angle;
+        }
+         return angle;
     }else{
-        
-        angle =  M_PI + angle;
+        return 0;
     }
-    return angle;
 }
 
 //calculate angle between 2 lines

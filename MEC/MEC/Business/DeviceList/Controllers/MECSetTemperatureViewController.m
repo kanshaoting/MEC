@@ -1069,7 +1069,12 @@
         BOOL receiveFlag2 = [receiveFlagStr2 isEqualToString:@"01"] ? YES:NO;
         NSInteger receiveTemperatureInt2 = [self handleReceiveTemperature:receiveTemperature2];
         
-        if (self.isFirst) {
+        // 0X01 是按键控制模式，0X02 是 APP 控制模式;
+        NSString *typeStr1 = [value1 substringWithRange:NSMakeRange(10, 2)];
+        NSString *typeStr2 = [value2 substringWithRange:NSMakeRange(10, 2)];
+        // 默认是App 模式
+        
+        if (self.isFirst ) {
             self.isFirst = NO;
             self.sendFlag = receiveFlag1 | receiveFlag2;
             self.setTemperatureSwitch.on = self.sendFlag == YES;
@@ -1107,7 +1112,10 @@
         NSString *receiveTemperature = [value substringWithRange:NSMakeRange(4, 2)];
         self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
         self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
-        if (self.isFirst) {
+        // 0X01 是按键控制模式，0X02 是 APP 控制模式;
+        NSString *typeStr = [value substringWithRange:NSMakeRange(10, 2)];
+        // 默认是App 模式
+        if (self.isFirst || [typeStr isEqualToString:@"01"]) {
             self.isFirst = NO;
             self.sendFlag = self.receiveFlag;
             self.setTemperatureSwitch.on = self.receiveFlag == YES;
@@ -1190,7 +1198,7 @@
 //    unsigned char send[8] = {0xAA, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00,0x055};
 //    NSData *sendData = [NSData dataWithBytes:send length:8];
 //    self.isFirst = YES;
-    self.lastValueStr = @"";
+//    self.lastValueStr = @"";
     [self.discoveredPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
         if (self.writeCharacteristic2 && self.discoveredPeripheral2) {

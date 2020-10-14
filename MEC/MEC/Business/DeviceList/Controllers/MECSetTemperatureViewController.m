@@ -1070,8 +1070,8 @@
         NSInteger receiveTemperatureInt2 = [self handleReceiveTemperature:receiveTemperature2];
         
         // 0X01 是按键控制模式，0X02 是 APP 控制模式;
-        NSString *typeStr1 = [value1 substringWithRange:NSMakeRange(10, 2)];
-        NSString *typeStr2 = [value2 substringWithRange:NSMakeRange(10, 2)];
+//        NSString *typeStr1 = [value1 substringWithRange:NSMakeRange(10, 2)];
+//        NSString *typeStr2 = [value2 substringWithRange:NSMakeRange(10, 2)];
         // 默认是App 模式
         
         if (self.isFirst ) {
@@ -1113,7 +1113,11 @@
         self.receiveFlag  = [receiveFlagStr isEqualToString:@"01"] ? YES:NO;
         self.receiveTemperature = [self handleReceiveTemperature:receiveTemperature];
         // 0X01 是按键控制模式，0X02 是 APP 控制模式;
-        NSString *typeStr = [value substringWithRange:NSMakeRange(10, 2)];
+        NSString *typeStr;
+        if (value.length >= 12) {
+             typeStr = [value substringWithRange:NSMakeRange(10, 2)];
+        }
+       
         // 默认是App 模式
         if (self.isFirst || [typeStr isEqualToString:@"01"]) {
             self.isFirst = NO;
@@ -1151,8 +1155,8 @@
 #pragma mark - 处理电量
 #pragma mark -- handleElectricValueWithElectricValue
 - (NSString *)handleElectricValueWithElectricValue:(NSString *)electricValue {
-    // 默认为4格电量
-    NSInteger tempInt = 4;
+    // 默认不显示电量
+    NSInteger tempInt = 0;
     if ([electricValue isEqualToString:@"00"]) {
         // 不显示电池图标
         tempInt = 0;

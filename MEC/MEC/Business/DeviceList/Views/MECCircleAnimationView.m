@@ -425,13 +425,15 @@ static const CGFloat kAnimationTime = 0.2;
     [self setTemperInter:chooseTemperInterFloat + kStartValue];
     // 设置滑块
     [self chooseWithPresent:presentFloat];
-    
+    NSLog(@"chooseTemperInterFloat is %f, is %ld",chooseTemperInterFloat,(long)recognizer.state);
     // 手指松开则回调数据
     if (recognizer.state == UIGestureRecognizerStateEnded) {
 //        NSLog(@"tapfloat is %f,point is %@,chooseTemperInterFloat is %f",tapfloat,NSStringFromCGPoint(point),chooseTemperInterFloat);
-        if (self.didTouchBlock) {
-            self.didTouchBlock(chooseTemperInterFloat);
-        }
+        
+    }
+    
+    if (self.didTouchBlock) {
+        self.didTouchBlock(chooseTemperInterFloat);
     }
     
 }

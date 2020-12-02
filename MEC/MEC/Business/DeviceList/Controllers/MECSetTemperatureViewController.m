@@ -156,6 +156,7 @@
 @property (nonatomic, assign) BOOL isPickerConnect;
 
 
+
 /// 是否尝试链接
 @property (nonatomic, assign) BOOL isTryConnect;
 
@@ -165,6 +166,12 @@
 
 /// 上个设备部位类型
 @property (nonatomic, assign) PositionType lastPositionType;
+
+
+/// 是否正在链接1
+@property (nonatomic, assign) BOOL isShowLostMessage1;
+/// 是否正在链接1
+@property (nonatomic, assign) BOOL isShowLostMessage2;
 
 
 @end
@@ -226,13 +233,52 @@
     NSString *leftBluIconStr;
     leftBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
     [self.bottomLeftBluetoothButton setImage: [UIImage imageNamed:leftBluIconStr] forState:UIControlStateNormal];
+    
+    if (CBPeripheralStateConnected == self.discoveredPeripheral.state) {
+        
+    }else{
+        if (CBPeripheralStateDisconnected == self.discoveredPeripheral.state && self.discoveredPeripheral) {
+            if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
+                if (self.isShowLostMessage1) {
+                    
+                }else{
+                    self.isShowLostMessage1 = YES;
+                    [MBProgressHUD showError:@"Left:No device found"];
+                }
+                 
+            }else{
+                if (self.isShowLostMessage1) {
+                    
+                }else{
+                    self.isShowLostMessage1 = YES;
+                    [MBProgressHUD showError:@"No device found"];
+                }
+                 
+            }
+        }
+    }
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
         NSString *rightBluIconStr;
           rightBluIconStr = CBPeripheralStateConnected == self.discoveredPeripheral2.state ? @"bluetooth_icon_selected":@"bluetooth_icon_normal";
           [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:rightBluIconStr] forState:UIControlStateNormal];
+        
+        if (CBPeripheralStateDisconnected == self.discoveredPeripheral2.state && self.discoveredPeripheral2) {
+
+            if (self.isShowLostMessage2) {
+                
+            }else{
+                self.isShowLostMessage2 = YES;
+                [MBProgressHUD showError:@"Right:No device found"];
+            }
+        }else{
+            
+        }
     }else{
         [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@"none"] forState:UIControlStateNormal];
     }
+    
+    
+    
 
 }
 #pragma mark -  检查蓝牙状态
@@ -556,7 +602,8 @@
     self.isPickerConnect = YES;
     self.isTryConnect = NO;
    
-    
+    self.isShowLostMessage1 = NO;
+    self.isShowLostMessage2 = NO;
     // 取消之前的链接
     if (self.discoveredPeripheral) {
         [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
@@ -815,7 +862,7 @@
     }else{
         [MBProgressHUD hideHUDForView:self.view];
     }
-    
+   
     [MBProgressHUD showError:@"Device Connection failed"];
     
     // 链接失败
@@ -1244,9 +1291,15 @@
     if (self.discoveredPeripheral) {
         [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
     }
+    if (self.discoveredPeripheral2) {
+         [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
+    }
     self.centralManager = nil;
     self.discoveredPeripheral = nil;
     self.characteristic = nil;
+    self.discoveredPeripheral2 = nil;
+    self.characteristic2 = nil;
+   
 }
 
 #pragma mark -

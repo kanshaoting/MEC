@@ -621,62 +621,126 @@
 #pragma mark -  添加设备
 #pragma mark -- addDeviceRequest
 - (void)addDeviceRequestWithDeviceBluname:(NSString *)dbtname deviceMacname:(NSString *)dmac type:(NSString *)type{
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self.view];
-    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
-    [parm setObject:dbtname ? dbtname:@"" forKey:@"dbtname"];
-    [parm setObject:dmac?dmac:@"" forKey:@"dmac"];
-    [parm setObject:type?type:@"" forKey:@"type"];
-    kWeakSelf
-    [QCNetWorkManager postRequestWithUrlPath:QCUrlAddDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+    
+    if (AFNetworkReachabilityStatusReachableViaWWAN == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus] || AFNetworkReachabilityStatusReachableViaWiFi == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus]) {
         
-        if(result.error) {
-            [hud showText:result.error.localizedDescription];
-            // 添加失败移到下面列表
-            weakSelf.currentDeviceDetailInfoModel.positionTpye = @"0";
-            weakSelf.currentDeviceDetailInfoModel.isLoading = NO;
-            [weakSelf.matchBluDataMuArr removeObject:weakSelf.currentDeviceDetailInfoModel];
-            [weakSelf.searchBluDataMuArr addObject:weakSelf.currentDeviceDetailInfoModel];
-            [weakSelf.tableView reloadData];
-        }else {
-            [hud showText:@"Add Success"];
-            // 左、右腿部位需同时绑定才可以设置温度
-            MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
-            model.dmac = dmac;
-            model.positionTpye = [NSString stringWithFormat:@"%ld",(long)weakSelf.positionType];
-            model.dname = dbtname;
-            if (PositionTypeFootLeft == weakSelf.positionType) {
-                weakSelf.bindDeviceListInfoModel.leftDeviceModel = model;
-            }else if (PositionTypeFootRight == weakSelf.positionType){
-                weakSelf.bindDeviceListInfoModel.rightDeviceModel = model;
-            }else if (PositionTypeFootTop == weakSelf.positionType){
-                weakSelf.bindDeviceListInfoModel.topDeviceModel = model;
-            }else if (PositionTypeFootBottom == weakSelf.positionType){
-                weakSelf.bindDeviceListInfoModel.bottomDeviceModel = model;
-            }else if (PositionTypeFootHeatingPad == weakSelf.positionType){
-                weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel = model;
-            }else{
-                
-            }
-            if (PositionTypeFootLeft == weakSelf.positionType) {
-                if (weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
+        MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self.view];
+        NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+        [parm setValue:dbtname.length > 0 ? dbtname:@"" forKey:@"dbtname"];
+        [parm setValue:dmac.length > 0 ? dmac:@"" forKey:@"dmac"];
+        [parm setValue:type.length > 0 ? type:@"" forKey:@"type"];
+        kWeakSelf
+        [QCNetWorkManager postRequestWithUrlPath:QCUrlAddDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+            
+            if(result.error) {
+                [hud showText:result.error.localizedDescription];
+                // 添加失败移到下面列表
+                weakSelf.currentDeviceDetailInfoModel.positionTpye = @"0";
+                weakSelf.currentDeviceDetailInfoModel.isLoading = NO;
+                [weakSelf.matchBluDataMuArr removeObject:weakSelf.currentDeviceDetailInfoModel];
+                [weakSelf.searchBluDataMuArr addObject:weakSelf.currentDeviceDetailInfoModel];
+                [weakSelf.tableView reloadData];
+            }else {
+                [hud showText:@"Add Success"];
+                // 左、右腿部位需同时绑定才可以设置温度
+                MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
+                model.dmac = dmac;
+                model.positionTpye = [NSString stringWithFormat:@"%ld",(long)weakSelf.positionType];
+                model.dname = dbtname;
+                if (PositionTypeFootLeft == weakSelf.positionType) {
+                    weakSelf.bindDeviceListInfoModel.leftDeviceModel = model;
+                }else if (PositionTypeFootRight == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.rightDeviceModel = model;
+                }else if (PositionTypeFootTop == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.topDeviceModel = model;
+                }else if (PositionTypeFootBottom == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.bottomDeviceModel = model;
+                }else if (PositionTypeFootHeatingPad == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel = model;
+                }else{
+                    
+                }
+                if (PositionTypeFootLeft == weakSelf.positionType) {
+                    if (weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
+                        //跳转到温度设置页面
+                        [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
+                    }else{
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }
+                }else if (PositionTypeFootRight == weakSelf.positionType){
+                    if (weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
+                        //跳转到温度设置页面
+                        [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
+                    }else{
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }
+                }else{
                     //跳转到温度设置页面
                     [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
-                }else{
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
                 }
-            }else if (PositionTypeFootRight == weakSelf.positionType){
-                if (weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
-                    //跳转到温度设置页面
-                    [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
-                }else{
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                }
-            }else{
-                //跳转到温度设置页面
-                [weakSelf pushMECSetTemperatureViewControllerWithMac:dmac];
             }
+        }];
+        
+    }else{
+    
+        // 左、右腿部位需同时绑定才可以设置温度
+        MECBindDeviceDetailInfoModel *model = [[MECBindDeviceDetailInfoModel alloc] init];
+        model.dmac = dmac;
+        model.positionTpye = [NSString stringWithFormat:@"%ld",(long)self.positionType];
+        model.dname = dbtname;
+        
+        NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+        
+        if (PositionTypeFootLeft == self.positionType) {
+            self.bindDeviceListInfoModel.leftDeviceModel = model;
+            [userDefaults setValue:dbtname forKey:kLeftMecName];
+            [userDefaults setValue:dmac forKey:kLeftMecID];
+            [userDefaults synchronize];
+            
+        }else if (PositionTypeFootRight == self.positionType){
+            self.bindDeviceListInfoModel.rightDeviceModel = model;
+            [userDefaults setValue:dbtname forKey:kRightMecName];
+            [userDefaults setValue:dmac forKey:kRightMecID];
+            [userDefaults synchronize];
+        }else if (PositionTypeFootTop == self.positionType){
+            self.bindDeviceListInfoModel.topDeviceModel = model;
+            [userDefaults setValue:dbtname forKey:kTopMecName];
+            [userDefaults setValue:dmac forKey:kTopMecID];
+            [userDefaults synchronize];
+        }else if (PositionTypeFootBottom == self.positionType){
+            self.bindDeviceListInfoModel.bottomDeviceModel = model;
+            [userDefaults setValue:dbtname forKey:kBottomMecName];
+            [userDefaults setValue:dmac forKey:kBottomMecID];
+            [userDefaults synchronize];
+        }else if (PositionTypeFootHeatingPad == self.positionType){
+            self.bindDeviceListInfoModel.heatingPadDeviceModel = model;
+            [userDefaults setValue:dbtname forKey:kPadMecName];
+            [userDefaults setValue:dmac forKey:kPadMecID];
+            [userDefaults synchronize];
+        }else{
+            
         }
-    }];
+        if (PositionTypeFootLeft == self.positionType) {
+            if (self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
+                //跳转到温度设置页面
+                [self pushMECSetTemperatureViewControllerWithMac:dmac];
+            }else{
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }else if (PositionTypeFootRight == self.positionType){
+            if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0) {
+                //跳转到温度设置页面
+                [self pushMECSetTemperatureViewControllerWithMac:dmac];
+            }else{
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }else{
+            //跳转到温度设置页面
+            [self pushMECSetTemperatureViewControllerWithMac:dmac];
+        }
+        
+    }
+
 }
 #pragma mark - 跳转到温度设置页面
 #pragma mark -- pushMECSetTemperatureViewControllerWithMac

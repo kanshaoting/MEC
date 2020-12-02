@@ -115,7 +115,7 @@
                   
             if (101 == btn.tag) {
                 //  101代表减号 102 代表加号
-                [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac];
+                [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac index:PositionTypeFootLeft];
             }else{
                 // push搜索蓝牙页面
                 [weakSelf pushMECDevicesDetailViewControllerWithType:PositionTypeFootLeft];
@@ -125,7 +125,7 @@
         cell.rightAddBtnTapBlock = ^(UIButton * _Nonnull btn) {
             if (101 == btn.tag) {
                 //  101代表减号 102 代表加号
-                [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac];
+                [weakSelf deleteDeviceRequestWithDeviceMac:weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac index:PositionTypeFootRight];
             }else{
                 // push搜索蓝牙页面
                 [weakSelf pushMECDevicesDetailViewControllerWithType:PositionTypeFootRight];
@@ -163,21 +163,21 @@
             deviceNameStr = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
             dbtname = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
             mac = self.bindDeviceListInfoModel.topDeviceModel.dmac;
-            type = 3;
+            type = PositionTypeFootTop;
         }else if (2 == indexPath.row){
             iconStr = @"device_list_bottom_icon";
             textStr = @"Bottom";
             deviceNameStr = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
             dbtname = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
             mac = self.bindDeviceListInfoModel.bottomDeviceModel.dmac;
-            type = 4;
+            type = PositionTypeFootBottom;
         }else{
             iconStr = @"device_list_heatingpad_icon";
             textStr = @"Heating Pad";
             deviceNameStr = self.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname;
             dbtname = self.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname;
             mac = self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac;
-            type = 5;
+            type = PositionTypeFootHeatingPad;
         }
         cell.iconStr = iconStr;
         cell.textStr = textStr;
@@ -186,7 +186,7 @@
         cell.addBtnTapBlock = ^(UIButton * _Nonnull btn) {
             if (101 == btn.tag) {
                 //  101代表减号 102 代表加号
-                [weakSelf deleteDeviceRequestWithDeviceMac:mac];
+                [weakSelf deleteDeviceRequestWithDeviceMac:mac index:type];
             }else{
                 // push搜索蓝牙页面 左边、右边同时设置或者同时没有设置，则可以设置其它部位
                 if ((self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.did.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length == 0)) {
@@ -258,25 +258,79 @@
 
 #pragma 删除设备
 #pragma mark -- deleteDeviceRequestWithDeviceMac
-- (void)deleteDeviceRequestWithDeviceMac:(NSString *)deviceMac{
-    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self];
-    NSMutableDictionary *parm = [NSMutableDictionary dictionary];
-    [parm setObject:deviceMac.length > 0 ? deviceMac:@"" forKey:@"dmac"];
-    kWeakSelf
-    [QCNetWorkManager deleteRequestWithUrlPath:QCUrlDeleteDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
-    
-        if(result.error) {
-            [hud showText:result.error.localizedDescription];
-        }else {
-            [hud showText:@"Delete Success"];
-            if (weakSelf.reloadDataBlock) {
-                weakSelf.reloadDataBlock();
+- (void)deleteDeviceRequestWithDeviceMac:(NSString *)deviceMac index:(NSInteger)index {
+    if (AFNetworkReachabilityStatusReachableViaWWAN == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus] || AFNetworkReachabilityStatusReachableViaWiFi == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus]) {
+        
+        MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self];
+        NSMutableDictionary *parm = [NSMutableDictionary dictionary];
+        [parm setObject:deviceMac.length > 0 ? deviceMac:@"" forKey:@"dmac"];
+        kWeakSelf
+        [QCNetWorkManager deleteRequestWithUrlPath:QCUrlDeleteDevice parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
+        
+            if(result.error) {
+                [hud showText:result.error.localizedDescription];
+            }else {
+                [hud showText:@"Delete Success"];
+                [weakSelf updateDeviceInfoData:index];
+                if (weakSelf.reloadDataBlock) {
+                    weakSelf.reloadDataBlock();
+                }
             }
-        }
-    }];
+        }];
+    }else{
+       
+        [self updateDeviceInfoData:index];
+    }
+    
 }
 
-
+- (void)updateDeviceInfoData:(NSInteger)index{
+    NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+    switch (index) {
+        case PositionTypeFootLeft:
+        {
+            [userDefaults setValue:@"" forKey:kLeftMecName];
+            [userDefaults setValue:@"" forKey:kLeftMecID];
+            [userDefaults synchronize];
+        }
+            break;
+        case PositionTypeFootRight:
+        {
+            [userDefaults setValue:@"" forKey:kRightMecName];
+            [userDefaults setValue:@"" forKey:kRightMecID];
+            [userDefaults synchronize];
+        }
+            break;
+        case PositionTypeFootTop:
+        {
+            [userDefaults setValue:@"" forKey:kTopMecName];
+            [userDefaults setValue:@"" forKey:kTopMecID];
+            [userDefaults synchronize];
+        }
+            break;
+        case PositionTypeFootBottom:
+        {
+            [userDefaults setValue:@"" forKey:kBottomMecName];
+            [userDefaults setValue:@"" forKey:kBottomMecID];
+            [userDefaults synchronize];
+        }
+            break;
+        case PositionTypeFootHeatingPad:
+        {
+            [userDefaults setValue:@"" forKey:kPadMecName];
+            [userDefaults setValue:@"" forKey:kPadMecID];
+            [userDefaults synchronize];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    if (self.reloadDataBlock) {
+        self.reloadDataBlock();
+    }
+    
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

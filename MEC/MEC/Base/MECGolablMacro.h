@@ -158,6 +158,30 @@ typedef NS_ENUM(NSInteger, BluetoothCentralManagerState){
 // 上一次登录用户名
 #define kLastLoginName @"LastLoginName"
 
+// 左边 蓝牙名称
+#define kLeftMecName @"LeftMecName"
+// 左边 蓝牙名称
+#define kLeftMecID @"LeftMecID"
+// 右边 蓝牙名称
+#define kRightMecName @"RightMecName"
+// 右边 蓝牙名称
+#define kRightMecID @"RightMecID"
+
+// 上 蓝牙名称
+#define kTopMecName @"TopMecName"
+// 上 蓝牙名称
+#define kTopMecID @"TopMecID"
+// 下 蓝牙名称
+#define kBottomMecName @"BottomMecName"
+// 下 蓝牙名称
+#define kBottomMecID @"BottomMecID"
+// 腰 蓝牙名称
+#define kPadMecName @"PadMecName"
+// 腰 蓝牙名称
+#define kPadMecID @"PadMecID"
+
+
+
 
 //data
 #define QCErrorCode -1

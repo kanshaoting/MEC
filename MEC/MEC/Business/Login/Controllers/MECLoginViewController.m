@@ -37,6 +37,7 @@
 /// 底部图片
 @property (nonatomic,strong) UIImageView *bottomImageView;
 
+
 @end
 
 @implementation MECLoginViewController
@@ -50,7 +51,6 @@
         self.userNameTf.text = [defaults objectForKey:kLastLoginName];
     }
 }
-
 
 #pragma mark -
 #pragma mark -- configUI
@@ -128,17 +128,19 @@
 //    self.passwordTf.text = nil;
     [self.view endEditing:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
 }
 
 - (void)startLogin {
+
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self.view];
     NSMutableDictionary *parm = [NSMutableDictionary dictionary];
     
-    [parm setObject:self.userNameTf.text forKey:@"memail"];
-    [parm setObject:@"" forKey:@"mpassword"];
+    [parm setValue:self.userNameTf.text forKey:@"memail"];
+    [parm setValue:@"" forKey:@"mpassword"];
     
     [QCNetWorkManager getRequestWithUrlPath:QCUrlLogin parameters:parm finished:^(QCNetWorkResult * _Nonnull result) {
-
+        
         if(result.error) {
             [hud showText:result.error.localizedDescription];
         }else {
@@ -157,29 +159,30 @@
             delegate.window.rootViewController = nav;
         }
     }];
+    
+    
 }
 
 #pragma mark -
 #pragma mark -- signInBtnAction
 - (void)signInBtnAction:(UIButton *)button{
-//    self.userNameTf.text = @"1122@qq.com";
-//    self.passwordTf.text = @"43";
+    //    self.userNameTf.text = @"1122@qq.com";
+    //    self.passwordTf.text = @"43";
     [self.view endEditing:YES];
-    if (self.userNameTf.text.length > 0) {
-        
+  
+    if (AFNetworkReachabilityStatusReachableViaWWAN == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus] || AFNetworkReachabilityStatusReachableViaWiFi == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus]) {
+        if (self.userNameTf.text.length > 0) {
+            
+        }else{
+            [MBProgressHUD showError:@"Please enter correct username/Email"];
+            return;
+        }
+        [self startLogin];
     }else{
-        [MBProgressHUD showError:@"Please enter correct username/Email"];
-        return;
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECMineViewController alloc] init]];
+        delegate.window.rootViewController = nav;
     }
-//    if (self.passwordTf.text.length > 0) {
-//
-//    }else{
-//        [MBProgressHUD showError:@"Please enter correct password"];
-//        return;
-//    }
- 
-    [self startLogin];
-    
 }
 #pragma mark -
 #pragma mark -- registrationBtnAction

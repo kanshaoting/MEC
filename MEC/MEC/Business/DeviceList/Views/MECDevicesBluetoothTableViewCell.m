@@ -156,7 +156,7 @@
             break;
     }
     self.positionLabel.text = positionStr;
-    self.deviceNameLabel.text = _deviceDetailInfoModel.dmac ?  _deviceDetailInfoModel.dname : @"";
+    self.deviceNameLabel.text = _deviceDetailInfoModel.dbtname.length > 0 ?  _deviceDetailInfoModel.dbtname : @"";
     if (_deviceDetailInfoModel.isLoading) {
         self.loadImgView.image = [UIImage imageNamed:@"device_list_loading_icon"];
         [self rotateView:self.loadImgView];

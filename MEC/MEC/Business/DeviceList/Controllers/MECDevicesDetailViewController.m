@@ -96,7 +96,9 @@
     
     [self.view addSubview:self.tipsLabel];
     [self.view addSubview:self.tableView];
+    
     [self.view addSubview:self.bottomView];
+    self.bottomView.hidden = YES;
     [self.bottomView addSubview:self.bottomTipsLabel];
     [self.bottomView addSubview:self.tryBtn];
     

@@ -493,7 +493,7 @@
             
             [self connectDeviceWithPosition:PositionTypeFootLeft];
         }else{
-            [MBProgressHUD showError:@"No Device"];
+            [MBProgressHUD showError:@"No device found"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (1 == row){
@@ -501,7 +501,7 @@
             
              [self connectDeviceWithPosition:PositionTypeFootTop];
         }else{
-            [MBProgressHUD showError:@"No Device"];
+            [MBProgressHUD showError:@"No device found"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else if (2 == row){
@@ -509,7 +509,7 @@
              
              [self connectDeviceWithPosition:PositionTypeFootBottom];
         }else{
-            [MBProgressHUD showError:@"No Device"];
+            [MBProgressHUD showError:@"No device found"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }else{
@@ -517,7 +517,7 @@
              
              [self connectDeviceWithPosition:PositionTypeFootHeatingPad];
         }else{
-            [MBProgressHUD showError:@"No Device"];
+            [MBProgressHUD showError:@"No device found"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
     }
@@ -755,7 +755,7 @@
             
         }else{
             self.isShowConnectionError = YES;
-            [self pushNODeviceVC];
+//            [self pushNODeviceVC];
         }
     }
 }

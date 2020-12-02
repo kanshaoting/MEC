@@ -64,7 +64,7 @@
     return 4;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
+    if (indexPath.row == 2) {
         return kWidth6(80);
     }
     return kWidth6(40);
@@ -106,7 +106,7 @@
     return footerView;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (0 == indexPath.row) {
+    if (2 == indexPath.row) {
         MECDeviceListFootInfoTableViewCell *cell = [MECDeviceListFootInfoTableViewCell cellWithTableView:tableView];
         cell.leftDeviceNameStr = self.bindDeviceListInfoModel.leftDeviceModel.dbtname;
         cell.rightDeviceNameStr = self.bindDeviceListInfoModel.rightDeviceModel.dbtname;
@@ -157,14 +157,14 @@
         NSString *mac;
         NSInteger type;
         
-        if (1 == indexPath.row) {
+        if (0 == indexPath.row) {
             iconStr = @"device_list_top_icon";
             textStr = @"Top";
             deviceNameStr = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
             dbtname = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
             mac = self.bindDeviceListInfoModel.topDeviceModel.dmac;
             type = PositionTypeFootTop;
-        }else if (2 == indexPath.row){
+        }else if (1 == indexPath.row){
             iconStr = @"device_list_bottom_icon";
             textStr = @"Bottom";
             deviceNameStr = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
@@ -189,7 +189,7 @@
                 [weakSelf deleteDeviceRequestWithDeviceMac:mac index:type];
             }else{
                 // push搜索蓝牙页面 左边、右边同时设置或者同时没有设置，则可以设置其它部位
-                if ((self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.did.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length == 0)) {
+                if ((self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length == 0)) {
                     [weakSelf pushMECDevicesDetailViewControllerWithType:type];
                 }else{
                     [MBProgressHUD showError:@"Please select feet first"];
@@ -335,23 +335,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (0 == indexPath.row) {
-        if (self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) {
+    if (2 == indexPath.row) {
+        if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
             [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.leftDeviceModel.dmac position:PositionTypeFootRight];
         }
     }else {
         // push搜索蓝牙页面 左边、右边同时设置或者同时没有设置，则可以设置其它部位
-        if ((self.bindDeviceListInfoModel.leftDeviceModel.did.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.did.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.did.length == 0)) {
-            if (1 == indexPath.row){
-                if (self.bindDeviceListInfoModel.topDeviceModel.did.length > 0 ) {
+        if ((self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) || (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length == 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length == 0)) {
+            if (0 == indexPath.row){
+                if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0 ) {
                     [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.topDeviceModel.dmac position:PositionTypeFootTop];
                 }
-            }else if (2 == indexPath.row){
-                if (self.bindDeviceListInfoModel.bottomDeviceModel.did.length > 0 ) {
+            }else if (1 == indexPath.row){
+                if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0 ) {
                     [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.bottomDeviceModel.dmac position:PositionTypeFootBottom];
                 }
             }else {
-                if (self.bindDeviceListInfoModel.heatingPadDeviceModel.did.length > 0 ) {
+                if (self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac.length > 0 ) {
                     [self pushMECSetTemperatureViewControllerWithDeviceMac:self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac position:PositionTypeFootHeatingPad];
                 }
             }

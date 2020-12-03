@@ -36,15 +36,20 @@
     [self registerThirdpart];
     
   
-    
-    
+
     [NSThread sleepForTimeInterval:2];
     MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
     [[MECUserManager shareManager] readUserInfo];
     MECUserModel *user = [MECUserManager shareManager].user;
-    if (user.token) {
+    NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+    if ([[userDefaults valueForKey:kLastPosition] integerValue] == 0 || [[userDefaults valueForKey:kLastPosition] integerValue] == -1) {
+        if (user.token) {
+            nav = [[MECNavigationController alloc] initWithRootViewController:[[MECMineViewController alloc] init]];
+        }
+    }else{
         nav = [[MECNavigationController alloc] initWithRootViewController:[[MECMineViewController alloc] init]];
     }
+    
     self.window.rootViewController = nav;
     if (@available(iOS 13.0, *)) {
         self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;

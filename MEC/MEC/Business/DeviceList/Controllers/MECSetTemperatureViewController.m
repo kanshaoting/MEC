@@ -207,6 +207,12 @@
     self.lastMacAddressStr = self.macAddressStr;
     self.lastPositionType = self.positionType;
     [self.pickerView selectRow:row inComponent:0 animated:YES];
+    
+    // 记录状态
+    NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:@(self.positionType) forKey:kLastPosition];
+    [userDefaults synchronize];
+    
 }
 #pragma mark - 开启定时器
 #pragma mark -- startTimer
@@ -866,7 +872,7 @@
         [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_selected"] forState:UIControlStateNormal];
     }
     
-    // 绑定成功就记录状态
+    // 绑定成功记录状态
     NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
     [userDefaults setValue:@(self.positionType) forKey:kLastPosition];
     [userDefaults synchronize];
@@ -889,6 +895,11 @@
          self.bottomRightTipsLabel.text = @"Right";
          [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
     }
+    
+    // 绑定失败记录状态
+    NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:@(self.positionType) forKey:kLastPosition];
+    [userDefaults synchronize];
 }
 
 #pragma mark - 获取当前设备服务services

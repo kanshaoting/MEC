@@ -68,7 +68,7 @@
     NSInteger position = [[userDefaults valueForKey:kLastPosition] integerValue];
     
     [self getDeviceInfoData];
-    
+   
     
     //获取当前cell的视图控制器
     MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];

@@ -358,6 +358,11 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
     // 关闭蓝牙
     [self closeBluetooth];
+    
+    // 手动返回则清空状态
+    NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:@(-1) forKey:kLastPosition];
+    [userDefaults synchronize];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -853,6 +858,11 @@
         self.bottomRightTipsLabel.text = @"Right";
         [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_selected"] forState:UIControlStateNormal];
     }
+    
+    // 绑定成功就记录状态
+    NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:@(self.positionType) forKey:kLastPosition];
+    [userDefaults synchronize];
 }
 //连接外围设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{

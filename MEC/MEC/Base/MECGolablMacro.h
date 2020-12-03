@@ -180,6 +180,8 @@ typedef NS_ENUM(NSInteger, BluetoothCentralManagerState){
 // 腰 蓝牙名称
 #define kPadMecID @"PadMecID"
 
+// 正常网络情况下最后一次离开温度设置页面 部位
+#define kLastPosition @"LastPosition"
 
 
 

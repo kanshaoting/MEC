@@ -23,6 +23,7 @@
 
 #import "MECDevicesDetailViewController.h"
 #import "MECWebViewController.h"
+#import "MECSetTemperatureViewController.h"
 
 
 @interface MECMineViewController ()
@@ -54,8 +55,63 @@
     // 默认显示列表
     self.mineModifyInfoView.hidden = YES;
     self.deviceListView.hidden = NO;
+    
+    [self pushSetTemperatureVC];
 }
-
+#pragma mark - 直接跳转到温度设置页面
+#pragma mark --
+- (void)pushSetTemperatureVC{
+    
+   
+    NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+    
+    NSInteger position = [[userDefaults valueForKey:kLastPosition] integerValue];
+    
+    [self getDeviceInfoData];
+    
+    
+    //获取当前cell的视图控制器
+    MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
+    vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
+    NSString *macStr ;
+    
+    switch (position) {
+        case PositionTypeFootLeft:
+        {
+            macStr = [userDefaults valueForKey:kLeftMecID];
+        }
+            break;
+        case PositionTypeFootRight:
+        {
+            macStr = [userDefaults valueForKey:kRightMecID];
+        }
+            break;
+        case PositionTypeFootTop:
+        {
+            macStr = [userDefaults valueForKey:kTopMecID];
+        }
+            break;
+        case PositionTypeFootBottom:
+        {
+            macStr = [userDefaults valueForKey:kBottomMecID];
+        }
+            break;
+        case PositionTypeFootHeatingPad:
+        {
+            macStr = [userDefaults valueForKey:kPadMecID];
+        }
+            break;
+        default:
+            break;
+    }
+    vc.macAddressStr = macStr;
+    vc.positionType = position;
+    if ( macStr.length > 0 ) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+       
+    }
+}
 #pragma mark - 视图切换状态改变通知回调
 #pragma mark -- mineViewStatusChange
 - (void)mineViewStatusChange:(NSNotification *)statusChange{

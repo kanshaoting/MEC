@@ -28,16 +28,17 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
+    //开启网络监视器
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     // 设置导航栏
     [self setupAppearance];
     // 注册第三方
     [self registerThirdpart];
     
-    //开启网络监视器
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+  
     
     
-    [NSThread sleepForTimeInterval:1.0];
+    [NSThread sleepForTimeInterval:2];
     MECNavigationController *nav = [[MECNavigationController alloc] initWithRootViewController:[[MECLoginViewController alloc] init]];
     [[MECUserManager shareManager] readUserInfo];
     MECUserModel *user = [MECUserManager shareManager].user;

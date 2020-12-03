@@ -185,9 +185,16 @@
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     NSInteger row = 0;
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
-        row = 0;
+        row = 2;
     }else{
-        row = self.positionType - 2;
+        
+        if (PositionTypeFootTop == self.positionType) {
+            row = 0;
+        }else if (PositionTypeFootBottom == self.positionType){
+            row = 1;
+        }else if (PositionTypeFootHeatingPad == self.positionType){
+            row = 3;
+        }
         // 不显示底线右边模块及左边文案
         self.bottomRightIconImageView.image = [UIImage imageNamed:@"none"];
         self.bottomRightTipsLabel.text = @"";
@@ -539,7 +546,7 @@
 //用户进行选择
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     self.currentRow = row;
-    if (0 == row) {
+    if (2 == row) {
         if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.leftDeviceModel.dmac] && [self checkDeviceIsExist:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
             
             [self connectDeviceWithPosition:PositionTypeFootLeft];
@@ -547,7 +554,7 @@
             [MBProgressHUD showError:@"No device found"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
-    }else if (1 == row){
+    }else if (0 == row){
         if (self.bindDeviceListInfoModel.topDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.topDeviceModel.dmac]) {
             
              [self connectDeviceWithPosition:PositionTypeFootTop];
@@ -555,7 +562,7 @@
             [MBProgressHUD showError:@"No device found"];
             [self.pickerView selectRow:self.lastRow inComponent:0 animated:YES];
         }
-    }else if (2 == row){
+    }else if (1 == row){
         if (self.bindDeviceListInfoModel.bottomDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.bottomDeviceModel.dmac]) {
              
              [self connectDeviceWithPosition:PositionTypeFootBottom];
@@ -1609,7 +1616,7 @@
 
 - (NSArray *)positionArr{
     if (!_positionArr) {
-        _positionArr = [NSArray arrayWithObjects:@"Foot", @"Top", @"Bottom", @"Heating Pad", nil];
+        _positionArr = [NSArray arrayWithObjects: @"Top", @"Bottom",@"Foot",@"Heating Pad", nil];
     }
     return _positionArr;
 }

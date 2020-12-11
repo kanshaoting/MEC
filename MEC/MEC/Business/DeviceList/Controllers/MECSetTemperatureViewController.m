@@ -1147,18 +1147,30 @@
         // 0X01 是按键控制模式，0X02 是 APP 控制模式;
 //        NSString *typeStr1 = [value1 substringWithRange:NSMakeRange(10, 2)];
 //        NSString *typeStr2 = [value2 substringWithRange:NSMakeRange(10, 2)];
-        // 默认是App 模式
-        
+       
+        self.sendTemperature = MAX(receiveTemperatureInt1, receiveTemperatureInt2);
         if (self.isFirst ) {
             self.isFirst = NO;
             self.sendFlag = receiveFlag1 | receiveFlag2;
             self.setTemperatureSwitch.on = self.sendFlag == YES;
             
-            self.sendTemperature = MAX(receiveTemperatureInt1, receiveTemperatureInt2);
-            
             self.temperatureCircleView.temperInter = self.sendTemperature;
             self.temperatureCircleView.isClose = self.setTemperatureSwitch.on == NO;
             
+        }
+        
+        // 默认是App 模式
+        if (CBPeripheralStateConnected == self.discoveredPeripheral.state) {
+            if ([receiveTemperature1 isEqualToString:@"00"]) {
+                
+                [self writeDataWithStatus:YES temperature:self.sendTemperature];
+            }
+        }
+        if (CBPeripheralStateConnected == self.discoveredPeripheral2.state) {
+           if ([receiveTemperature2 isEqualToString:@"00"]) {
+                
+                [self writeDataWithStatus:YES temperature:self.sendTemperature];
+            }
         }
     }
     

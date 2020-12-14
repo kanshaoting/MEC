@@ -599,7 +599,7 @@
 #pragma mark -- alertMessageController
 - (void)alertMessageController{
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Tips" message:@"Please allow bluetooth permissions to be enabled" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Tips" message:@"To successfully connect the Heat device,Please allow bluetooth permissions to be enabled" preferredStyle:UIAlertControllerStyleAlert];
     kWeakSelf
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf dismissViewControllerAnimated:YES completion:nil];

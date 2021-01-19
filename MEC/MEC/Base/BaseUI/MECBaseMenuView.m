@@ -81,8 +81,8 @@
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth - kWidth6(200) - kWidth6(10), 0, kWidth6(200), kHeadViewHeight)];
     headerView.backgroundColor = [UIColor clearColor];
-    UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((kWidth6(200) - kWidth6(84))/2, (kHeadViewHeight - kWidth6(20))/2, kWidth6(84), kWidth6(20))];
-    logoImageView.image = [UIImage imageNamed:@"mine_base_menu_ventureheat_logo"];
+    UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((kWidth6(200) - kWidth6(84))/2, (kHeadViewHeight - kWidth6(20))/2, kWidth6(84), kWidth6(26))];
+    logoImageView.image = [UIImage imageNamed:@"mine_base_menu_logo"];
     [headerView addSubview:logoImageView];
     return headerView;
 }

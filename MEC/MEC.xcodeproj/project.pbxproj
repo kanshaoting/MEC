@@ -55,6 +55,7 @@
 		52F0F41624D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F41524D02056005085C0 /* MECDeviceListFootInfoTableViewCell.m */; };
 		52F0F41924D025EE005085C0 /* MECDevicesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F41824D025EE005085C0 /* MECDevicesDetailViewController.m */; };
 		52F0F41C24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F41B24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m */; };
+		52F60BC025B6DF340099B73A /* MECDeviceListAddDeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F60BBF25B6DF340099B73A /* MECDeviceListAddDeviceView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -152,6 +153,8 @@
 		52F0F41824D025EE005085C0 /* MECDevicesDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDevicesDetailViewController.m; sourceTree = "<group>"; };
 		52F0F41A24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDevicesBluetoothTableViewCell.h; sourceTree = "<group>"; };
 		52F0F41B24D026AE005085C0 /* MECDevicesBluetoothTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDevicesBluetoothTableViewCell.m; sourceTree = "<group>"; };
+		52F60BBE25B6DF340099B73A /* MECDeviceListAddDeviceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECDeviceListAddDeviceView.h; sourceTree = "<group>"; };
+		52F60BBF25B6DF340099B73A /* MECDeviceListAddDeviceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECDeviceListAddDeviceView.m; sourceTree = "<group>"; };
 		8BCEA4B1ED64B115BA9D1451 /* Pods-MEC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.release.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.release.xcconfig"; sourceTree = "<group>"; };
 		BCDE00B2B163A0F4068DE7D1 /* Pods-MEC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MEC.debug.xcconfig"; path = "Target Support Files/Pods-MEC/Pods-MEC.debug.xcconfig"; sourceTree = "<group>"; };
 		F1E5648184B16A5A9F5A4322 /* Pods_MEC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MEC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -295,6 +298,8 @@
 				5258389E24DBF218007E1E13 /* MECTemperatureCircleAnimationView.m */,
 				525838A024DBF248007E1E13 /* MECCircleAnimationView.h */,
 				525838A124DBF248007E1E13 /* MECCircleAnimationView.m */,
+				52F60BBE25B6DF340099B73A /* MECDeviceListAddDeviceView.h */,
+				52F60BBF25B6DF340099B73A /* MECDeviceListAddDeviceView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -612,6 +617,7 @@
 				52DD0F4224D3B3E200426629 /* NSString+QCExtension.m in Sources */,
 				52DD0F2624D3B37000426629 /* QCNetWorkResult.m in Sources */,
 				52DD0F3F24D3B3E200426629 /* NSObject+QCExtension.m in Sources */,
+				52F60BC025B6DF340099B73A /* MECDeviceListAddDeviceView.m in Sources */,
 				52DD0F4024D3B3E200426629 /* NSDictionary+QCCategory.m in Sources */,
 				524B19BC24D82D53002A8755 /* MECTools.m in Sources */,
 				52DD0F4D24D3EB1100426629 /* MECUserManager.m in Sources */,

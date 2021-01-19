@@ -27,7 +27,7 @@
         
     }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(meunBtnAction)];
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ventureheat_logo"]];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"main_top_logo"]];
     [self.view addSubview:self.baseMenuView];
     [self.baseMenuView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);

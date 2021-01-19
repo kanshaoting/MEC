@@ -128,11 +128,11 @@
         }];
     }else if ([_textStr isEqualToString:@"Heating Pad"]) {
         [self.positionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_offset(kWidth6(100));
+            make.width.mas_offset(kWidth6(110));
         }];
     }else{
         [self.positionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-                   make.width.mas_offset(kWidth6(60));
+                   make.width.mas_offset(kWidth6(70));
                }];
     }
     self.positionLabel.text = _textStr;

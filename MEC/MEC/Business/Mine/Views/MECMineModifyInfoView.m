@@ -15,6 +15,11 @@
 
 /// 顶部提示
 @property (nonatomic,strong) UILabel *tipsLabel;
+/// 账号信息提示
+@property (nonatomic,strong) UIView *accountInfoBgView;
+/// 账号信息提示
+@property (nonatomic,strong) UILabel *accountInfoLabel;
+
 /// 用户名提示
 @property (nonatomic,strong) UILabel *userNameLabel;
 /// 用户名横线
@@ -71,24 +76,27 @@
 - (void)configUI{
     [self addSubview:self.tipsLabel];
     
+    [self addSubview:self.accountInfoBgView];
+    [self.accountInfoBgView addSubview:self.accountInfoLabel];
+    
     [self addSubview:self.userNameLabel];
     [self addSubview:self.userNameLine];
     
     [self addSubview:self.emailLabel];
     [self addSubview:self.emailLine];
     
-    [self addSubview:self.countryLabel];
-    [self addSubview:self.countryLine];
-    
-    [self addSubview:self.postalCodeLabel];
-    [self addSubview:self.postalCodeLine];
-    
+//    [self addSubview:self.countryLabel];
+//    [self addSubview:self.countryLine];
+//
+//    [self addSubview:self.postalCodeLabel];
+//    [self addSubview:self.postalCodeLine];
+//
 
 
     [self addSubview:self.userNameTf];
     [self addSubview:self.emailTf];
-    [self addSubview:self.countryTf];
-    [self addSubview:self.postalCodeTf];
+//    [self addSubview:self.countryTf];
+//    [self addSubview:self.postalCodeTf];
     
     [self addSubview:self.modifyBtn];
     [self addSubview:self.logoutBtn];
@@ -100,8 +108,18 @@
         make.centerX.equalTo(self);
     }];
     
+    [self.accountInfoBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(30));
+        make.left.right.equalTo(self);
+        make.height.mas_equalTo(kWidth6(38));
+    }];
+    [self.accountInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.equalTo(self.accountInfoBgView);
+        make.leading.equalTo(self.accountInfoBgView).offset(kWidth6(22));
+    }];
+    
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(40));
+        make.top.equalTo(self.accountInfoLabel.mas_bottom).offset(kWidth6(6));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(22));
         make.width.mas_equalTo(kWidth6(95));
@@ -136,40 +154,40 @@
         make.leading.trailing.equalTo(self);
     }];
     
-    [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
-        make.height.mas_equalTo(kWidth6(30));
-        make.leading.mas_equalTo(kWidth6(22));
-        make.width.mas_equalTo(kWidth6(75));
-    }];
-    [self.countryTf mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.countryLabel);
-        make.height.mas_equalTo(kWidth6(30));
-        make.leading.equalTo(self.countryLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self).offset(-kWidth6(22));
-    }];
-    [self.countryLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.countryLabel.mas_bottom).offset(kWidth6(1));
-        make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self);
-    }];
-    
-    [self.postalCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.countryLine.mas_bottom).offset(kWidth6(5));
-        make.leading.height.equalTo(self.countryLabel);
-        make.width.mas_equalTo(kWidth6(110));
-    }];
-    [self.postalCodeTf mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.postalCodeLabel);
-        make.height.mas_equalTo(kWidth6(30));
-        make.leading.equalTo(self.postalCodeLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self).offset(-kWidth6(22));
-    }];
-    [self.postalCodeLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.postalCodeLabel.mas_bottom).offset(kWidth6(1));
-        make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self);
-    }];
+//    [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
+//        make.height.mas_equalTo(kWidth6(30));
+//        make.leading.mas_equalTo(kWidth6(22));
+//        make.width.mas_equalTo(kWidth6(75));
+//    }];
+//    [self.countryTf mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(self.countryLabel);
+//        make.height.mas_equalTo(kWidth6(30));
+//        make.leading.equalTo(self.countryLabel.mas_trailing).offset(kWidth6(5));
+//        make.trailing.equalTo(self).offset(-kWidth6(22));
+//    }];
+//    [self.countryLine mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.countryLabel.mas_bottom).offset(kWidth6(1));
+//        make.height.mas_equalTo(kWidth6(0.5));
+//        make.leading.trailing.equalTo(self);
+//    }];
+//
+//    [self.postalCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.countryLine.mas_bottom).offset(kWidth6(5));
+//        make.leading.height.equalTo(self.countryLabel);
+//        make.width.mas_equalTo(kWidth6(110));
+//    }];
+//    [self.postalCodeTf mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(self.postalCodeLabel);
+//        make.height.mas_equalTo(kWidth6(30));
+//        make.leading.equalTo(self.postalCodeLabel.mas_trailing).offset(kWidth6(5));
+//        make.trailing.equalTo(self).offset(-kWidth6(22));
+//    }];
+//    [self.postalCodeLine mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.postalCodeLabel.mas_bottom).offset(kWidth6(1));
+//        make.height.mas_equalTo(kWidth6(0.5));
+//        make.leading.trailing.equalTo(self);
+//    }];
     
 //    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(10));
@@ -178,7 +196,7 @@
 //    }];
     
     [self.modifyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(38));
+        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(38));
         make.centerX.equalTo(self);
         make.height.mas_equalTo(kWidth6(36));
         make.width.mas_equalTo(kWidth6(220));
@@ -278,11 +296,27 @@
     if (!_tipsLabel) {
         _tipsLabel = [[UILabel alloc] init];
         _tipsLabel.font = MEC_Helvetica_Bold_Font(20);
-        _tipsLabel.text = @"Account information";
+        _tipsLabel.text = @"Settings";
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
         _tipsLabel.textColor = kTipsTitleColor;
     }
     return _tipsLabel;
+}
+- (UIView *)accountInfoBgView{
+    if (!_accountInfoBgView) {
+        _accountInfoBgView = [[UIView alloc] init];
+        _accountInfoBgView.backgroundColor = kColorHex(0xdddddd);
+    }
+    return _accountInfoBgView;
+}
+- (UILabel *)accountInfoLabel{
+    if (!_accountInfoLabel) {
+        _accountInfoLabel = [[UILabel alloc] init];
+        _accountInfoLabel.font = MEC_Helvetica_Bold_Font(18);
+        _accountInfoLabel.text = @"Account information";
+        _accountInfoLabel.textColor = kTipsTitleColor;
+    }
+    return _accountInfoLabel;
 }
 - (UILabel *)userNameLabel{
     if (!_userNameLabel) {
@@ -408,6 +442,7 @@
 - (MECDefaultButton *)modifyBtn{
     if (!_modifyBtn) {
         _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(modifyBtnAction:)];
+        _modifyBtn.hidden = YES;
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateSelected];

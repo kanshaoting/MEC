@@ -93,20 +93,20 @@
 //    [self.view addSubview:self.passwordLabel];
 //    [self.view addSubview:self.passwordLine];
     
-    [self.view addSubview:self.countryLabel];
-    [self.view addSubview:self.countryLine];
-    
-    [self.view addSubview:self.postalCodeLabel];
-    [self.view addSubview:self.postalCodeLine];
-    
-    [self.view addSubview:self.noteLabel];
+//    [self.view addSubview:self.countryLabel];
+//    [self.view addSubview:self.countryLine];
+//
+//    [self.view addSubview:self.postalCodeLabel];
+//    [self.view addSubview:self.postalCodeLine];
+//
+//    [self.view addSubview:self.noteLabel];
     
 
     [self.view addSubview:self.userNameTf];
     [self.view addSubview:self.emailTf];
 //    [self.view addSubview:self.passwordTf];
-    [self.view addSubview:self.countryTf];
-    [self.view addSubview:self.postalCodeTf];
+//    [self.view addSubview:self.countryTf];
+//    [self.view addSubview:self.postalCodeTf];
     
     [self.view addSubview:self.registrationBtn];
     [self.view addSubview:self.bottomImageView];
@@ -120,7 +120,7 @@
         make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(20));
         make.height.mas_equalTo(kWidth6(30));
         make.leading.mas_equalTo(kWidth6(13));
-        make.width.mas_equalTo(kWidth6(110));
+        make.width.mas_equalTo(kWidth6(100));
     }];
     [self.userNameTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.userNameLabel);
@@ -138,7 +138,7 @@
     [self.emailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.userNameLine.mas_bottom).offset(kWidth6(5));
         make.leading.height.equalTo(self.userNameLabel);
-        make.width.mas_equalTo(kWidth6(80));
+        make.width.mas_equalTo(kWidth6(70));
     }];
     [self.emailTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.emailLabel);
@@ -169,49 +169,49 @@
 //        make.leading.trailing.equalTo(self.view);
 //    }];
     
-    [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
-        make.height.mas_equalTo(kWidth6(30));
-        make.leading.mas_equalTo(kWidth6(22));
-        make.width.mas_equalTo(kWidth6(75));
-    }];
-    [self.countryTf mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.countryLabel);
-        make.height.mas_equalTo(kWidth6(30));
-        make.leading.equalTo(self.countryLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self.view).offset(-kWidth6(22));
-    }];
-    [self.countryLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.countryLabel.mas_bottom).offset(kWidth6(1));
-        make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self.view);
-    }];
-    
-    [self.postalCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.countryLine.mas_bottom).offset(kWidth6(5));
-        make.leading.height.equalTo(self.countryLabel);
-        make.width.mas_equalTo(kWidth6(110));
-    }];
-    [self.postalCodeTf mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.postalCodeLabel);
-        make.height.mas_equalTo(kWidth6(30));
-        make.leading.equalTo(self.postalCodeLabel.mas_trailing).offset(kWidth6(5));
-        make.trailing.equalTo(self.view).offset(-kWidth6(22));
-    }];
-    [self.postalCodeLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.postalCodeLabel.mas_bottom).offset(kWidth6(1));
-        make.height.mas_equalTo(kWidth6(0.5));
-        make.leading.trailing.equalTo(self.view);
-    }];
-    
-    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(10));
-        make.height.mas_equalTo(kWidth6(15));
-        make.leading.equalTo(self.postalCodeLabel);
-    }];
-    
+//    [self.countryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(5));
+//        make.height.mas_equalTo(kWidth6(30));
+//        make.leading.mas_equalTo(kWidth6(22));
+//        make.width.mas_equalTo(kWidth6(75));
+//    }];
+//    [self.countryTf mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(self.countryLabel);
+//        make.height.mas_equalTo(kWidth6(30));
+//        make.leading.equalTo(self.countryLabel.mas_trailing).offset(kWidth6(5));
+//        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+//    }];
+//    [self.countryLine mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.countryLabel.mas_bottom).offset(kWidth6(1));
+//        make.height.mas_equalTo(kWidth6(0.5));
+//        make.leading.trailing.equalTo(self.view);
+//    }];
+//
+//    [self.postalCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.countryLine.mas_bottom).offset(kWidth6(5));
+//        make.leading.height.equalTo(self.countryLabel);
+//        make.width.mas_equalTo(kWidth6(110));
+//    }];
+//    [self.postalCodeTf mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(self.postalCodeLabel);
+//        make.height.mas_equalTo(kWidth6(30));
+//        make.leading.equalTo(self.postalCodeLabel.mas_trailing).offset(kWidth6(5));
+//        make.trailing.equalTo(self.view).offset(-kWidth6(22));
+//    }];
+//    [self.postalCodeLine mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.postalCodeLabel.mas_bottom).offset(kWidth6(1));
+//        make.height.mas_equalTo(kWidth6(0.5));
+//        make.leading.trailing.equalTo(self.view);
+//    }];
+//
+//    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.postalCodeLine.mas_bottom).offset(kWidth6(10));
+//        make.height.mas_equalTo(kWidth6(15));
+//        make.leading.equalTo(self.postalCodeLabel);
+//    }];
+//
     [self.registrationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.noteLabel.mas_bottom).offset(kWidth6(20));
+        make.top.equalTo(self.emailLine.mas_bottom).offset(kWidth6(40));
         make.centerX.equalTo(self.view);
         make.height.mas_equalTo(kWidth6(36));
         make.width.mas_equalTo(kWidth6(220));
@@ -300,7 +300,7 @@
     if (!_userNameLabel) {
         _userNameLabel = [[UILabel alloc] init];
         _userNameLabel.font = MEC_Helvetica_Regular_Font(14);
-        _userNameLabel.text = @"* User name:";
+        _userNameLabel.text = @"User name:";
         _userNameLabel.textColor = kColorHex(0x221815);
     }
     return _userNameLabel;
@@ -328,7 +328,7 @@
     if (!_emailLabel) {
         _emailLabel = [[UILabel alloc] init];
         _emailLabel.font = MEC_Helvetica_Regular_Font(14);
-        _emailLabel.text = @"* E-mail:";
+        _emailLabel.text = @"E-mail:";
         _emailLabel.textColor = kColorHex(0x221815);
     }
     return _emailLabel;

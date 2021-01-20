@@ -493,13 +493,13 @@
         }else{
             
         }
-        if (0 == index) {
+        if (2 == index) {
             [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"1"];
             [weakSelf.navigationController popToRootViewControllerAnimated:YES];
         }else if (1 == index){
     
             [weakSelf.navigationController popViewControllerAnimated:YES];
-        }else if (2 == index){
+        }else if (0 == index){
             
             [[NSNotificationCenter defaultCenter] postNotificationName:MECMineViewControllerStatusNotification object:@"2"];
             [weakSelf.navigationController popToRootViewControllerAnimated:YES];

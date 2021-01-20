@@ -42,6 +42,13 @@
     [self addSubview:self.topBgView];
     [self.topBgView addSubview:self.titleLabel];
     [self.topBgView addSubview:self.bgImageView];
+    
+    
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+    [self.topBgView addGestureRecognizer:tap];
+    
+    
     [self addSubview:self.addButton];
     
     
@@ -67,12 +74,10 @@
     [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.top.equalTo(self.topBgView.mas_bottom).offset(kWidth6(6));
-        make.width.height.equalTo(self).multipliedBy(0.3);
+        make.width.height.equalTo(self).multipliedBy(0.35);
     }];
     
 
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-    [self.topBgView addGestureRecognizer:tap];
     
 }
 
@@ -83,9 +88,9 @@
             make.top.equalTo(self.topBgView.mas_bottom).offset(-kWidth6(16));
         }];
     }else{
-        [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.addButton mas_updateConstraints:^(MASConstraintMaker *make) {
         
-            make.top.equalTo(self.topBgView.mas_bottom).offset(kWidth6(6));
+            make.top.equalTo(self.topBgView.mas_bottom).offset(kWidth6(10));
         }];
     }
 }
@@ -137,7 +142,7 @@
 - (UIView *)topBgView{
     if (!_topBgView) {
         _topBgView  = [UIView new];
-//        _topBgView.backgroundColor = [UIColor redColor];
+        _topBgView.backgroundColor = [UIColor orangeColor];
 
     }
     return _topBgView;
@@ -156,7 +161,7 @@
     if (!_bgImageView) {
         _bgImageView = [UIImageView new];
         _bgImageView.image = [UIImage imageNamed:@"device_list_top_normal_icon"];
-//        _bgImageView.backgroundColor = [UIColor blackColor];
+        _bgImageView.backgroundColor = [UIColor blackColor];
         _bgImageView.userInteractionEnabled = YES;
     }
     return _bgImageView;
@@ -167,6 +172,7 @@
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_addButton setImage:[UIImage imageNamed:@"device_list_add_icon"] forState:UIControlStateNormal];
         [_addButton addTarget:self action:@selector(addButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        _addButton.backgroundColor = [UIColor redColor];
     }
     return _addButton;
 }

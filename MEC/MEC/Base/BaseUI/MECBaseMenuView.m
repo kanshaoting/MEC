@@ -48,13 +48,13 @@
         make.trailing.equalTo(self).offset(-kWidth6(10));
         make.top.equalTo(self);
         make.width.mas_equalTo(kWidth6(210));
-        make.height.mas_equalTo(kWidth6(290));
+        make.height.mas_equalTo(kWidth6(240));
     }];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self).offset(-kWidth6(10));
         make.top.equalTo(self).offset(kMargin);
         make.width.mas_equalTo(kWidth6(200));
-        make.height.mas_equalTo(kWidth6(270));
+        make.height.mas_equalTo(kWidth6(220));
     }];
     
 }
@@ -62,7 +62,7 @@
 
 #pragma mark UITableViewDelegate,UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 3;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -95,11 +95,10 @@
     switch (indexPath.row) {
         case 0:
         {
-            iconStr = @"menu_mine_icon";
-            textStr = @"ME";
+            iconStr = @"menu_list_icon";
+            textStr = @"DEVICE LIST";
         }
             break;
-            
         case 1:
         {
             iconStr = @"menu_pairing_icon";
@@ -108,14 +107,8 @@
             break;
         case 2:
         {
-            iconStr = @"menu_list_icon";
-            textStr = @"DEVICE LIST";
-        }
-            break;
-        case 3:
-        {
-            iconStr = @"menu_instructions_icon";
-            textStr = @"INSTRUCTIONS";
+            iconStr = @"menu_setting_icon";
+            textStr = @"SETTINGS";
         }
             break;
             

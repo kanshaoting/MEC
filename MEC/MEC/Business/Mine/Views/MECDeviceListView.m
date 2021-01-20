@@ -236,6 +236,7 @@
         _bottomAddDeviceView = [[MECDeviceListAddDeviceView alloc] init];
         _bottomAddDeviceView.titleStr = @"Bottom";
         _bottomAddDeviceView.bgIconStr = @"device_list_bottom_big_icon";
+        _bottomAddDeviceView.positionType = PositionTypeFootBottom;
         kWeakSelf
         _bottomAddDeviceView.deviceListAddDeviceViewIconBlock = ^{
             NSLog(@"bottom");
@@ -264,6 +265,7 @@
         _heatingPadAddDeviceView = [[MECDeviceListAddDeviceView alloc] init];
         _heatingPadAddDeviceView.titleStr = @"Heating Pad";
         _heatingPadAddDeviceView.bgIconStr = @"device_list_heatingpad_big_icon";
+        _heatingPadAddDeviceView.positionType = PositionTypeFootHeatingPad;
         kWeakSelf
         _heatingPadAddDeviceView.deviceListAddDeviceViewIconBlock = ^{
             NSLog(@"heating");
@@ -291,13 +293,14 @@
         _leftAddDeviceView = [[MECDeviceListAddDeviceView alloc] init];
         _leftAddDeviceView.titleStr = @"Left";
         _leftAddDeviceView.bgIconStr = @"device_list_foot_big_icon";
+        _leftAddDeviceView.positionType = PositionTypeFootLeft;
         kWeakSelf
         _leftAddDeviceView.deviceListAddDeviceViewIconBlock = ^{
             NSLog(@"left");
             if (weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
                 [weakSelf pushMECSetTemperatureViewControllerWithDeviceMac:weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac position:PositionTypeFootRight];
             }else{
-                [MBProgressHUD showError:@"Please select right foot"];
+//                [MBProgressHUD showError:@"Please select right foot"];
             }
         };
         _leftAddDeviceView.deviceListAddButtonClickBlock = ^(UIButton * _Nonnull button) {
@@ -318,13 +321,14 @@
         _rightAddDeviceView = [[MECDeviceListAddDeviceView alloc] init];
         _rightAddDeviceView.titleStr = @"Right";
         _rightAddDeviceView.bgIconStr = @"device_list_foot_big_icon";
+        _rightAddDeviceView.positionType = PositionTypeFootRight;
         kWeakSelf
         _rightAddDeviceView.deviceListAddDeviceViewIconBlock = ^{
             NSLog(@"right");
             if (weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
                 [weakSelf pushMECSetTemperatureViewControllerWithDeviceMac:weakSelf.bindDeviceListInfoModel.leftDeviceModel.dmac position:PositionTypeFootRight];
             }else{
-                [MBProgressHUD showError:@"Please select left foot"];
+//                [MBProgressHUD showError:@"Please select left foot"];
             }
         };
         _rightAddDeviceView.deviceListAddButtonClickBlock = ^(UIButton * _Nonnull button) {

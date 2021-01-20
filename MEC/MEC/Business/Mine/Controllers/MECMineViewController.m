@@ -278,7 +278,7 @@
     kWeakSelf
     self.menuViewCellTapBlock = ^(NSInteger index) {
         
-        if (0 == index) {
+        if (2 == index) {
             weakSelf.mineModifyInfoView.hidden = NO;
             weakSelf.deviceListView.hidden = YES;
             weakSelf.bottomView.status = 1;
@@ -304,7 +304,7 @@
             }
             vc.matchBluDataMuArr = [NSMutableArray arrayWithArray:tempMuArr];
             [weakSelf.navigationController pushViewController:vc animated:YES];
-        }else if (2 == index){
+        }else if (0 == index){
             weakSelf.mineModifyInfoView.hidden = YES;
             weakSelf.deviceListView.hidden = NO;
             weakSelf.bottomView.status = 2;
@@ -377,6 +377,7 @@
             weakSelf.deviceListView.hidden = NO;
 //            [weakSelf queryDeviceRequest];
         };
+        _bottomView.hidden = YES;
     }
     return _bottomView;
 }

@@ -140,7 +140,7 @@
         make.leading.equalTo(self).offset(margin);
         make.bottom.equalTo(self).offset(-tempWidth);
         make.width.mas_equalTo(tempWidth);
-        make.height.mas_equalTo(tempWidth);
+        make.height.mas_equalTo(tempWidth * 1.4);
     }];
     
     

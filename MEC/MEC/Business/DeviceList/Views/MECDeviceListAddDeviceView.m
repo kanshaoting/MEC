@@ -39,6 +39,7 @@
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{
+ 
     [self addSubview:self.topBgView];
     [self.topBgView addSubview:self.titleLabel];
     [self.topBgView addSubview:self.bgImageView];
@@ -54,7 +55,8 @@
     
     [self.topBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.width.height.equalTo(self).multipliedBy(0.8);
+        make.width.height.equalTo(self.mas_width).multipliedBy(0.8);
+        
         make.top.equalTo(self).offset(kWidth6(5));
     }];
     
@@ -67,14 +69,14 @@
     [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(kWidth6(2));
-        make.width.height.equalTo(self).multipliedBy(0.6);
+        make.width.height.equalTo(self.mas_width).multipliedBy(0.6);
     }];
     
     
     [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.top.equalTo(self.topBgView.mas_bottom).offset(kWidth6(6));
-        make.width.height.equalTo(self).multipliedBy(0.35);
+        make.width.height.equalTo(self.mas_width).multipliedBy(0.35);
     }];
     
 
@@ -142,7 +144,7 @@
 - (UIView *)topBgView{
     if (!_topBgView) {
         _topBgView  = [UIView new];
-        _topBgView.backgroundColor = [UIColor orangeColor];
+//        _topBgView.backgroundColor = [UIColor orangeColor];
 
     }
     return _topBgView;
@@ -161,7 +163,7 @@
     if (!_bgImageView) {
         _bgImageView = [UIImageView new];
         _bgImageView.image = [UIImage imageNamed:@"device_list_top_normal_icon"];
-        _bgImageView.backgroundColor = [UIColor blackColor];
+//        _bgImageView.backgroundColor = [UIColor blackColor];
         _bgImageView.userInteractionEnabled = YES;
     }
     return _bgImageView;
@@ -172,7 +174,6 @@
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_addButton setImage:[UIImage imageNamed:@"device_list_add_icon"] forState:UIControlStateNormal];
         [_addButton addTarget:self action:@selector(addButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        _addButton.backgroundColor = [UIColor redColor];
     }
     return _addButton;
 }

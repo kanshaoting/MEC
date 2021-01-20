@@ -14,7 +14,6 @@
 /// 顶部提示
 @property (nonatomic, strong) UILabel *tipsLabel;
 
-
 ///top
 @property (nonatomic, strong) MECDeviceListAddDeviceView *topAddDeviceView;
 
@@ -37,6 +36,12 @@
     [self configUI];
 }
 
+#pragma mark -  更新设备背景图标
+#pragma mark -- updateDeviceBgIcon
+- (void)updateDeviceBgIcon{
+    
+    
+}
 #pragma mark -
 #pragma mark -- configUI
 - (void)configUI{

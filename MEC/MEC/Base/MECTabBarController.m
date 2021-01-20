@@ -10,7 +10,7 @@
 #import "MECNavigationController.h"
 #import "MECBaseViewController.h"
 #import "MECMineViewController.h"
-#import "MECDeviceListViewController.h"
+#import "MECMineViewController.h"
 
 @interface MECTabBarController ()<UITabBarControllerDelegate>
 
@@ -26,7 +26,7 @@
 
 - (void)setupTabBar{
     [self addControllerWithClass:[MECMineViewController class] title:@"Me" nomalImage:@"mine_icon_normal" selectImage:@"mine_icon_select" index:0];
-    [self addControllerWithClass:[MECDeviceListViewController class] title:@"Device list" nomalImage:@"device_list_icon_normal" selectImage:@"device_list_icon_select" index:1];
+    [self addControllerWithClass:[MECMineViewController class] title:@"Device list" nomalImage:@"device_list_icon_normal" selectImage:@"device_list_icon_select" index:1];
 //    [self updateTabbarControllers];
 }
 

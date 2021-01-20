@@ -97,11 +97,34 @@
 - (void)setBgIconStr:(NSString *)bgIconStr{
     _bgIconStr = bgIconStr;
     self.bgImageView.image = [UIImage imageNamed:_bgIconStr];
+    
+    NSArray *tempIconArr = @[@"device_list_top_select_icon",@"device_list_bottom_select_icon",@"device_list_heatingpad_select_icon",@"device_list_left_select_icon",@"device_list_right_select_icon"];
+    
+    
+    NSString *imageStr = @"";
+  
+    
+    if ([tempIconArr containsObject:_bgIconStr]) {
+        
+        self.addButton.tag = 101;
+        imageStr = @"device_list_delete_icon";
+    }else{
+        
+        self.addButton.tag = 102;
+       
+        imageStr = @"device_list_add_icon";
+    }
+    
+    [self.addButton setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
+    
 }
 #pragma mark -
 #pragma mark -- addButtonAction
 - (void)addButtonAction:(UIButton *)button{
 
+    if (self.deviceListAddButtonClickBlock) {
+        self.deviceListAddButtonClickBlock(button);
+    }
 }
 
 - (void)tapAction{

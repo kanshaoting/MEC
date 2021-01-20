@@ -23,10 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *bgIconStr;
 
+///设备名称
+@property (nonatomic, copy) NSString *dbtname;
 
 ///图标点击回调
 @property(nonatomic,  copy) void (^deviceListAddDeviceViewIconBlock) (void);
 
+
+///加、减设备按钮点击回调
+@property(nonatomic,  copy) void (^deviceListAddButtonClickBlock) (UIButton *button);
 
 
 

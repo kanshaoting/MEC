@@ -45,10 +45,10 @@
     NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
     if ([[userDefaults valueForKey:kLastPosition] integerValue] == 0 || [[userDefaults valueForKey:kLastPosition] integerValue] == -1) {
         if (user.token) {
-            nav = [[MECNavigationController alloc] initWithRootViewController:[[MECDeviceListViewController alloc] init]];
+            nav = [[MECNavigationController alloc] initWithRootViewController:[[MECMineViewController alloc] init]];
         }
     }else{
-        nav = [[MECNavigationController alloc] initWithRootViewController:[[MECDeviceListViewController alloc] init]];
+        nav = [[MECNavigationController alloc] initWithRootViewController:[[MECMineViewController alloc] init]];
     }
     
     self.window.rootViewController = nav;

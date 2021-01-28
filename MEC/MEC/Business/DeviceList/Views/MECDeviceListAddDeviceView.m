@@ -55,7 +55,7 @@
     
     [self.topBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.width.height.equalTo(self.mas_width).multipliedBy(0.8);
+        make.width.height.equalTo(self.mas_width).multipliedBy(0.9);
         
         make.top.equalTo(self).offset(kWidth6(5));
     }];
@@ -69,7 +69,7 @@
     [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(kWidth6(2));
-        make.width.height.equalTo(self.mas_width).multipliedBy(0.6);
+        make.width.height.equalTo(self.mas_width).multipliedBy(0.7);
     }];
     
     
@@ -87,7 +87,7 @@
     _positionType = positionType;
     if (positionType == PositionTypeFootTop) {
         [self.addButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.topBgView.mas_bottom).offset(-kWidth6(16));
+            make.top.equalTo(self.topBgView.mas_bottom).offset(-kWidth6(30));
         }];
     }else{
         [self.addButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -152,7 +152,7 @@
 - (UILabel *)titleLabel{
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
-        _titleLabel.font = MEC_Helvetica_Regular_Font(13);
+        _titleLabel.font = MEC_Helvetica_Regular_Font(14);
         _titleLabel.text = @"Me";
         _titleLabel.textColor = kColorHex(0x221815);
         

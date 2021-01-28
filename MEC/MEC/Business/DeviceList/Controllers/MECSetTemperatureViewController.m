@@ -1481,7 +1481,7 @@
 - (UILabel *)leftTipsLabel{
     if (!_leftTipsLabel) {
         _leftTipsLabel = [[UILabel alloc] init];
-        _leftTipsLabel.font = MEC_Helvetica_Regular_Font(12);
+        _leftTipsLabel.font = MEC_Helvetica_Regular_Font(15);
         _leftTipsLabel.text = @"OFF";
         _leftTipsLabel.textAlignment = NSTextAlignmentCenter;
         _leftTipsLabel.textColor = kColorHex(0x717071);
@@ -1491,7 +1491,7 @@
 - (UILabel *)rightTipsLabel{
     if (!_rightTipsLabel) {
         _rightTipsLabel = [[UILabel alloc] init];
-        _rightTipsLabel.font = MEC_Helvetica_Regular_Font(12);
+        _rightTipsLabel.font = MEC_Helvetica_Regular_Font(15);
         _rightTipsLabel.text = @"ON";
         _rightTipsLabel.textAlignment = NSTextAlignmentCenter;
         _rightTipsLabel.textColor = kColorHex(0x717071);
@@ -1617,7 +1617,7 @@
 - (UILabel *)bottomLeftTipsLabel{
     if (!_bottomLeftTipsLabel) {
         _bottomLeftTipsLabel = [[UILabel alloc] init];
-        _bottomLeftTipsLabel.font = MEC_Helvetica_Regular_Font(12);
+        _bottomLeftTipsLabel.font = MEC_Helvetica_Regular_Font(15);
         _bottomLeftTipsLabel.text = @"Left";
         _bottomLeftTipsLabel.textAlignment = NSTextAlignmentCenter;
         _bottomLeftTipsLabel.textColor = kColorHex(0x717071);
@@ -1643,7 +1643,7 @@
 - (UILabel *)bottomRightTipsLabel{
     if (!_bottomRightTipsLabel) {
         _bottomRightTipsLabel = [[UILabel alloc] init];
-        _bottomRightTipsLabel.font = MEC_Helvetica_Regular_Font(12);
+        _bottomRightTipsLabel.font = MEC_Helvetica_Regular_Font(15);
         _bottomRightTipsLabel.text = @"Right";
         _bottomRightTipsLabel.textAlignment = NSTextAlignmentCenter;
         _bottomRightTipsLabel.textColor = kColorHex(0x717071);

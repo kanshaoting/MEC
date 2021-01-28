@@ -218,7 +218,7 @@
 - (UILabel *)deviceNameLabel{
     if (!_deviceNameLabel) {
         _deviceNameLabel = [[UILabel alloc] init];
-        _deviceNameLabel.font = MEC_Helvetica_Regular_Font(10);
+        _deviceNameLabel.font = MEC_Helvetica_Regular_Font(14);
         _deviceNameLabel.text = @"Phone 1";
         _deviceNameLabel.textColor = kColorHex(0x9FA0A0);
     }

@@ -157,7 +157,7 @@
 - (UILabel *)mineLabel{
     if (!_mineLabel) {
         _mineLabel = [[UILabel alloc] init];
-        _mineLabel.font = MEC_Helvetica_Regular_Font(12);
+        _mineLabel.font = MEC_Helvetica_Regular_Font(14);
         _mineLabel.text = @"Me";
         _mineLabel.textAlignment = NSTextAlignmentCenter;
         _mineLabel.textColor = kColorHex(0x221815);
@@ -177,7 +177,7 @@
 - (UILabel *)deviceListLabel{
     if (!_deviceListLabel) {
         _deviceListLabel = [[UILabel alloc] init];
-        _deviceListLabel.font = MEC_Helvetica_Regular_Font(12);
+        _deviceListLabel.font = MEC_Helvetica_Regular_Font(14);
         _deviceListLabel.text = @"Device list";
         _deviceListLabel.textAlignment = NSTextAlignmentCenter;
         _deviceListLabel.textColor = kColorHex(0xE60012);

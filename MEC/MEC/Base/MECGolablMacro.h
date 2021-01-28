@@ -121,8 +121,9 @@ _Pragma("clang diagnostic pop") \
 //字体
 #pragma mark - font
 
-#define MEC_Helvetica_Bold_Font(value) [UIFont fontWithName:@"Helvetica-Bold" size:value]
-#define MEC_Helvetica_Regular_Font(value) [UIFont fontWithName:@"Helvetica Regular" size:value]
+#define MEC_Helvetica_Bold_Font(size) [UIFont boldSystemFontOfSize:size]
+
+#define MEC_Helvetica_Regular_Font(size) [UIFont systemFontOfSize:size]
 
 /// 部位类型
 typedef NS_ENUM(NSInteger, PositionType){

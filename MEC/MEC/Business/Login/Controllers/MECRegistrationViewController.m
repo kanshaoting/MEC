@@ -446,7 +446,7 @@
 
 - (MECDefaultButton *)registrationBtn{
     if (!_registrationBtn) {
-        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Registration" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(registrationBtnAction:)];
+        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Registration" font:MEC_Helvetica_Regular_Font(14) target:self selector:@selector(registrationBtnAction:)];
 //        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"registration_registration_btn_bg"] forState:UIControlStateNormal];
 //        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"registration_registration_btn_bg"] forState:UIControlStateHighlighted];
 //        [_registrationBtn setBackgroundImage:[UIImage imageNamed:@"registration_registration_btn_bg"] forState:UIControlStateSelected];

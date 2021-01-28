@@ -125,8 +125,8 @@
     
     [self.topAddDeviceView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.centerY.equalTo(self).offset(-kWidth6(60));
-        make.width.height.mas_equalTo(kWidth6(180));
+        make.top.equalTo(self.tipsLabel.mas_bottom).offset(kWidth6(80));
+        make.width.height.mas_equalTo(kWidth6(220));
     }];
     CGFloat margin = kWidth6(10);
     
@@ -192,7 +192,7 @@
 - (UILabel *)tipsLabel{
     if (!_tipsLabel) {
         _tipsLabel = [[UILabel alloc] init];
-        _tipsLabel.font = MEC_Helvetica_Bold_Font(18);
+        _tipsLabel.font = MEC_Helvetica_Bold_Font(20);
         _tipsLabel.text = @"Add new device";
         _tipsLabel.textAlignment = NSTextAlignmentCenter;
         _tipsLabel.textColor = [UIColor blackColor];
@@ -384,7 +384,7 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kMargin, kWidth6(30), kScreenWidth - kMargin * 2, kFooterViewHeight - kWidth6(30))];
     label.text = @"For the first time pairing do not turn on the power of left & right foot at the same time.\nPlease pair the one after another.";
-    label.font = MEC_Helvetica_Regular_Font(12);
+    label.font = MEC_Helvetica_Regular_Font(14);
     label.numberOfLines = 0;
     label.textColor = kColorHex(0x727171);
     [footerView addSubview:label];

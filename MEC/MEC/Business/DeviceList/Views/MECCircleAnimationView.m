@@ -593,7 +593,7 @@ static const CGFloat kAnimationTime = 0.2;
     if (!_medLabel) {
         _medLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - kWidth6(60)/2, kWidth6(50), kWidth6(60), kWidth6(20))];
         _medLabel.text = @"Med.";
-        _medLabel.font = MEC_Helvetica_Regular_Font(12);
+        _medLabel.font = MEC_Helvetica_Regular_Font(15);
         _medLabel.textColor = kColorHex(0x717071);
         _medLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -604,7 +604,7 @@ static const CGFloat kAnimationTime = 0.2;
     if (!_lowLabel) {
         _lowLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 - kWidth6(60) - kWidth6(40), self.bounds.size.height - kWidth6(20), kWidth6(60), kWidth6(20))];
         _lowLabel.text = @"Low";
-        _lowLabel.font = MEC_Helvetica_Regular_Font(10);
+        _lowLabel.font = MEC_Helvetica_Regular_Font(15);
         _lowLabel.textColor = kColorHex(0x717071);
     }
     return _lowLabel;
@@ -613,7 +613,7 @@ static const CGFloat kAnimationTime = 0.2;
     if (!_highLabel) {
         _highLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width/2 + kWidth6(70), self.bounds.size.height - kWidth6(20), kWidth6(60), kWidth6(20))];
         _highLabel.text = @"High";
-        _highLabel.font = MEC_Helvetica_Regular_Font(10);
+        _highLabel.font = MEC_Helvetica_Regular_Font(15);
         _highLabel.textColor = kColorHex(0x717071);
     }
     return _highLabel;

@@ -216,7 +216,7 @@
         _userNameTf.delegate = self;
         _userNameTf.placeholder = @"User name / Email";
         _userNameTf.textColor = kColorHex(0xC9CACA);
-        _userNameTf.font = MEC_Helvetica_Regular_Font(10);
+        _userNameTf.font = MEC_Helvetica_Regular_Font(14);
         _userNameTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _userNameTf;
@@ -234,14 +234,14 @@
         _passwordTf.delegate = self;
         _passwordTf.placeholder = @"password";
         _passwordTf.textColor = kColorHex(0xC9CACA);
-        _passwordTf.font = MEC_Helvetica_Regular_Font(10);
+        _passwordTf.font = MEC_Helvetica_Regular_Font(14);
         _passwordTf.borderStyle = UITextBorderStyleRoundedRect;
     }
     return _passwordTf;
 }
 - (MECDefaultButton *)signInBtn{
     if (!_signInBtn) {
-        _signInBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Sign in" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(signInBtnAction:)];
+        _signInBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Sign in" font:MEC_Helvetica_Regular_Font(14) target:self selector:@selector(signInBtnAction:)];
 //        [_signInBtn setBackgroundImage:[UIImage imageNamed:@"login_sign_in_btn_bg"] forState:UIControlStateNormal];
 //        [_signInBtn setBackgroundImage:[UIImage imageNamed:@"login_sign_in_btn_bg"] forState:UIControlStateHighlighted];
 //        [_signInBtn setBackgroundImage:[UIImage imageNamed:@"login_sign_in_btn_bg"] forState:UIControlStateSelected];
@@ -252,7 +252,7 @@
 
 - (MECDefaultButton *)registrationBtn{
     if (!_registrationBtn) {
-        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Registration" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(registrationBtnAction:)];
+        _registrationBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Registration" font:MEC_Helvetica_Regular_Font(14) target:self selector:@selector(registrationBtnAction:)];
         [_registrationBtn setBackgroundImage:[MECTools imageWithColor:kColorRGB(240, 240, 240)] forState:UIControlStateNormal];
         [_registrationBtn setBackgroundImage:[MECTools imageWithColor:kColorRGB(230, 230, 230)] forState:UIControlStateHighlighted];
         [_registrationBtn setTitleColor:kColorHex(0x666666) forState:UIControlStateNormal];

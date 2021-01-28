@@ -441,7 +441,7 @@
 
 - (MECDefaultButton *)modifyBtn{
     if (!_modifyBtn) {
-        _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(modifyBtnAction:)];
+        _modifyBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Modify" font:MEC_Helvetica_Regular_Font(14) target:self selector:@selector(modifyBtnAction:)];
         _modifyBtn.hidden = YES;
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
@@ -452,7 +452,7 @@
 }
 - (MECDefaultButton *)logoutBtn{
     if (!_logoutBtn) {
-        _logoutBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Logout" font:MEC_Helvetica_Regular_Font(10) target:self selector:@selector(logoutBtnAction:)];
+        _logoutBtn = [MECDefaultButton createButtonWithFrame:CGRectZero title:@"Logout" font:MEC_Helvetica_Regular_Font(14) target:self selector:@selector(logoutBtnAction:)];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateNormal];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateHighlighted];
 //        [_modifyBtn setBackgroundImage:[UIImage imageNamed:@"mine_modify_btn_bg"] forState:UIControlStateSelected];

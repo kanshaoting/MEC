@@ -625,6 +625,37 @@
 #pragma mark -- addDeviceRequest
 - (void)addDeviceRequestWithDeviceBluname:(NSString *)dbtname deviceMacname:(NSString *)dmac type:(NSString *)type{
     
+    if (type.integerValue == PositionTypeFootLeft) {
+    
+        
+        if (![dbtname isEqualToString:self.bindDeviceListInfoModel.rightDeviceModel.dbtname] && self.bindDeviceListInfoModel.rightDeviceModel.dbtname.length > 0) {
+            [MBProgressHUD showError:@"Please bind the same type of equipment with the other foot" toView:self.view];
+            self.currentDeviceDetailInfoModel.positionTpye = @"0";
+            self.currentDeviceDetailInfoModel.isLoading = NO;
+            [self.matchBluDataMuArr removeObject:self.currentDeviceDetailInfoModel];
+            [self.searchBluDataMuArr addObject:self.currentDeviceDetailInfoModel];
+            [self.tableView reloadData];
+            return;
+        }else{
+           
+        }
+    }else if (type.integerValue == PositionTypeFootRight){
+        if (![dbtname isEqualToString:self.bindDeviceListInfoModel.leftDeviceModel.dbtname] &&  self.bindDeviceListInfoModel.leftDeviceModel.dbtname.length > 0) {
+            [MBProgressHUD showError:@"Please bind the same type of equipment with the other foot" toView:self.view];
+            self.currentDeviceDetailInfoModel.positionTpye = @"0";
+            self.currentDeviceDetailInfoModel.isLoading = NO;
+            [self.matchBluDataMuArr removeObject:self.currentDeviceDetailInfoModel];
+            [self.searchBluDataMuArr addObject:self.currentDeviceDetailInfoModel];
+            [self.tableView reloadData];
+            return;
+        }else{
+           
+        }
+        
+    }else{
+        
+    }
+    
     if (AFNetworkReachabilityStatusReachableViaWWAN == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus] || AFNetworkReachabilityStatusReachableViaWiFi == [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus]) {
         
         MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"Loading" toView:self.view];

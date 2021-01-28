@@ -188,7 +188,7 @@
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     NSInteger row = 0;
     if (PositionTypeFootLeft == self.positionType || PositionTypeFootRight == self.positionType) {
-        row = 2;
+        row = 3;
     }else{
         
         if (PositionTypeFootTop == self.positionType) {
@@ -196,7 +196,7 @@
         }else if (PositionTypeFootBottom == self.positionType){
             row = 1;
         }else if (PositionTypeFootHeatingPad == self.positionType){
-            row = 3;
+            row = 2;
         }
         // 不显示底线右边模块及左边文案
         self.bottomRightIconImageView.image = [UIImage imageNamed:@"none"];
@@ -578,7 +578,7 @@
 //用户进行选择
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     self.currentRow = row;
-    if (2 == row) {
+    if (3 == row) {
         if (self.bindDeviceListInfoModel.leftDeviceModel.dmac.length > 0 && self.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0 && [self checkDeviceIsExist:self.bindDeviceListInfoModel.leftDeviceModel.dmac] && [self checkDeviceIsExist:self.bindDeviceListInfoModel.rightDeviceModel.dmac]) {
             
             [self connectDeviceWithPosition:PositionTypeFootLeft];
@@ -1677,7 +1677,8 @@
 
 - (NSArray *)positionArr{
     if (!_positionArr) {
-        _positionArr = [NSArray arrayWithObjects: @"Top", @"Bottom",@"Foot",@"Heating Pad", nil];
+        _positionArr = [NSArray arrayWithObjects: @"Top", @"Bottom",@"Heating Pad",@"Foot", nil];
+        
     }
     return _positionArr;
 }

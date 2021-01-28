@@ -96,7 +96,7 @@
         case 0:
         {
             iconStr = @"menu_list_icon";
-            textStr = @"DEVICE LIST";
+            textStr = @"PAIR DEVICE";
         }
             break;
         case 1:

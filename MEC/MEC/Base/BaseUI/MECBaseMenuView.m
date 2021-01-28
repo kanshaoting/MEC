@@ -95,13 +95,13 @@
     switch (indexPath.row) {
         case 0:
         {
-            iconStr = @"menu_list_icon";
+            iconStr = @"menu_pairing_icon";
             textStr = @"PAIR DEVICE";
         }
             break;
         case 1:
         {
-            iconStr = @"menu_pairing_icon";
+            iconStr = @"menu_list_icon";
             textStr = @"BLUETOOTH";
         }
             break;

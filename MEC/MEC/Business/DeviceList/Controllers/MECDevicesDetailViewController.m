@@ -411,7 +411,7 @@
     //外围设备开始寻找服务
     [peripheral discoverServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
     NSString *type = [NSString stringWithFormat:@"%ld",(long)self.positionType];
-    [self addDeviceRequestWithDeviceBluname:self.currentDeviceDetailInfoModel.dname deviceMacname:self.currentDeviceDetailInfoModel.dmac type:type];
+    [self addDeviceRequestWithDeviceBluname:self.currentDeviceDetailInfoModel.dbtname deviceMacname:self.currentDeviceDetailInfoModel.dmac type:type];
     
     self.bluetoothState = BluetoothStateConnected;
 
@@ -722,7 +722,7 @@
         model.dmac = dmac;
         model.positionTpye = [NSString stringWithFormat:@"%ld",(long)self.positionType];
         model.dname = dbtname;
-        
+        model.dbtname = dbtname;
         NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
         
         if (PositionTypeFootLeft == self.positionType) {

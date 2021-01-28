@@ -340,7 +340,21 @@
     switch (position) {
         case 1:
         case 2:
-            imageStr = @"device_list_foot_big_icon";
+            imageStr = @"temperatuee_foot_normal_icon";
+            if (CBPeripheralStateConnected == self.discoveredPeripheral.state) {
+                if (CBPeripheralStateConnected == self.discoveredPeripheral2.state) {
+                    imageStr = @"temperatuee_foot_select_icon";
+                }else{
+                    imageStr = @"device_list_left_select_icon";
+                }
+            }else{
+                if (CBPeripheralStateConnected == self.discoveredPeripheral2.state) {
+                    imageStr = @"device_list_right_select_icon";
+                }else{
+                    imageStr = @"temperatuee_foot_normal_icon";
+                }
+            }
+           
             break;
         case 3:
         {

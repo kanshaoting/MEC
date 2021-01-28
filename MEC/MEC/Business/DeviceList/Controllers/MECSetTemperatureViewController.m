@@ -294,7 +294,7 @@
         [self.bottomRightBluetoothButton setImage: [UIImage imageNamed:@"none"] forState:UIControlStateNormal];
     }
     
-    
+    [self updateTopIconImageView:self.positionType];
     
 
 }
@@ -343,13 +343,21 @@
             imageStr = @"device_list_foot_big_icon";
             break;
         case 3:
-            imageStr = @"device_list_top_big_icon";
+        {
+            imageStr = CBPeripheralStateConnected == self.discoveredPeripheral.state ? @"temperature_top_select_icon":@"temperature_top_normal_icon";
+        }
+            
             break;
         case 4:
-            imageStr = @"device_list_bottom_big_icon";
+        {
+            imageStr = CBPeripheralStateConnected == self.discoveredPeripheral.state ? @"device_list_bottom_select_icon":@"device_list_bottom_normal_icon";
+        }
             break;
         case 5:
-            imageStr = @"device_list_heatingpad_big_icon";
+        {
+            imageStr = CBPeripheralStateConnected == self.discoveredPeripheral.state ?@"device_list_heatingpad_select_icon":@"device_list_heatingpad_normal_icon";
+            
+        }
             break;
         default:
             break;
@@ -763,10 +771,10 @@
         return;
     }
 
-    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
-        
-        [self.searchBluDataMuArr addObject:peripheral];
-    }
+//    if([self.searchBluDataMuArr containsObject:peripheral] == NO && [peripheral.name isEqualToString:kServiceName]){
+//
+//        [self.searchBluDataMuArr addObject:peripheral];
+//    }
     
     NSString *manufacturerDataStr = [[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description];
     if(peripheral.name.length > 0 && peripheral.name != nil && manufacturerDataStr.length > 0 && manufacturerDataStr != nil){
@@ -902,7 +910,7 @@
     }
    
     [MBProgressHUD showError:@"Device Connection failed"];
-    
+    [self updateTopIconImageView:self.positionType];
     // 链接失败
     [self.bottomLeftBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_normal"] forState:UIControlStateNormal];
     if (self.discoveredPeripheral2 == peripheral) {

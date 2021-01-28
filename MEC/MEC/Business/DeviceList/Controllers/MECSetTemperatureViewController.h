@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 部位类型
 @property (nonatomic, assign) PositionType positionType;
 
+///  设备广播名称
+@property (nonatomic, copy) NSString *dbtname;
+
 
 @end
 

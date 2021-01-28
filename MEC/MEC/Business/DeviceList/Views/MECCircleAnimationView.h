@@ -25,6 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 //是否关闭开关设置
 @property (nonatomic, assign) BOOL isClose;
 
+///设备类型 1 代表 BT-912  用红白蓝表示    2 代表 BT-500、BT-1200 用红黄绿表示
+@property (nonatomic, copy) NSString *deviceType;
+
+- (instancetype)initWithFrame:(CGRect)frame deviceType:(NSString *)deviceType;
+
 @end
 
 NS_ASSUME_NONNULL_END

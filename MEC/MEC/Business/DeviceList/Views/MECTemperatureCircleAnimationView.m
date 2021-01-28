@@ -19,11 +19,12 @@
 
 @implementation MECTemperatureCircleAnimationView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+
+- (instancetype)initWithFrame:(CGRect)frame deviceType:(NSString *)deviceType{
     
     self = [super initWithFrame:frame];
     if (self) {
-        
+        _deviceType = deviceType;
         [self configUI];
     }
     return self;
@@ -61,6 +62,11 @@
     self.circleAnimationView.text = text ;
     
 }
+
+- (void)setDeviceType:(NSString *)deviceType{
+    _deviceType = deviceType;
+    self.circleAnimationView.deviceType = _deviceType;
+}
 - (void)setIsClose:(BOOL)isClose{
     _isClose = isClose;
     self.circleAnimationView.isClose = _isClose;
@@ -75,7 +81,7 @@
 - (MECCircleAnimationView *)circleAnimationView{
 
     if (!_circleAnimationView) {
-        _circleAnimationView = [[MECCircleAnimationView alloc] initWithFrame:self.bounds];
+        _circleAnimationView = [[MECCircleAnimationView alloc] initWithFrame:self.bounds deviceType:self.deviceType];
     }
     return _circleAnimationView;
 }

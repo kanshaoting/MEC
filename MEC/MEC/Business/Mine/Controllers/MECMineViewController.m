@@ -74,31 +74,36 @@
     MECSetTemperatureViewController *vc = [[MECSetTemperatureViewController alloc] init];
     vc.bindDeviceListInfoModel = self.bindDeviceListInfoModel;
     NSString *macStr ;
-    
+    NSString *dbtnameStr ;
     switch (position) {
         case PositionTypeFootLeft:
         {
             macStr = [userDefaults valueForKey:kLeftMecID];
+            dbtnameStr = [userDefaults valueForKey:kLeftMecName];
         }
             break;
         case PositionTypeFootRight:
         {
             macStr = [userDefaults valueForKey:kRightMecID];
+            dbtnameStr = [userDefaults valueForKey:kRightMecName];
         }
             break;
         case PositionTypeFootTop:
         {
             macStr = [userDefaults valueForKey:kTopMecID];
+            dbtnameStr = [userDefaults valueForKey:kTopMecName];
         }
             break;
         case PositionTypeFootBottom:
         {
             macStr = [userDefaults valueForKey:kBottomMecID];
+            dbtnameStr = [userDefaults valueForKey:kBottomMecName];
         }
             break;
         case PositionTypeFootHeatingPad:
         {
             macStr = [userDefaults valueForKey:kPadMecID];
+            dbtnameStr = [userDefaults valueForKey:kPadMecName];
         }
             break;
         default:
@@ -106,10 +111,11 @@
     }
     vc.macAddressStr = macStr;
     vc.positionType = position;
+    vc.dbtname = dbtnameStr;
     if ( macStr.length > 0 ) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-       
+        
     }
 }
 #pragma mark - 视图切换状态改变通知回调

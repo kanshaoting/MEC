@@ -167,6 +167,9 @@
 /// 上个设备部位类型
 @property (nonatomic, assign) PositionType lastPositionType;
 
+/// 上个设备mac 广播名称
+@property (nonatomic, copy) NSString *lastMacDbtnameStr;
+
 
 /// 是否正在链接1
 @property (nonatomic, assign) BOOL isShowLostMessage1;
@@ -205,6 +208,7 @@
     self.currentRow = row;
     self.lastRow = self.currentRow;
     self.lastMacAddressStr = self.macAddressStr;
+    self.lastMacDbtnameStr = self.dbtname;
     self.lastPositionType = self.positionType;
     [self.pickerView selectRow:row inComponent:0 animated:YES];
     
@@ -594,26 +598,33 @@
 }
 - (void)connectDeviceWithPosition:(NSInteger)position{
     NSString *macStr;
+    NSString *dbtnameStr;
     switch (position) {
         case 1:
             macStr = self.bindDeviceListInfoModel.leftDeviceModel.dmac;
+            dbtnameStr = self.bindDeviceListInfoModel.leftDeviceModel.dbtname;
             break;
         case 2:
             macStr = self.bindDeviceListInfoModel.rightDeviceModel.dmac;
+            dbtnameStr = self.bindDeviceListInfoModel.rightDeviceModel.dbtname;
             break;
         case 3:
             macStr = self.bindDeviceListInfoModel.topDeviceModel.dmac;
+            dbtnameStr = self.bindDeviceListInfoModel.topDeviceModel.dbtname;
             break;
         case 4:
             macStr = self.bindDeviceListInfoModel.bottomDeviceModel.dmac;
+            dbtnameStr = self.bindDeviceListInfoModel.bottomDeviceModel.dbtname;
             break;
         case 5:
             macStr = self.bindDeviceListInfoModel.heatingPadDeviceModel.dmac;
+            dbtnameStr = self.bindDeviceListInfoModel.heatingPadDeviceModel.dbtname;
             break;
         default:
             break;
     }
     self.macAddressStr = macStr;
+    self.dbtname = dbtnameStr;
     self.positionType = position;
     self.isFirst = YES;
     self.lastValueStr = @"";
@@ -670,6 +681,7 @@
         }
         // 尝试链接其它绑定设备失败则给出提示并切换回去 重新链接
         weakSelf.macAddressStr = weakSelf.lastMacAddressStr;
+        weakSelf.dbtname = weakSelf.lastMacDbtnameStr;
         weakSelf.positionType = weakSelf.lastPositionType;
         if (PositionTypeFootLeft == weakSelf.positionType || PositionTypeFootRight == weakSelf.positionType) {
             weakSelf.bottomLeftTipsLabel.text = @"Left";
@@ -856,6 +868,7 @@
     self.lastRow = self.currentRow;
     [self updateTopIconImageView:self.positionType];
     self.lastMacAddressStr = self.macAddressStr;
+    self.lastMacDbtnameStr = self.dbtname;
     self.lastPositionType = self.positionType;
     self.bluetoothState = BluetoothStateConnected;
     // 停止扫描
@@ -872,6 +885,8 @@
         [self.bottomRightBluetoothButton setImage:[UIImage imageNamed:@"bluetooth_icon_selected"] forState:UIControlStateNormal];
     }
     
+    
+    self.temperatureCircleView.deviceType = self.lastMacDbtnameStr;
     // 绑定成功记录状态
     NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
     [userDefaults setValue:@(self.positionType) forKey:kLastPosition];
@@ -1464,7 +1479,8 @@
 
 - (MECTemperatureCircleAnimationView *)temperatureCircleView{
     if (!_temperatureCircleView) {
-        _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(140), kWidth6(280), kWidth6(280))];
+       
+        _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(140), kWidth6(280), kWidth6(280)) deviceType:self.dbtname];
         _temperatureCircleView.temperInter = self.currentTemperature;
         _temperatureCircleView.isClose = YES;
         kWeakSelf

@@ -22,6 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///温度档位值回调
 @property(nonatomic,  copy) void (^temperatureCircleBlock) (NSInteger temperature);
 
+///设备类型 1 代表 BT-912  用红白蓝表示    2 代表 BT-500、BT-1200 用红黄绿表示
+@property (nonatomic, copy) NSString *deviceType;
+
+- (instancetype)initWithFrame:(CGRect)frame deviceType:(NSString *)deviceType;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

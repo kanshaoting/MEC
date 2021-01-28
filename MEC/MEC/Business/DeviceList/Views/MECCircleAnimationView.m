@@ -49,11 +49,11 @@ static const CGFloat kAnimationTime = 0.2;
 
 @implementation MECCircleAnimationView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame deviceType:(NSString *)deviceType{
     
     self = [super initWithFrame:frame];
     if (self) {
-        
+        _deviceType = deviceType;
         self.bgImageView.image = [UIImage imageNamed:@"set_temperature_bg"];
 
         self.circelRadius = self.frame.size.width - kWidth6(10);
@@ -114,10 +114,19 @@ static const CGFloat kAnimationTime = 0.2;
     
     CAGradientLayer *leftGradientLayer = [CAGradientLayer layer];
     leftGradientLayer.frame = CGRectMake(0, 0, self.width/2, self.height);
-    [leftGradientLayer setColors:[NSArray arrayWithObjects:
-                                   (id)[UIColor greenColor].CGColor,
-                                   (id)[UIColor yellowColor].CGColor,
-                                   nil]];
+    
+    if ([self.deviceType isEqualToString:@"1"]) {
+        [leftGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor blueColor].CGColor,
+                                       (id)[UIColor whiteColor].CGColor,
+                                       nil]];
+    }else{
+        [leftGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor greenColor].CGColor,
+                                       (id)[UIColor yellowColor].CGColor,
+                                       nil]];
+    }
+   
     [leftGradientLayer setLocations:@[@0,@0.9]];
     [leftGradientLayer setStartPoint:CGPointMake(0, 1)];
     [leftGradientLayer setEndPoint:CGPointMake(0, 0)];
@@ -130,10 +139,18 @@ static const CGFloat kAnimationTime = 0.2;
     
     CAGradientLayer *rightGradientLayer = [CAGradientLayer layer];
     rightGradientLayer.frame = CGRectMake(self.width/2, 0, self.width/2, self.height);
-    [rightGradientLayer setColors:[NSArray arrayWithObjects:
-                                  (id)[UIColor yellowColor].CGColor,
-                                  (id)[UIColor redColor].CGColor,
-                                  nil]];
+    if ([self.deviceType isEqualToString:@"1"]) {
+        [rightGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor whiteColor].CGColor,
+                                       (id)[UIColor redColor].CGColor,
+                                       nil]];
+    }else{
+        [rightGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor yellowColor].CGColor,
+                                       (id)[UIColor redColor].CGColor,
+                                       nil]];
+    }
+   
     [rightGradientLayer setLocations:@[@0.1,@1]];
     [rightGradientLayer setStartPoint:CGPointMake(0, 0)];
     [rightGradientLayer setEndPoint:CGPointMake(0, 1)];
@@ -182,6 +199,68 @@ static const CGFloat kAnimationTime = 0.2;
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     
     [self addGestureRecognizer:tap];
+    
+}
+
+- (void)setDeviceType:(NSString *)deviceType{
+    _deviceType = deviceType;
+    
+   
+    [self.gradientLayer removeFromSuperlayer];
+    
+    self.gradientLayer = [CAGradientLayer layer];
+    self.gradientLayer.frame = self.bounds;
+    
+ 
+    
+    CAGradientLayer *leftGradientLayer = [CAGradientLayer layer];
+    leftGradientLayer.frame = CGRectMake(0, 0, self.width/2, self.height);
+    
+    if ([self.deviceType isEqualToString:@"BT-912"]) {
+        [leftGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor blueColor].CGColor,
+                                       (id)[UIColor whiteColor].CGColor,
+                                       nil]];
+    }else{
+        [leftGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor greenColor].CGColor,
+                                       (id)[UIColor yellowColor].CGColor,
+                                       nil]];
+    }
+   
+    [leftGradientLayer setLocations:@[@0,@0.9]];
+    [leftGradientLayer setStartPoint:CGPointMake(0, 1)];
+    [leftGradientLayer setEndPoint:CGPointMake(0, 0)];
+    
+    [self.gradientLayer addSublayer:leftGradientLayer];
+    
+    
+    [self.layer addSublayer:self.gradientLayer];
+    
+    
+    CAGradientLayer *rightGradientLayer = [CAGradientLayer layer];
+    rightGradientLayer.frame = CGRectMake(self.width/2, 0, self.width/2, self.height);
+    if ([self.deviceType isEqualToString:@"BT-912"]) {
+        [rightGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor whiteColor].CGColor,
+                                       (id)[UIColor redColor].CGColor,
+                                       nil]];
+    }else{
+        [rightGradientLayer setColors:[NSArray arrayWithObjects:
+                                       (id)[UIColor yellowColor].CGColor,
+                                       (id)[UIColor redColor].CGColor,
+                                       nil]];
+    }
+   
+    [rightGradientLayer setLocations:@[@0.1,@1]];
+    [rightGradientLayer setStartPoint:CGPointMake(0, 0)];
+    [rightGradientLayer setEndPoint:CGPointMake(0, 1)];
+    
+    [self.gradientLayer addSublayer:rightGradientLayer];
+       
+    
+    [self.gradientLayer setMask:self.progressLayer];
+    
     
 }
 

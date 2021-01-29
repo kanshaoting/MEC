@@ -629,7 +629,7 @@
     
         
         if (![dbtname isEqualToString:self.bindDeviceListInfoModel.rightDeviceModel.dbtname] && self.bindDeviceListInfoModel.rightDeviceModel.dbtname.length > 0) {
-            [MBProgressHUD showError:@"Please bind the same type of equipment with the other foot" toView:self.view];
+            [MBProgressHUD showError:@"Pair second footwear item now" toView:self.view];
             self.currentDeviceDetailInfoModel.positionTpye = @"0";
             self.currentDeviceDetailInfoModel.isLoading = NO;
             [self.matchBluDataMuArr removeObject:self.currentDeviceDetailInfoModel];
@@ -641,7 +641,7 @@
         }
     }else if (type.integerValue == PositionTypeFootRight){
         if (![dbtname isEqualToString:self.bindDeviceListInfoModel.leftDeviceModel.dbtname] &&  self.bindDeviceListInfoModel.leftDeviceModel.dbtname.length > 0) {
-            [MBProgressHUD showError:@"Please bind the same type of equipment with the other foot" toView:self.view];
+            [MBProgressHUD showError:@"Pair second footwear item now" toView:self.view];
             self.currentDeviceDetailInfoModel.positionTpye = @"0";
             self.currentDeviceDetailInfoModel.isLoading = NO;
             [self.matchBluDataMuArr removeObject:self.currentDeviceDetailInfoModel];
@@ -681,6 +681,38 @@
                 model.dmac = dmac;
                 model.positionTpye = [NSString stringWithFormat:@"%ld",(long)weakSelf.positionType];
                 model.dname = dbtname;
+                
+                NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
+                
+                if (PositionTypeFootLeft == self.positionType) {
+                    self.bindDeviceListInfoModel.leftDeviceModel = model;
+                    [userDefaults setValue:dbtname forKey:kLeftMecName];
+                    [userDefaults setValue:dmac forKey:kLeftMecID];
+                    [userDefaults synchronize];
+                    
+                }else if (PositionTypeFootRight == self.positionType){
+                    self.bindDeviceListInfoModel.rightDeviceModel = model;
+                    [userDefaults setValue:dbtname forKey:kRightMecName];
+                    [userDefaults setValue:dmac forKey:kRightMecID];
+                    [userDefaults synchronize];
+                }else if (PositionTypeFootTop == self.positionType){
+                    self.bindDeviceListInfoModel.topDeviceModel = model;
+                    [userDefaults setValue:dbtname forKey:kTopMecName];
+                    [userDefaults setValue:dmac forKey:kTopMecID];
+                    [userDefaults synchronize];
+                }else if (PositionTypeFootBottom == self.positionType){
+                    self.bindDeviceListInfoModel.bottomDeviceModel = model;
+                    [userDefaults setValue:dbtname forKey:kBottomMecName];
+                    [userDefaults setValue:dmac forKey:kBottomMecID];
+                    [userDefaults synchronize];
+                }else if (PositionTypeFootHeatingPad == self.positionType){
+                    self.bindDeviceListInfoModel.heatingPadDeviceModel = model;
+                    [userDefaults setValue:dbtname forKey:kPadMecName];
+                    [userDefaults setValue:dmac forKey:kPadMecID];
+                    [userDefaults synchronize];
+                }else{
+                    
+                }
                 if (PositionTypeFootLeft == weakSelf.positionType) {
                     weakSelf.bindDeviceListInfoModel.leftDeviceModel = model;
                 }else if (PositionTypeFootRight == weakSelf.positionType){

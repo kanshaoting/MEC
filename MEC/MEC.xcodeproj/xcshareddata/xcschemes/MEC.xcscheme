@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "521EF1A124CE780800455497"
-               BuildableName = "Venture Heat.app"
+               BuildableName = "ADDHEAT.app"
                BlueprintName = "MEC"
                ReferencedContainer = "container:MEC.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "521EF1A124CE780800455497"
-            BuildableName = "Venture Heat.app"
+            BuildableName = "ADDHEAT.app"
             BlueprintName = "MEC"
             ReferencedContainer = "container:MEC.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "521EF1A124CE780800455497"
-            BuildableName = "Venture Heat.app"
+            BuildableName = "ADDHEAT.app"
             BlueprintName = "MEC"
             ReferencedContainer = "container:MEC.xcodeproj">
          </BuildableReference>

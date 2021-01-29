@@ -1502,7 +1502,7 @@
 - (MECTemperatureCircleAnimationView *)temperatureCircleView{
     if (!_temperatureCircleView) {
        
-        _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(140), kWidth6(280), kWidth6(280)) deviceType:self.dbtname];
+        _temperatureCircleView = [[MECTemperatureCircleAnimationView alloc] initWithFrame:CGRectMake((kScreenWidth - kWidth6(290))/2, kWidth6(170), kWidth6(280), kWidth6(280)) deviceType:self.dbtname];
         _temperatureCircleView.temperInter = self.currentTemperature;
         _temperatureCircleView.isClose = YES;
         kWeakSelf

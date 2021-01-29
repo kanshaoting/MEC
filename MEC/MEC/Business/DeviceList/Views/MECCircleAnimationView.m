@@ -218,7 +218,7 @@ static const CGFloat kAnimationTime = 0.2;
     
     if ([self.deviceType isEqualToString:@"BT-912"]) {
         [leftGradientLayer setColors:[NSArray arrayWithObjects:
-                                       (id)[UIColor blueColor].CGColor,
+                                      (id)kColorHex(0x1D2087).CGColor,
                                        (id)[UIColor whiteColor].CGColor,
                                        nil]];
     }else{
@@ -243,7 +243,7 @@ static const CGFloat kAnimationTime = 0.2;
     if ([self.deviceType isEqualToString:@"BT-912"]) {
         [rightGradientLayer setColors:[NSArray arrayWithObjects:
                                        (id)[UIColor whiteColor].CGColor,
-                                       (id)[UIColor redColor].CGColor,
+                                       (id)kColorHex(0xE10018).CGColor,
                                        nil]];
     }else{
         [rightGradientLayer setColors:[NSArray arrayWithObjects:

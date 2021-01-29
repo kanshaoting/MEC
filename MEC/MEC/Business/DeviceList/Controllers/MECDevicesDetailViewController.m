@@ -681,7 +681,8 @@
                 model.dmac = dmac;
                 model.positionTpye = [NSString stringWithFormat:@"%ld",(long)weakSelf.positionType];
                 model.dname = dbtname;
-                
+                model.dbtname = dbtname;
+             
                 NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
                 
                 if (PositionTypeFootLeft == self.positionType) {

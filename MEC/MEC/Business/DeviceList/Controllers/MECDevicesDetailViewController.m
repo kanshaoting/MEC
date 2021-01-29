@@ -685,48 +685,36 @@
              
                 NSUserDefaults *userDefaults =  [NSUserDefaults standardUserDefaults];
                 
-                if (PositionTypeFootLeft == self.positionType) {
-                    self.bindDeviceListInfoModel.leftDeviceModel = model;
+                if (PositionTypeFootLeft == weakSelf.positionType) {
+                    weakSelf.bindDeviceListInfoModel.leftDeviceModel = model;
                     [userDefaults setValue:dbtname forKey:kLeftMecName];
                     [userDefaults setValue:dmac forKey:kLeftMecID];
                     [userDefaults synchronize];
                     
-                }else if (PositionTypeFootRight == self.positionType){
-                    self.bindDeviceListInfoModel.rightDeviceModel = model;
+                }else if (PositionTypeFootRight == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.rightDeviceModel = model;
                     [userDefaults setValue:dbtname forKey:kRightMecName];
                     [userDefaults setValue:dmac forKey:kRightMecID];
                     [userDefaults synchronize];
-                }else if (PositionTypeFootTop == self.positionType){
-                    self.bindDeviceListInfoModel.topDeviceModel = model;
+                }else if (PositionTypeFootTop == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.topDeviceModel = model;
                     [userDefaults setValue:dbtname forKey:kTopMecName];
                     [userDefaults setValue:dmac forKey:kTopMecID];
                     [userDefaults synchronize];
-                }else if (PositionTypeFootBottom == self.positionType){
-                    self.bindDeviceListInfoModel.bottomDeviceModel = model;
+                }else if (PositionTypeFootBottom == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.bottomDeviceModel = model;
                     [userDefaults setValue:dbtname forKey:kBottomMecName];
                     [userDefaults setValue:dmac forKey:kBottomMecID];
                     [userDefaults synchronize];
-                }else if (PositionTypeFootHeatingPad == self.positionType){
-                    self.bindDeviceListInfoModel.heatingPadDeviceModel = model;
+                }else if (PositionTypeFootHeatingPad == weakSelf.positionType){
+                    weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel = model;
                     [userDefaults setValue:dbtname forKey:kPadMecName];
                     [userDefaults setValue:dmac forKey:kPadMecID];
                     [userDefaults synchronize];
                 }else{
                     
                 }
-                if (PositionTypeFootLeft == weakSelf.positionType) {
-                    weakSelf.bindDeviceListInfoModel.leftDeviceModel = model;
-                }else if (PositionTypeFootRight == weakSelf.positionType){
-                    weakSelf.bindDeviceListInfoModel.rightDeviceModel = model;
-                }else if (PositionTypeFootTop == weakSelf.positionType){
-                    weakSelf.bindDeviceListInfoModel.topDeviceModel = model;
-                }else if (PositionTypeFootBottom == weakSelf.positionType){
-                    weakSelf.bindDeviceListInfoModel.bottomDeviceModel = model;
-                }else if (PositionTypeFootHeatingPad == weakSelf.positionType){
-                    weakSelf.bindDeviceListInfoModel.heatingPadDeviceModel = model;
-                }else{
-                    
-                }
+               
                 if (PositionTypeFootLeft == weakSelf.positionType) {
                     if (weakSelf.bindDeviceListInfoModel.rightDeviceModel.dmac.length > 0) {
                         //跳转到温度设置页面

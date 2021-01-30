@@ -228,7 +228,7 @@ static const CGFloat kAnimationTime = 0.2;
                                        nil]];
     }
    
-    [leftGradientLayer setLocations:@[@0,@0.9]];
+    [leftGradientLayer setLocations:@[@0.2,@0.9]];
     [leftGradientLayer setStartPoint:CGPointMake(0, 1)];
     [leftGradientLayer setEndPoint:CGPointMake(0, 0)];
     
@@ -252,7 +252,7 @@ static const CGFloat kAnimationTime = 0.2;
                                        nil]];
     }
    
-    [rightGradientLayer setLocations:@[@0.1,@1]];
+    [rightGradientLayer setLocations:@[@0.1,@0.8]];
     [rightGradientLayer setStartPoint:CGPointMake(0, 0)];
     [rightGradientLayer setEndPoint:CGPointMake(0, 1)];
     
